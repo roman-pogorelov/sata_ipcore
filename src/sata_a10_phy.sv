@@ -29,7 +29,7 @@
         // Интерфейс передатчика
         .tx_data            (), // i  [31 : 0]
         .tx_datak           (), // i  [3 : 0]
-        .tx_align           (), // o
+        .tx_ready           (), // o
         
         // Высокоскоростные линии
         .gxb_rx             (), // i
@@ -64,7 +64,7 @@ module sata_a10_phy
     // Интерфейс передатчика
     input  logic [31 : 0]   tx_data,
     input  logic [3 : 0]    tx_datak,
-    output logic            tx_align,
+    output logic            tx_ready,
     
     // Высокоскоростные линии
     input  logic            gxb_rx,
@@ -72,18 +72,18 @@ module sata_a10_phy
 );
     //------------------------------------------------------------------------------------
     //      Описание констант
-    localparam int unsigned     CLKFREQ = (GENERATION == "SATA1") ? 37_500 : (GENERATION == "SATA2") ? 75_000 : 150_000;
-    localparam int unsigned     TIMEOUT = (880 * CLKFREQ) / 1000;
-    localparam int unsigned     TCWIDTH = $clog2(TIMEOUT + 1);
-    localparam logic [31 : 0]   ALIGN   = 32'h7B4A4ABC;
-    localparam logic [3 : 0]    ALIGN_K = 4'h1;
-    localparam logic [31 : 0]   SYNC    = 32'hB5B5957C;
-    localparam logic [3 : 0]    SYNC_K  = 4'h1;
-    localparam logic [31 : 0]   DIAL    = 32'h4A4A4A4A;
-    localparam logic [3 : 0]    DIAL_K  = 4'h0;
-    localparam int unsigned     FIFOLEN = 32;
-    localparam int unsigned     MAXUSED = 24;
-    localparam int unsigned     MINUSED = 8;
+    localparam int unsigned         CLKFREQ = (GENERATION == "SATA1") ? 37_500 : (GENERATION == "SATA2") ? 75_000 : 150_000;
+    localparam int unsigned         TIMEOUT = (880 * CLKFREQ) / 1000;
+    localparam int unsigned         TCWIDTH = $clog2(TIMEOUT + 1);
+    localparam logic [31 : 0]       ALIGN   = 32'h7B4A4ABC;
+    localparam logic [3 : 0]        ALIGN_K = 4'h1;
+    localparam logic [31 : 0]       SYNC    = 32'hB5B5957C;
+    localparam logic [3 : 0]        SYNC_K  = 4'h1;
+    localparam logic [31 : 0]       DIAL    = 32'h4A4A4A4A;
+    localparam logic [3 : 0]        DIAL_K  = 4'h0;
+    localparam int unsigned         FIFOLEN = 32;
+    localparam int unsigned         MAXUSED = 24;
+    localparam int unsigned         MINUSED = 8;
     
     //------------------------------------------------------------------------------------
     //      Объявление сигналов
@@ -143,7 +143,6 @@ module sata_a10_phy
     logic [TCWIDTH - 1 : 0]         timeout_cnt;
     logic [7 : 0]                   align_cnt;
     logic                           align_reg;
-    logic                           align_dly_reg;
     //
     logic [31 : 0]                  tx_data_reg;
     logic [3 : 0]                   tx_datak_reg;
@@ -682,21 +681,13 @@ module sata_a10_phy
             align_reg <= link_ready & ((align_cnt == 0) | (align_cnt == 1));
     
     //------------------------------------------------------------------------------------
-    //      Регистр задержки на один такт признака вставки примитивов выравнивания
-    always @(posedge tx_reset, posedge tx_clk)
-        if (tx_reset)
-            align_dly_reg <= '0;
-        else
-            align_dly_reg <= align_reg;
-    
-    //------------------------------------------------------------------------------------
     //      Регист данных для передачи
     always @(posedge tx_reset, posedge tx_clk)
         if (tx_reset)
             tx_data_reg <= '0;
         else if (tx_select)
             tx_data_reg <= DIAL;
-        else if (link_ready & ~align_dly_reg)
+        else if (link_ready & ~align_reg)
             tx_data_reg <= tx_data;
         else
             tx_data_reg <= ALIGN;
@@ -708,7 +699,7 @@ module sata_a10_phy
             tx_datak_reg <= '0;
         else if (tx_select)
             tx_datak_reg <= DIAL_K;
-        else if (link_ready & ~align_dly_reg)
+        else if (link_ready & ~align_reg)
             tx_datak_reg <= tx_datak;
         else
             tx_datak_reg <= ALIGN_K;
@@ -741,9 +732,9 @@ module sata_a10_phy
             reset_rmfifo_reg <= ~link_ready;
     
     //------------------------------------------------------------------------------------
-    //      Признак прохождения выравнивающих слов и неготовности интерфейса
-    //      передатчика
-    assign tx_align = align_reg;
+    //      Признак готовности интерфейса передатчика (не готов во время передачи
+    //      примитивов выравнивания)
+    assign tx_ready = ~align_reg;
     
     //------------------------------------------------------------------------------------
     //      Выходное тактирование интерфейса приемника и передатчика
