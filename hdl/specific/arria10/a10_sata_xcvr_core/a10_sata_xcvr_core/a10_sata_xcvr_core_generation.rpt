@@ -1,0 +1,48 @@
+Info: Starting: Create HDL design files for synthesis
+Info: qsys-generate C:\qprojects\ipcores\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_core\a10_sata_xcvr_core.qsys --synthesis=VERILOG --output-directory=C:\qprojects\ipcores\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_core\a10_sata_xcvr_core --family="Arria 10" --part=10AS016C3U19E2LG
+Progress: Loading a10_sata_xcvr_core/a10_sata_xcvr_core.qsys
+Progress: Reading input file
+Progress: Adding xcvr_native_a10_0 [altera_xcvr_native_a10 17.1]
+Progress: Parameterizing module xcvr_native_a10_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: a10_sata_xcvr_core.xcvr_native_a10_0: Simplified data interface has been enabled. The Native PHY will present the data/control interface for the current configuration only. Dynamic reconfiguration of the data interface cannot be supported. The unused_tx_parallel_data and unused_tx_control ports should be connected to 0.
+Info: a10_sata_xcvr_core.xcvr_native_a10_0: For the selected device(10AS016C3U19E2LG), transceiver speed grade is 3 and core speed grade is 2.
+Info: a10_sata_xcvr_core.xcvr_native_a10_0: Note - The external TX PLL IP must be configured with an output clock frequency of 750.0 MHz.
+Info: a10_sata_xcvr_core: "Transforming system: a10_sata_xcvr_core"
+Info: a10_sata_xcvr_core: Running transform generation_view_transform
+Info: a10_sata_xcvr_core: Running transform generation_view_transform took 0.000s
+Info: xcvr_native_a10_0: Running transform generation_view_transform
+Info: xcvr_native_a10_0: Running transform generation_view_transform took 0.000s
+Info: a10_sata_xcvr_core: Running transform merlin_avalon_transform
+Info: a10_sata_xcvr_core: Running transform merlin_avalon_transform took 0.048s
+Info: a10_sata_xcvr_core: "Naming system components in system: a10_sata_xcvr_core"
+Info: a10_sata_xcvr_core: "Processing generation queue"
+Info: a10_sata_xcvr_core: "Generating: a10_sata_xcvr_core"
+Info: a10_sata_xcvr_core: "Generating: a10_sata_xcvr_core_altera_xcvr_native_a10_171_6e552hq"
+Info: xcvr_native_a10_0: add_fileset_file ./alt_xcvr_resync.sv SYSTEM_VERILOG PATH ../../../../altera_xcvr_generic/ctrl/alt_xcvr_resync.sv
+Info: xcvr_native_a10_0: add_fileset_file ./alt_xcvr_arbiter.sv SYSTEM_VERILOG PATH ../../../../altera_xcvr_generic/ctrl/alt_xcvr_arbiter.sv
+Info: xcvr_native_a10_0: add_fileset_file ./twentynm_pcs.sv SYSTEM_VERILOG PATH ../../../alt_xcvr_core/nf/twentynm_pcs.sv
+Info: xcvr_native_a10_0: add_fileset_file ./twentynm_pma.sv SYSTEM_VERILOG PATH ../../../alt_xcvr_core/nf/twentynm_pma.sv
+Info: xcvr_native_a10_0: add_fileset_file ./twentynm_xcvr_avmm.sv SYSTEM_VERILOG PATH ../../../alt_xcvr_core/nf/twentynm_xcvr_avmm.sv
+Info: xcvr_native_a10_0: add_fileset_file ./twentynm_xcvr_native.sv SYSTEM_VERILOG PATH ../../../alt_xcvr_core/nf/twentynm_xcvr_native.sv
+Info: xcvr_native_a10_0: add_fileset_file ./altera_xcvr_native_a10_functions_h.sv SYSTEM_VERILOG PATH ..//altera_xcvr_native_a10_functions_h.sv
+Info: xcvr_native_a10_0: add_fileset_file ./a10_avmm_h.sv SYSTEM_VERILOG PATH ..//a10_avmm_h.sv
+Info: xcvr_native_a10_0: add_fileset_file ./alt_xcvr_native_pipe_retry.sv SYSTEM_VERILOG PATH ..//alt_xcvr_native_pipe_retry.sv
+Info: xcvr_native_a10_0: add_fileset_file ./alt_xcvr_native_avmm_csr.sv SYSTEM_VERILOG PATH ..//alt_xcvr_native_avmm_csr.sv
+Info: xcvr_native_a10_0: add_fileset_file ./alt_xcvr_native_prbs_accum.sv SYSTEM_VERILOG PATH ..//alt_xcvr_native_prbs_accum.sv
+Info: xcvr_native_a10_0: add_fileset_file ./alt_xcvr_native_odi_accel.sv SYSTEM_VERILOG PATH ..//alt_xcvr_native_odi_accel.sv
+Info: xcvr_native_a10_0: add_fileset_file ./alt_xcvr_native_rcfg_arb.sv SYSTEM_VERILOG PATH ..//alt_xcvr_native_rcfg_arb.sv
+Info: xcvr_native_a10_0: add_fileset_file ./altera_xcvr_native_a10_false_paths.sdc SDC PATH ..//altera_xcvr_native_a10_false_paths.sdc
+Info: xcvr_native_a10_0: add_fileset_file ./altera_xcvr_native_pcie_dfe_params_h.sv SYSTEM_VERILOG PATH ../pcie_dfe_ip/altera_xcvr_native_pcie_dfe_params_h.sv
+Info: xcvr_native_a10_0: add_fileset_file ./pcie_mgmt_commands_h.sv SYSTEM_VERILOG PATH ../pcie_dfe_ip/pcie_mgmt_commands_h.sv
+Info: xcvr_native_a10_0: add_fileset_file ./pcie_mgmt_functions_h.sv SYSTEM_VERILOG PATH ../pcie_dfe_ip/pcie_mgmt_functions_h.sv
+Info: xcvr_native_a10_0: add_fileset_file ./pcie_mgmt_program.sv SYSTEM_VERILOG PATH ../pcie_dfe_ip/pcie_mgmt_program.sv
+Info: xcvr_native_a10_0: add_fileset_file ./pcie_mgmt_cpu.sv SYSTEM_VERILOG PATH ../pcie_dfe_ip/pcie_mgmt_cpu.sv
+Info: xcvr_native_a10_0: add_fileset_file ./pcie_mgmt_master.sv SYSTEM_VERILOG PATH ../pcie_dfe_ip/pcie_mgmt_master.sv
+Info: xcvr_native_a10_0: add_fileset_file ./altera_xcvr_native_pcie_dfe_ip.sv SYSTEM_VERILOG PATH ../pcie_dfe_ip/altera_xcvr_native_pcie_dfe_ip.sv
+Info: a10_sata_xcvr_core: Done "a10_sata_xcvr_core" with 2 modules, 26 files
+Info: qsys-generate succeeded.
+Info: Finished: Create HDL design files for synthesis

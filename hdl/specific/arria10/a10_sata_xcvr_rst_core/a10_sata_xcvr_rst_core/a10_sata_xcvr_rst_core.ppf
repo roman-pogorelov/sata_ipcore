@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pinplan
+ variation_name="xcvr_reset_control_0"
+ megafunction_name="ALTERA_XCVR_RESET_CONTROL"
+ intended_family="Arria 10"
+ specifies="all_ports">
+ <global>
+  <pin name="clock" direction="input" scope="external" />
+  <pin name="reset" direction="input" scope="external" />
+  <pin name="tx_analogreset" direction="output" scope="external" />
+  <pin name="tx_digitalreset" direction="output" scope="external" />
+  <pin name="tx_ready" direction="output" scope="external" />
+  <pin name="pll_locked" direction="input" scope="external" />
+  <pin name="pll_select" direction="input" scope="external" />
+  <pin name="tx_cal_busy" direction="input" scope="external" />
+  <pin name="rx_analogreset" direction="output" scope="external" />
+  <pin name="rx_digitalreset" direction="output" scope="external" />
+  <pin name="rx_ready" direction="output" scope="external" />
+  <pin name="rx_is_lockedtodata" direction="input" scope="external" />
+  <pin name="rx_cal_busy" direction="input" scope="external" />
+ </global>
+</pinplan>

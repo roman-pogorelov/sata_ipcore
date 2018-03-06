@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pinplan
+ variation_name="xcvr_native_a10_0"
+ megafunction_name="ALTERA_XCVR_NATIVE_A10"
+ intended_family="Arria 10"
+ specifies="all_ports">
+ <global>
+  <pin name="tx_analogreset" direction="input" scope="external" />
+  <pin name="tx_digitalreset" direction="input" scope="external" />
+  <pin name="rx_analogreset" direction="input" scope="external" />
+  <pin name="rx_digitalreset" direction="input" scope="external" />
+  <pin name="tx_cal_busy" direction="output" scope="external" />
+  <pin name="rx_cal_busy" direction="output" scope="external" />
+  <pin name="tx_serial_clk0" direction="input" scope="external" />
+  <pin name="rx_cdr_refclk0" direction="input" scope="external" />
+  <pin name="tx_serial_data" direction="output" scope="external" />
+  <pin name="rx_serial_data" direction="input" scope="external" />
+  <pin name="rx_is_lockedtoref" direction="output" scope="external" />
+  <pin name="rx_is_lockedtodata" direction="output" scope="external" />
+  <pin name="tx_pma_elecidle" direction="input" scope="external" />
+  <pin name="tx_coreclkin" direction="input" scope="external" />
+  <pin name="rx_coreclkin" direction="input" scope="external" />
+  <pin name="tx_clkout" direction="output" scope="external" />
+  <pin name="rx_clkout" direction="output" scope="external" />
+  <pin name="tx_parallel_data[31..0]" direction="input" scope="external" />
+  <pin name="tx_datak[3..0]" direction="input" scope="external" />
+  <pin
+     name="unused_tx_parallel_data[91..0]"
+     direction="input"
+     scope="external" />
+  <pin name="rx_parallel_data[31..0]" direction="output" scope="external" />
+  <pin name="rx_datak[3..0]" direction="output" scope="external" />
+  <pin name="rx_errdetect[3..0]" direction="output" scope="external" />
+  <pin name="rx_disperr[3..0]" direction="output" scope="external" />
+  <pin name="rx_runningdisp[3..0]" direction="output" scope="external" />
+  <pin name="rx_patterndetect[3..0]" direction="output" scope="external" />
+  <pin name="rx_syncstatus[3..0]" direction="output" scope="external" />
+  <pin
+     name="unused_rx_parallel_data[71..0]"
+     direction="output"
+     scope="external" />
+  <pin name="rx_std_wa_patternalign" direction="input" scope="external" />
+  <pin name="rx_std_signaldetect" direction="output" scope="external" />
+ </global>
+</pinplan>

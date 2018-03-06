@@ -1,0 +1,5 @@
+config a10_sata_xcvr_fpll_core_cfg;
+		design a10_sata_xcvr_fpll_core;
+		instance a10_sata_xcvr_fpll_core.xcvr_fpll_a10_0 use a10_sata_xcvr_fpll_core_altera_xcvr_fpll_a10_171.altera_xcvr_fpll_a10;
+endconfig
+

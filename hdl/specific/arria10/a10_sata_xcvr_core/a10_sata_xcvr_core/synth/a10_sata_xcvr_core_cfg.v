@@ -1,0 +1,5 @@
+config a10_sata_xcvr_core_cfg;
+		design a10_sata_xcvr_core;
+		instance a10_sata_xcvr_core.xcvr_native_a10_0 use a10_sata_xcvr_core_altera_xcvr_native_a10_171.a10_sata_xcvr_core_altera_xcvr_native_a10_171_6e552hq;
+endconfig
+

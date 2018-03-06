@@ -1,0 +1,11 @@
+# # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
+# 
+preplace inst unsaved.xcvr_fpll_a10_0 -pg 1 -lvl 1 -y 30
+preplace inst unsaved -pg 1 -lvl 1 -y 40 -regy -20
+preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)xcvr_fpll_a10_0.pll_powerdown,(SLAVE)unsaved.pll_powerdown) 1 0 1 NJ
+preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)unsaved.pll_locked,(SLAVE)xcvr_fpll_a10_0.pll_locked) 1 0 1 NJ
+preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)unsaved.pll_cal_busy,(SLAVE)xcvr_fpll_a10_0.pll_cal_busy) 1 0 1 NJ
+preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)xcvr_fpll_a10_0.pll_refclk0,(SLAVE)unsaved.pll_refclk0) 1 0 1 NJ
+preplace netloc EXPORT<net_container>unsaved</net_container>(MASTER)unsaved.tx_serial_clk,(MASTER)xcvr_fpll_a10_0.tx_serial_clk) 1 1 1 N
+levelinfo -pg 1 0 90 430
+levelinfo -hier unsaved 100 130 320

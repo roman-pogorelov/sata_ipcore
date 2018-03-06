@@ -1,0 +1,28 @@
+Info: Starting: Create HDL design files for synthesis
+Info: qsys-generate C:\qprojects\ipcores\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_rst_core\a10_sata_xcvr_rst_core.qsys --synthesis=VERILOG --output-directory=C:\qprojects\ipcores\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_rst_core\a10_sata_xcvr_rst_core --family="Arria 10" --part=10AS016C3U19E2LG
+Progress: Loading a10_sata_xcvr_rst_core/a10_sata_xcvr_rst_core.qsys
+Progress: Reading input file
+Progress: Adding xcvr_reset_control_0 [altera_xcvr_reset_control 17.1]
+Progress: Parameterizing module xcvr_reset_control_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: a10_sata_xcvr_rst_core: "Transforming system: a10_sata_xcvr_rst_core"
+Info: a10_sata_xcvr_rst_core: Running transform generation_view_transform
+Info: a10_sata_xcvr_rst_core: Running transform generation_view_transform took 0.000s
+Info: xcvr_reset_control_0: Running transform generation_view_transform
+Info: xcvr_reset_control_0: Running transform generation_view_transform took 0.000s
+Info: a10_sata_xcvr_rst_core: Running transform merlin_avalon_transform
+Info: a10_sata_xcvr_rst_core: Running transform merlin_avalon_transform took 0.037s
+Info: a10_sata_xcvr_rst_core: "Naming system components in system: a10_sata_xcvr_rst_core"
+Info: a10_sata_xcvr_rst_core: "Processing generation queue"
+Info: a10_sata_xcvr_rst_core: "Generating: a10_sata_xcvr_rst_core"
+Info: a10_sata_xcvr_rst_core: "Generating: altera_xcvr_reset_control"
+Info: xcvr_reset_control_0: add_fileset_file ./altera_xcvr_functions.sv SYSTEM_VERILOG PATH ../../../altera_xcvr_generic/altera_xcvr_functions.sv
+Info: xcvr_reset_control_0: add_fileset_file ./alt_xcvr_resync.sv SYSTEM_VERILOG PATH ../../../altera_xcvr_generic/ctrl/alt_xcvr_resync.sv
+Info: xcvr_reset_control_0: add_fileset_file ./altera_xcvr_reset_control.sv SYSTEM_VERILOG PATH ..//altera_xcvr_reset_control.sv
+Info: xcvr_reset_control_0: add_fileset_file ./alt_xcvr_reset_counter.sv SYSTEM_VERILOG PATH ..//alt_xcvr_reset_counter.sv
+Info: a10_sata_xcvr_rst_core: Done "a10_sata_xcvr_rst_core" with 2 modules, 7 files
+Info: qsys-generate succeeded.
+Info: Finished: Create HDL design files for synthesis
