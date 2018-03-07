@@ -21,7 +21,7 @@
     `define DWORD_IS_DATA   4'h0
     
     `define CRC_POLYNOMIAL  32'h04c11db7
-    `defien CRC_INITVALUE   32'h52325032
+    `define CRC_INITVALUE   32'h52325032
     
     `define LFSR_POLYNOMIAL 16'ha011
     `define LFSR_INITVALUE  48'hb16e4b431f73
