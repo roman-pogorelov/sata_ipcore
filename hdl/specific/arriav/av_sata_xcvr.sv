@@ -69,6 +69,28 @@ module av_sata_xcvr
     //      Объявление сигналов
     logic [139 : 0]         reconfig_to_xcvr;
     logic [91 : 0]          reconfig_from_xcvr;
+    logic                   greset;
+    
+    //------------------------------------------------------------------------------------
+    //      Модуль синхронизации сигналов асинхронного сброса (предустановки)
+    areset_synchronizer
+    #(
+        .EXTRA_STAGES   (1),                            // Количество дополнительных ступеней цепи синхронизации
+        .ACTIVE_LEVEL   (1'b1)                          // Активный уровень сигнала сброса
+    )
+    gxb_reset_synchronizer
+    (
+        // Сигнал тактирования
+        .clk            (reconfig_clk),                 // i
+        
+        // Входной сброс (асинхронный 
+        // относительно сигнала тактирования)
+        .areset         (reconfig_reset | gxb_reset),   // i
+        
+        // Выходной сброс (синхронный 
+        // относительно сигнала тактирования)
+        .sreset         (greset)                        // o
+    ); // gxb_reset_synchronizer
     
     //------------------------------------------------------------------------------------
     //      Ядро высокоскоростного приемопередатчика Serial ATA
@@ -76,7 +98,7 @@ module av_sata_xcvr
     the_av_sata_xcvr_core
     (
         .phy_mgmt_clk                   (reconfig_clk),         // input  wire                        phy_mgmt_clk.clk
-        .phy_mgmt_clk_reset             (reconfig_reset),       // input  wire                  phy_mgmt_clk_reset.reset
+        .phy_mgmt_clk_reset             (greset),               // input  wire                  phy_mgmt_clk_reset.reset
         .phy_mgmt_address               ({9{1'b0}}),            // input  wire [8:0]                      phy_mgmt.address
         .phy_mgmt_read                  (1'b0),                 // input  wire                                    .read
         .phy_mgmt_readdata              (  ),                   // output wire [31:0]                             .readdata
@@ -114,7 +136,7 @@ module av_sata_xcvr
     (
         .reconfig_busy                  (  ),                   // output wire              reconfig_busy.reconfig_busy
         .mgmt_clk_clk                   (reconfig_clk),         // input  wire               mgmt_clk_clk.clk
-        .mgmt_rst_reset                 (reconfig_reset),       // input  wire             mgmt_rst_reset.reset
+        .mgmt_rst_reset                 (greset),               // input  wire             mgmt_rst_reset.reset
         .reconfig_mgmt_address          ({7{1'b0}}),            // input  wire [6:0]        reconfig_mgmt.address
         .reconfig_mgmt_read             (1'b0),                 // input  wire                           .read
         .reconfig_mgmt_readdata         (  ),                   // output wire [31:0]                    .readdata
