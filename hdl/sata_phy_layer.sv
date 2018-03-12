@@ -3,6 +3,7 @@
     //      Модуль физического уровня стека SerialATA
     sata_phy_layer
     #(
+        .FPGAFAMILY         (), // Семейство FPGA ("ArriaV" | "Arria10")
         .GENERATION         ()  // Поколение ("SATA1" | "SATA2" | "SATA3")
     )
     the_sata_phy_layer
@@ -40,6 +41,7 @@
 
 module sata_phy_layer
 #(
+    parameter               FPGAFAMILY  = "ArriaV", // Семейство FPGA ("ArriaV" | "Arria10")
     parameter               GENERATION  = "SATA1"   // Поколение ("SATA1" | "SATA2" | "SATA3")
 )
 (
@@ -479,43 +481,85 @@ module sata_phy_layer
     ); // the_pcs_rate_match_fifo
     
     //------------------------------------------------------------------------------------
-    //      Модуль высокоскоростного приемопередатчика Arria10, настроенного для
-    //      работы с интерфейсом SerialATA
-    a10_sata_xcvr
-    #(
-        .PLLTYPE            ("fPLL")                // Тип используемой PLL ("fPLL" | "CMUPLL" | "ATXPLL")
-    )
-    the_a10_sata_xcvr
-    (
-        // Сброс и тактирование интерфейса реконфигурации
-        .reconfig_reset     (reconfig_reset),       // i
-        .reconfig_clk       (reconfig_clk),         // i
+    //      Генерация высокоскоростного приемопередатчика для конкретного семейства
+    generate
+        if (FPGAFAMILY == "Arria10") begin: arria10_xcvr
+            //------------------------------------------------------------------------------------
+            //      Модуль высокоскоростного приемопередатчика Arria10, настроенного для
+            //      работы с интерфейсом SerialATA
+            a10_sata_xcvr
+            #(
+                .PLLTYPE            ("fPLL")                // Тип используемой PLL ("fPLL" | "CMUPLL" | "ATXPLL")
+            )
+            the_a10_sata_xcvr
+            (
+                // Сброс и тактирование интерфейса реконфигурации
+                .reconfig_reset     (reconfig_reset),       // i
+                .reconfig_clk       (reconfig_clk),         // i
+                
+                // Сброс и тактирование высокоскоростных приемопередатчиков
+                .gxb_reset          (gxb_reset),            // i
+                .gxb_refclk         (gxb_refclk),           // i
+                
+                // Интерфейсные сигналы приемника
+                .rx_clock           (rx_clk),               // o
+                .rx_data            (rx_data_unalign),      // o  [31 : 0]
+                .rx_datak           (rx_datak_unalign),     // o  [3 : 0]
+                .rx_is_lockedtodata (rx_is_lockedtodata),   // o
+                .rx_is_lockedtoref  (rx_is_lockedtoref),    // o
+                .rx_patterndetect   (rx_patterndetect),     // o  [3 : 0]
+                .rx_signaldetect    (rx_signaldetect),      // o
+                .rx_syncstatus      (rx_syncstatus),        // o  [3 : 0]
+                
+                // Интерфейсные сигналы передатчика
+                .tx_clock           (tx_clk),               // o
+                .tx_data            (tx_data_reg),          // i  [31 : 0]
+                .tx_datak           (tx_datak_reg),         // i  [3 : 0]
+                .tx_elecidle        (tx_elecidle),          // i
+                
+                // Высокоскоростные линии
+                .gxb_rx             (gxb_rx),               // i
+                .gxb_tx             (gxb_tx)                // o
+            ); // the_a10_sata_xcvr
+        end
+        else begin: arriav_xcvr
+            //------------------------------------------------------------------------------------
+            //      Модуль высокоскоростного приемопередатчика ArriaV, настроенного для
+            //      работы с интерфейсом SerialATA
+            av_sata_xcvr
+            the_av_sata_xcvr
+            (
+                // Сброс и тактирование интерфейса реконфигурации
+                .reconfig_reset     (reconfig_reset),       // i
+                .reconfig_clk       (reconfig_clk),         // i
+                
+                // Сброс и тактирование высокоскоростных приемопередатчиков
+                .gxb_reset          (gxb_reset),            // i
+                .gxb_refclk         (gxb_refclk),           // i
+                
+                // Интерфейсные сигналы приемника
+                .rx_clock           (rx_clk),               // o
+                .rx_data            (rx_data_unalign),      // o  [31 : 0]
+                .rx_datak           (rx_datak_unalign),     // o  [3 : 0]
+                .rx_is_lockedtodata (rx_is_lockedtodata),   // o
+                .rx_is_lockedtoref  (rx_is_lockedtoref),    // o
+                .rx_patterndetect   (rx_patterndetect),     // o  [3 : 0]
+                .rx_signaldetect    (rx_signaldetect),      // o
+                .rx_syncstatus      (rx_syncstatus),        // o  [3 : 0]
+                
+                // Интерфейсные сигналы передатчика
+                .tx_clock           (tx_clk),               // o
+                .tx_data            (tx_data_reg),          // i  [31 : 0]
+                .tx_datak           (tx_datak_reg),         // i  [3 : 0]
+                .tx_elecidle        (tx_elecidle),          // i
+                
+                // Высокоскоростные линии
+                .gxb_rx             (gxb_rx),               // i
+                .gxb_tx             (gxb_tx)                // o
+            ); // the_av_sata_xcvr
+        end
         
-        // Сброс и тактирование высокоскоростных приемопередатчиков
-        .gxb_reset          (gxb_reset),            // i
-        .gxb_refclk         (gxb_refclk),           // i
-        
-        // Интерфейсные сигналы приемника
-        .rx_clock           (rx_clk),               // o
-        .rx_data            (rx_data_unalign),      // o  [31 : 0]
-        .rx_datak           (rx_datak_unalign),     // o  [3 : 0]
-        .rx_is_lockedtodata (rx_is_lockedtodata),   // o
-        .rx_is_lockedtoref  (rx_is_lockedtoref),    // o
-        .rx_patterndetect   (rx_patterndetect),     // o  [3 : 0]
-        .rx_signaldetect    (rx_signaldetect),      // o
-        .rx_syncstatus      (rx_syncstatus),        // o  [3 : 0]
-        
-        // Интерфейсные сигналы передатчика
-        .tx_clock           (tx_clk),               // o
-        .tx_data            (tx_data_reg),          // i  [31 : 0]
-        .tx_datak           (tx_datak_reg),         // i  [3 : 0]
-        .tx_elecidle        (tx_elecidle),          // i
-        
-        // Высокоскоростные линии
-        .gxb_rx             (gxb_rx),               // i
-        .gxb_tx             (gxb_tx)                // o
-    ); // the_a10_sata_xcvr
-    
+    endgenerate
     //------------------------------------------------------------------------------------
     //      Счетчик тактов таймаута для прерывания операции
     always @(posedge tx_reset, posedge tx_clk)
