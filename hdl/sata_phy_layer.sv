@@ -24,11 +24,11 @@
         
         // Интерфейс приемника
         .rx_data            (), // o  [31 : 0]
-        .rx_datak           (), // o  [3 : 0]
+        .rx_datak           (), // o
         
         // Интерфейс передатчика
         .tx_data            (), // i  [31 : 0]
-        .tx_datak           (), // i  [3 : 0]
+        .tx_datak           (), // i
         .tx_ready           (), // o
         
         // Высокоскоростные линии
@@ -61,11 +61,11 @@ module sata_phy_layer
     
     // Интерфейс приемника
     output logic [31 : 0]   rx_data,
-    output logic [3 : 0]    rx_datak,
+    output logic            rx_datak,
     
     // Интерфейс передатчика
     input  logic [31 : 0]   tx_data,
-    input  logic [3 : 0]    tx_datak,
+    input  logic            tx_datak,
     output logic            tx_ready,
     
     // Высокоскоростные линии
@@ -124,7 +124,7 @@ module sata_phy_layer
     logic                           align_reg;
     //
     logic [31 : 0]                  tx_data_reg;
-    logic [3 : 0]                   tx_datak_reg;
+    logic                           tx_datak_reg;
     //
     logic [$clog2(FIFOLEN) - 1 : 0] linkup_cnt;
     logic                           linkup_reg;
@@ -213,7 +213,7 @@ module sata_phy_layer
                     state <= st_wait_oobfinish;
             
             st_send_dial:
-                if ((rx_data_resync == `ALIGN_PRIM) & (rx_datak_resync == `DWORD_IS_PRIM) & (&rx_syncstatus_resync))
+                if ((rx_data_resync == `ALIGN_PRIM) & (rx_datak_resync == {{3{1'b0}}, `DWORD_IS_PRIM}) & (&rx_syncstatus_resync))
                     state <= st_send_align;
                 else if (timeout_cnt == TIMEOUT)
                     state <= st_idle;
@@ -221,7 +221,7 @@ module sata_phy_layer
                     state <= st_send_dial;
             
             st_send_align:
-                if ((rx_data_resync == `SYNC_PRIM) & (rx_datak_resync == `DWORD_IS_PRIM))
+                if ((rx_data_resync == `SYNC_PRIM) & (rx_datak_resync == {{3{1'b0}}, `DWORD_IS_PRIM}))
                     state <= st_link_ready;
                 else if (timeout_cnt == TIMEOUT)
                     state <= st_idle;
@@ -489,37 +489,37 @@ module sata_phy_layer
             //      работы с интерфейсом SerialATA
             a10_sata_xcvr
             #(
-                .PLLTYPE            ("fPLL")                // Тип используемой PLL ("fPLL" | "CMUPLL" | "ATXPLL")
+                .PLLTYPE            ("fPLL")                        // Тип используемой PLL ("fPLL" | "CMUPLL" | "ATXPLL")
             )
             the_a10_sata_xcvr
             (
                 // Сброс и тактирование интерфейса реконфигурации
-                .reconfig_reset     (reconfig_reset),       // i
-                .reconfig_clk       (reconfig_clk),         // i
+                .reconfig_reset     (reconfig_reset),               // i
+                .reconfig_clk       (reconfig_clk),                 // i
                 
                 // Сброс и тактирование высокоскоростных приемопередатчиков
-                .gxb_reset          (gxb_reset),            // i
-                .gxb_refclk         (gxb_refclk),           // i
+                .gxb_reset          (gxb_reset),                    // i
+                .gxb_refclk         (gxb_refclk),                   // i
                 
                 // Интерфейсные сигналы приемника
-                .rx_clock           (rx_clk),               // o
-                .rx_data            (rx_data_unalign),      // o  [31 : 0]
-                .rx_datak           (rx_datak_unalign),     // o  [3 : 0]
-                .rx_is_lockedtodata (rx_is_lockedtodata),   // o
-                .rx_is_lockedtoref  (rx_is_lockedtoref),    // o
-                .rx_patterndetect   (rx_patterndetect),     // o  [3 : 0]
-                .rx_signaldetect    (rx_signaldetect),      // o
-                .rx_syncstatus      (rx_syncstatus),        // o  [3 : 0]
+                .rx_clock           (rx_clk),                       // o
+                .rx_data            (rx_data_unalign),              // o  [31 : 0]
+                .rx_datak           (rx_datak_unalign),             // o  [3 : 0]
+                .rx_is_lockedtodata (rx_is_lockedtodata),           // o
+                .rx_is_lockedtoref  (rx_is_lockedtoref),            // o
+                .rx_patterndetect   (rx_patterndetect),             // o  [3 : 0]
+                .rx_signaldetect    (rx_signaldetect),              // o
+                .rx_syncstatus      (rx_syncstatus),                // o  [3 : 0]
                 
                 // Интерфейсные сигналы передатчика
-                .tx_clock           (tx_clk),               // o
-                .tx_data            (tx_data_reg),          // i  [31 : 0]
-                .tx_datak           (tx_datak_reg),         // i  [3 : 0]
-                .tx_elecidle        (tx_elecidle),          // i
+                .tx_clock           (tx_clk),                       // o
+                .tx_data            (tx_data_reg),                  // i  [31 : 0]
+                .tx_datak           ({{3{1'b0}}, tx_datak_reg}),    // i  [3 : 0]
+                .tx_elecidle        (tx_elecidle),                  // i
                 
                 // Высокоскоростные линии
-                .gxb_rx             (gxb_rx),               // i
-                .gxb_tx             (gxb_tx)                // o
+                .gxb_rx             (gxb_rx),                       // i
+                .gxb_tx             (gxb_tx)                        // o
             ); // the_a10_sata_xcvr
         end
         else begin: arriav_xcvr
@@ -530,32 +530,32 @@ module sata_phy_layer
             the_av_sata_xcvr
             (
                 // Сброс и тактирование интерфейса реконфигурации
-                .reconfig_reset     (reconfig_reset),       // i
-                .reconfig_clk       (reconfig_clk),         // i
+                .reconfig_reset     (reconfig_reset),               // i
+                .reconfig_clk       (reconfig_clk),                 // i
                 
                 // Сброс и тактирование высокоскоростных приемопередатчиков
-                .gxb_reset          (gxb_reset),            // i
-                .gxb_refclk         (gxb_refclk),           // i
+                .gxb_reset          (gxb_reset),                    // i
+                .gxb_refclk         (gxb_refclk),                   // i
                 
                 // Интерфейсные сигналы приемника
-                .rx_clock           (rx_clk),               // o
-                .rx_data            (rx_data_unalign),      // o  [31 : 0]
-                .rx_datak           (rx_datak_unalign),     // o  [3 : 0]
-                .rx_is_lockedtodata (rx_is_lockedtodata),   // o
-                .rx_is_lockedtoref  (rx_is_lockedtoref),    // o
-                .rx_patterndetect   (rx_patterndetect),     // o  [3 : 0]
-                .rx_signaldetect    (rx_signaldetect),      // o
-                .rx_syncstatus      (rx_syncstatus),        // o  [3 : 0]
+                .rx_clock           (rx_clk),                       // o
+                .rx_data            (rx_data_unalign),              // o  [31 : 0]
+                .rx_datak           (rx_datak_unalign),             // o  [3 : 0]
+                .rx_is_lockedtodata (rx_is_lockedtodata),           // o
+                .rx_is_lockedtoref  (rx_is_lockedtoref),            // o
+                .rx_patterndetect   (rx_patterndetect),             // o  [3 : 0]
+                .rx_signaldetect    (rx_signaldetect),              // o
+                .rx_syncstatus      (rx_syncstatus),                // o  [3 : 0]
                 
                 // Интерфейсные сигналы передатчика
-                .tx_clock           (tx_clk),               // o
-                .tx_data            (tx_data_reg),          // i  [31 : 0]
-                .tx_datak           (tx_datak_reg),         // i  [3 : 0]
-                .tx_elecidle        (tx_elecidle),          // i
+                .tx_clock           (tx_clk),                       // o
+                .tx_data            (tx_data_reg),                  // i  [31 : 0]
+                .tx_datak           ({{3{1'b0}}, tx_datak_reg}),    // i  [3 : 0]
+                .tx_elecidle        (tx_elecidle),                  // i
                 
                 // Высокоскоростные линии
-                .gxb_rx             (gxb_rx),               // i
-                .gxb_tx             (gxb_tx)                // o
+                .gxb_rx             (gxb_rx),                       // i
+                .gxb_tx             (gxb_tx)                        // o
             ); // the_av_sata_xcvr
         end
         

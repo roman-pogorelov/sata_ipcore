@@ -17,8 +17,8 @@
     
     `define DIAL_DATA       32'h4a4a4a4a
     
-    `define DWORD_IS_PRIM   4'h1
-    `define DWORD_IS_DATA   4'h0
+    `define DWORD_IS_PRIM   1'b1
+    `define DWORD_IS_DATA   1'b0
     
     `define CRC_POLYNOMIAL  32'h04c11db7
     `define CRC_INITVALUE   32'h52325032
