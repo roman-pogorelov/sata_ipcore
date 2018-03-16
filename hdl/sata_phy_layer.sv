@@ -3,7 +3,7 @@
     //      Модуль физического уровня стека SerialATA
     sata_phy_layer
     #(
-        .FPGAFAMILY         (), // Семейство FPGA ("ArriaV" | "Arria10")
+        .FPGAFAMILY         (), // Семейство FPGA ("Arria V" | "Arria 10")
         .GENERATION         ()  // Поколение ("SATA1" | "SATA2" | "SATA3")
     )
     the_sata_phy_layer
@@ -41,8 +41,8 @@
 
 module sata_phy_layer
 #(
-    parameter               FPGAFAMILY  = "ArriaV", // Семейство FPGA ("ArriaV" | "Arria10")
-    parameter               GENERATION  = "SATA1"   // Поколение ("SATA1" | "SATA2" | "SATA3")
+    parameter               FPGAFAMILY  = "Arria V",    // Семейство FPGA ("Arria V" | "Arria 10")
+    parameter               GENERATION  = "SATA1"       // Поколение ("SATA1" | "SATA2" | "SATA3")
 )
 (
     // Сброс и тактирование интерфейса реконфигурации
@@ -483,7 +483,7 @@ module sata_phy_layer
     //------------------------------------------------------------------------------------
     //      Генерация высокоскоростного приемопередатчика для конкретного семейства
     generate
-        if (FPGAFAMILY == "Arria10") begin: arria10_xcvr
+        if (FPGAFAMILY == "Arria 10") begin: arria10_xcvr
             //------------------------------------------------------------------------------------
             //      Модуль высокоскоростного приемопередатчика Arria10, настроенного для
             //      работы с интерфейсом SerialATA
