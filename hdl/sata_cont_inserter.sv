@@ -95,9 +95,10 @@ module sata_cont_inserter
     
     //------------------------------------------------------------------------------------
     //      Регистровая линия задержки данных
+    initial data_reg = {2{`SYNC_PRIM}};
     always @(posedge reset, posedge clk)
         if (reset)
-            data_reg <= '0;
+            data_reg <= {2{`SYNC_PRIM}};
         else if (i_ready)
             data_reg <= {data_reg[0], i_data};
         else
@@ -105,9 +106,10 @@ module sata_cont_inserter
     
     //------------------------------------------------------------------------------------
     //      Регистровая линия задержки признака примитива
+    initial datak_reg = {2{`DWORD_IS_PRIM}};
     always @(posedge reset, posedge clk)
         if (reset)
-            datak_reg <= '0;
+            datak_reg <= {2{`DWORD_IS_PRIM}};
         else if (i_ready)
             datak_reg <= {datak_reg[0], i_datak};
         else
