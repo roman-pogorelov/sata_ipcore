@@ -120,6 +120,7 @@ module sata_link_tx_path
         // Интерфейс записи в FIFO
         .wr_data        (scram_dat),        // i  [31 : 0]
         .wr_eop         (scram_eop),        // i
+        .wr_err         (1'b0),             // i
         .wr_req         (scram_val),        // i
         .wr_full        (scram_rdyn),       // o
         .wr_almostfull  (  ),               // o
@@ -127,6 +128,7 @@ module sata_link_tx_path
         // Интерфейс чтения из FIFO
         .rd_data        (fifo_data),        // o  [31 : 0]
         .rd_eop         (fifo_eop),         // o
+        .rd_err         (  ),               // o
         .rd_req         (fifo_rdreq),       // i
         .rd_empty       (fifo_empty),       // o
         .rd_almostempty (fifo_almostempty)  // o

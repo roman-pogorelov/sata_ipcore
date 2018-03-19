@@ -15,6 +15,7 @@
         // Интерфейс записи в FIFO
         .wr_data        (), // i  [31 : 0]
         .wr_eop         (), // i
+        .wr_err         (), // i
         .wr_req         (), // i
         .wr_full        (), // o
         .wr_almostfull  (), // o
@@ -22,6 +23,7 @@
         // Интерфейс чтения из FIFO
         .rd_data        (), // o  [31 : 0]
         .rd_eop         (), // o
+        .rd_err         (), // o
         .rd_req         (), // i
         .rd_empty       (), // o
         .rd_almostempty ()  // o
@@ -41,6 +43,7 @@ module sata_link_fifo
     // Интерфейс записи в FIFO
     input  logic [31 : 0]   wr_data,
     input  logic            wr_eop,
+    input  logic            wr_err,
     input  logic            wr_req,
     output logic            wr_full,
     output logic            wr_almostfull,
@@ -48,6 +51,7 @@ module sata_link_fifo
     // Интерфейс чтения из FIFO
     output logic [31 : 0]   rd_data,
     output logic            rd_eop,
+    output logic            rd_err,
     input  logic            rd_req,
     output logic            rd_empty,
     output logic            rd_almostempty
@@ -70,7 +74,7 @@ module sata_link_fifo
         .lpm_numwords               (FIFO_LENGTH),
         .lpm_showahead              ("ON"),
         .lpm_type                   ("scfifo"),
-        .lpm_width                  (33),
+        .lpm_width                  (34),
         .lpm_widthu                 (FIFO_WITHU),
         .overflow_checking          ("ON"),
         .underflow_checking         ("ON"),
@@ -80,13 +84,13 @@ module sata_link_fifo
     (
         .aclr                       (reset),
         .clock                      (clk),
-        .data                       ({wr_eop, wr_data}),
+        .data                       ({wr_err, wr_eop, wr_data}),
         .rdreq                      (rd_req),
         .wrreq                      (wr_req),
         .almost_empty               (rd_almostempty),
         .empty                      (rd_empty),
         .full                       (wr_full),
-        .q                          ({rd_eop, rd_data}),
+        .q                          ({rd_err, rd_eop, rd_data}),
         .almost_full                (wr_almostfull),
         .sclr                       (1'b0),
         .usedw                      (  )

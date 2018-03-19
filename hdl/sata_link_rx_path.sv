@@ -19,6 +19,7 @@
         // Интерфейс FIFO
         .fifo_data          (), // o  [31 : 0]
         .fifo_eop           (), // o
+        .fifo_err           (), // o
         .fifo_rdreq         (), // i
         .fifo_empty         (), // o
         .fifo_almostfull    (), // o
@@ -47,6 +48,7 @@ module sata_link_rx_path
     // Интерфейс FIFO
     output logic [31 : 0]   fifo_data,
     output logic            fifo_eop,
+    output logic            fifo_err,
     input  logic            fifo_rdreq,
     output logic            fifo_empty,
     output logic            fifo_almostfull,
@@ -134,6 +136,7 @@ module sata_link_rx_path
         // Интерфейс записи в FIFO
         .wr_data        (crc_dat),          // i  [31 : 0]
         .wr_eop         (crc_eop),          // i
+        .wr_err         (crc_err),          // i
         .wr_req         (crc_val),          // i
         .wr_full        (fifo_full),        // o
         .wr_almostfull  (fifo_almostfull),  // o
@@ -141,6 +144,7 @@ module sata_link_rx_path
         // Интерфейс чтения из FIFO
         .rd_data        (fifo_data),        // o  [31 : 0]
         .rd_eop         (fifo_eop),         // o
+        .rd_err         (fifo_err),         // o
         .rd_req         (fifo_rdreq),       // i
         .rd_empty       (fifo_empty),       // o
         .rd_almostempty (  )                // o
@@ -172,6 +176,5 @@ module sata_link_rx_path
         else
             fifo_ovfl_reg <= crc_val & fifo_full;
     assign stat_fifo_ovfl = fifo_ovfl_reg;
-    
     
 endmodule: sata_link_rx_path
