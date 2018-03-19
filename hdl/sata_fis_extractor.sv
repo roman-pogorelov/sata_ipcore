@@ -53,7 +53,7 @@ module sata_fis_extractor
         if (reset)
             state_reg <= '0;
         else if (state_reg)
-            state_reg <= ~((rx_datak == `DWORD_IS_PRIM) & (rx_data == `EOF_PRIM));
+            state_reg <= ~((rx_datak == `DWORD_IS_PRIM) & ((rx_data == `EOF_PRIM) | (rx_data == `SYNC_PRIM) | (rx_data == `WTRM_PRIM)));
         else
             state_reg <=  ((rx_datak == `DWORD_IS_PRIM) & (rx_data == `SOF_PRIM));
     
@@ -73,7 +73,7 @@ module sata_fis_extractor
         if (reset)
             val_reg <= '0;
         else if (val_reg)
-            val_reg <= ~(state_reg & (rx_datak == `DWORD_IS_PRIM) & (rx_data == `EOF_PRIM));
+            val_reg <= ~(state_reg & (rx_datak == `DWORD_IS_PRIM) & ((rx_data == `EOF_PRIM) | (rx_data == `SYNC_PRIM) | (rx_data == `WTRM_PRIM)));
         else
             val_reg <=  (state_reg & (rx_datak == `DWORD_IS_DATA));
     
@@ -82,7 +82,7 @@ module sata_fis_extractor
     always @(posedge reset, posedge clk)
         if (reset)
             fis_dat_reg <= '0;
-        else if (val_reg & ((rx_datak == `DWORD_IS_DATA) | ((rx_datak == `DWORD_IS_PRIM) & (rx_data == `EOF_PRIM))))
+        else if (val_reg & ((rx_datak == `DWORD_IS_DATA) | ((rx_datak == `DWORD_IS_PRIM) & ((rx_data == `EOF_PRIM) | (rx_data == `SYNC_PRIM) | (rx_data == `WTRM_PRIM)))))
             fis_dat_reg <= dat_reg;
         else
             fis_dat_reg <= fis_dat_reg;
@@ -94,7 +94,7 @@ module sata_fis_extractor
         if (reset)
             fis_val_reg <= '0;
         else
-            fis_val_reg <= val_reg & ((rx_datak == `DWORD_IS_DATA) | ((rx_datak == `DWORD_IS_PRIM) & (rx_data == `EOF_PRIM)));
+            fis_val_reg <= val_reg & ((rx_datak == `DWORD_IS_DATA) | ((rx_datak == `DWORD_IS_PRIM) & ((rx_data == `EOF_PRIM) | (rx_data == `SYNC_PRIM) | (rx_data == `WTRM_PRIM))));
     assign fis_val = fis_val_reg;
     
     //------------------------------------------------------------------------------------
@@ -103,7 +103,7 @@ module sata_fis_extractor
         if (reset)
             fis_eop_reg <= '0;
         else
-            fis_eop_reg <= val_reg & (rx_datak == `DWORD_IS_PRIM) & (rx_data == `EOF_PRIM);
+            fis_eop_reg <= val_reg & (rx_datak == `DWORD_IS_PRIM) & ((rx_data == `EOF_PRIM) | (rx_data == `SYNC_PRIM) | (rx_data == `WTRM_PRIM));
     assign fis_eop = fis_eop_reg;
     
 endmodule: sata_fis_extractor
