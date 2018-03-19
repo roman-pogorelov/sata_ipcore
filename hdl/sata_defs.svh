@@ -13,12 +13,25 @@
     `define WTRM_PRIM       32'h5858b57c
     `define CONT_PRIM       32'h9999aa7c
     `define HOLD_PRIM       32'hd5d5aa7c
-    `define HOLD_ACK_PRIM   32'h9595aa7c
+    `define HOLDA_PRIM      32'h9595aa7c
     
     `define DIAL_DATA       32'h4a4a4a4a
     
     `define DWORD_IS_PRIM   1'b1
     `define DWORD_IS_DATA   1'b0
+    
+    `define SYNC_TX_CODE    4'h0
+    `define SOF_TX_CODE     4'h1
+    `define EOF_TX_CODE     4'h2
+    `define R_RDY_TX_CODE   4'h3
+    `define R_IP_TX_CODE    4'h4
+    `define R_OK_TX_CODE    4'h5
+    `define R_ERR_TX_CODE   4'h6
+    `define X_RDY_TX_CODE   4'h7
+    `define WTRM_TX_CODE    4'h8
+    `define HOLD_TX_CODE    4'h9
+    `define HOLDA_TX_CODE   4'ha
+    `define DATA_TX_CODE    4'hb
     
     `define CRC_POLYNOMIAL  32'h04c11db7
     `define CRC_INITVALUE   32'h52325032
