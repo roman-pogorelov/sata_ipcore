@@ -49,9 +49,9 @@ module sata_cont_extractor
         if (reset)
             state_reg <= 1'b0;
         else if (state_reg)
-            state_reg <= ~(i_datak & (i_data != `CONT_PRIM));
+            state_reg <= ~((i_datak == `DWORD_IS_PRIM) & (i_data != `CONT_PRIM) & (i_data != `ALIGN_PRIM));
         else
-            state_reg <=  (i_datak & (i_data == `CONT_PRIM));
+            state_reg <=  ((i_datak == `DWORD_IS_PRIM) & (i_data == `CONT_PRIM));
     
     //------------------------------------------------------------------------------------
     //      Регистр текущего значения данных
