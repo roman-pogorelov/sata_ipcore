@@ -626,7 +626,7 @@ module sata_link_layer
                 tx_datak_reg <= `DWORD_IS_PRIM;
         else
             tx_datak_reg <= tx_datak_reg;
-    /*
+    
     //------------------------------------------------------------------------------------
     //      Модуль вставки в поток передаваемых данных примитива CONT и следующей
     //      за ним псевдослучайной последовательности данных
@@ -647,9 +647,9 @@ module sata_link_layer
         .o_datak    (phy_tx_datak), // o
         .o_ready    (phy_tx_ready)  // i
     ); // the_sata_cont_inserter
-    */
+    /*
     assign phy_tx_data  = tx_data_reg;
     assign phy_tx_datak = tx_datak_reg;
     assign tx_ready     = phy_tx_ready;
-    
+    */
 endmodule: sata_link_layer
