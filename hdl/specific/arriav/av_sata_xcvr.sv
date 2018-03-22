@@ -3,6 +3,9 @@
     //      Модуль высокоскоростного приемопередатчика ArriaV, настроенного для
     //      работы с интерфейсом SerialATA
     av_sata_xcvr
+    #(
+        .GENERATION         ()  // Поколение ("SATA1" | "SATA2" | "SATA3")
+    )
     the_av_sata_xcvr
     (
         // Сброс и тактирование интерфейса реконфигурации
@@ -36,6 +39,9 @@
 */
 
 module av_sata_xcvr
+#(
+    parameter               GENERATION  = "SATA1"       // Поколение ("SATA1" | "SATA2" | "SATA3")
+)
 (
     // Сброс и тактирование интерфейса реконфигурации
     input  logic            reconfig_reset,
@@ -94,40 +100,116 @@ module av_sata_xcvr
     
     //------------------------------------------------------------------------------------
     //      Ядро высокоскоростного приемопередатчика Serial ATA
-    av_sata_xcvr_core
-    the_av_sata_xcvr_core
-    (
-        .phy_mgmt_clk                   (reconfig_clk),         // input  wire                        phy_mgmt_clk.clk
-        .phy_mgmt_clk_reset             (greset),               // input  wire                  phy_mgmt_clk_reset.reset
-        .phy_mgmt_address               ({9{1'b0}}),            // input  wire [8:0]                      phy_mgmt.address
-        .phy_mgmt_read                  (1'b0),                 // input  wire                                    .read
-        .phy_mgmt_readdata              (  ),                   // output wire [31:0]                             .readdata
-        .phy_mgmt_waitrequest           (  ),                   // output wire                                    .waitrequest
-        .phy_mgmt_write                 (1'b0),                 // input  wire                                    .write
-        .phy_mgmt_writedata             ({32{1'b0}}),           // input  wire [31:0]                             .writedata
-        .tx_ready                       (  ),                   // output wire                            tx_ready.export
-        .rx_ready                       (  ),                   // output wire                            rx_ready.export
-        .pll_ref_clk                    (gxb_refclk),           // input  wire [0:0]                   pll_ref_clk.clk
-        .tx_serial_data                 (gxb_tx),               // output wire [0:0]                tx_serial_data.export
-        .tx_forceelecidle               (tx_elecidle),          // input  wire [0:0]              tx_forceelecidle.export
-        .pll_locked                     (  ),                   // output wire [0:0]                    pll_locked.export
-        .rx_serial_data                 (gxb_rx),               // input  wire [0:0]                rx_serial_data.export
-        .rx_runningdisp                 (  ),                   // output wire [3:0]                rx_runningdisp.export
-        .rx_is_lockedtoref              (rx_is_lockedtoref),    // output wire [0:0]             rx_is_lockedtoref.export
-        .rx_is_lockedtodata             (rx_is_lockedtodata),   // output wire [0:0]            rx_is_lockedtodata.export
-        .rx_signaldetect                (rx_signaldetect),      // output wire [0:0]               rx_signaldetect.export
-        .rx_patterndetect               (rx_patterndetect),     // output wire [3:0]              rx_patterndetect.export
-        .rx_syncstatus                  (rx_syncstatus),        // output wire [3:0]                 rx_syncstatus.export
-        .rx_bitslipboundaryselectout    (  ),                   // output wire [4:0]   rx_bitslipboundaryselectout.export
-        .tx_clkout                      (tx_clock),             // output wire [0:0]                     tx_clkout.export
-        .rx_clkout                      (rx_clock),             // output wire [0:0]                     rx_clkout.export
-        .tx_parallel_data               (tx_data),              // input  wire [31:0]             tx_parallel_data.export
-        .tx_datak                       (tx_datak),             // input  wire [3:0]                      tx_datak.export
-        .rx_parallel_data               (rx_data),              // output wire [31:0]             rx_parallel_data.export
-        .rx_datak                       (rx_datak),             // output wire [3:0]                      rx_datak.export
-        .reconfig_from_xcvr             (reconfig_from_xcvr),   // output wire [91:0]           reconfig_from_xcvr.reconfig_from_xcvr
-        .reconfig_to_xcvr               (reconfig_to_xcvr)      // input  wire [139:0]            reconfig_to_xcvr.reconfig_to_xcvr
-    ); // the_av_sata_xcvr_core
+    generate
+        if (GENERATION == "SATA2") begin: xcvr_gen2
+            av_sata2_xcvr_core
+            the_av_sata2_xcvr_core
+            (
+                .phy_mgmt_clk                   (reconfig_clk),         // input  wire                        phy_mgmt_clk.clk
+                .phy_mgmt_clk_reset             (greset),               // input  wire                  phy_mgmt_clk_reset.reset
+                .phy_mgmt_address               ({9{1'b0}}),            // input  wire [8:0]                      phy_mgmt.address
+                .phy_mgmt_read                  (1'b0),                 // input  wire                                    .read
+                .phy_mgmt_readdata              (  ),                   // output wire [31:0]                             .readdata
+                .phy_mgmt_waitrequest           (  ),                   // output wire                                    .waitrequest
+                .phy_mgmt_write                 (1'b0),                 // input  wire                                    .write
+                .phy_mgmt_writedata             ({32{1'b0}}),           // input  wire [31:0]                             .writedata
+                .tx_ready                       (  ),                   // output wire                            tx_ready.export
+                .rx_ready                       (  ),                   // output wire                            rx_ready.export
+                .pll_ref_clk                    (gxb_refclk),           // input  wire [0:0]                   pll_ref_clk.clk
+                .tx_serial_data                 (gxb_tx),               // output wire [0:0]                tx_serial_data.export
+                .tx_forceelecidle               (tx_elecidle),          // input  wire [0:0]              tx_forceelecidle.export
+                .pll_locked                     (  ),                   // output wire [0:0]                    pll_locked.export
+                .rx_serial_data                 (gxb_rx),               // input  wire [0:0]                rx_serial_data.export
+                .rx_runningdisp                 (  ),                   // output wire [3:0]                rx_runningdisp.export
+                .rx_is_lockedtoref              (rx_is_lockedtoref),    // output wire [0:0]             rx_is_lockedtoref.export
+                .rx_is_lockedtodata             (rx_is_lockedtodata),   // output wire [0:0]            rx_is_lockedtodata.export
+                .rx_signaldetect                (rx_signaldetect),      // output wire [0:0]               rx_signaldetect.export
+                .rx_patterndetect               (rx_patterndetect),     // output wire [3:0]              rx_patterndetect.export
+                .rx_syncstatus                  (rx_syncstatus),        // output wire [3:0]                 rx_syncstatus.export
+                .rx_bitslipboundaryselectout    (  ),                   // output wire [4:0]   rx_bitslipboundaryselectout.export
+                .tx_clkout                      (tx_clock),             // output wire [0:0]                     tx_clkout.export
+                .rx_clkout                      (rx_clock),             // output wire [0:0]                     rx_clkout.export
+                .tx_parallel_data               (tx_data),              // input  wire [31:0]             tx_parallel_data.export
+                .tx_datak                       (tx_datak),             // input  wire [3:0]                      tx_datak.export
+                .rx_parallel_data               (rx_data),              // output wire [31:0]             rx_parallel_data.export
+                .rx_datak                       (rx_datak),             // output wire [3:0]                      rx_datak.export
+                .reconfig_from_xcvr             (reconfig_from_xcvr),   // output wire [91:0]           reconfig_from_xcvr.reconfig_from_xcvr
+                .reconfig_to_xcvr               (reconfig_to_xcvr)      // input  wire [139:0]            reconfig_to_xcvr.reconfig_to_xcvr
+            ); // the_av_sata2_xcvr_core
+        end
+        else if (GENERATION == "SATA3") begin: xcvr_gen3
+            av_sata3_xcvr_core
+            the_av_sata3_xcvr_core
+            (
+                .phy_mgmt_clk                   (reconfig_clk),         // input  wire                        phy_mgmt_clk.clk
+                .phy_mgmt_clk_reset             (greset),               // input  wire                  phy_mgmt_clk_reset.reset
+                .phy_mgmt_address               ({9{1'b0}}),            // input  wire [8:0]                      phy_mgmt.address
+                .phy_mgmt_read                  (1'b0),                 // input  wire                                    .read
+                .phy_mgmt_readdata              (  ),                   // output wire [31:0]                             .readdata
+                .phy_mgmt_waitrequest           (  ),                   // output wire                                    .waitrequest
+                .phy_mgmt_write                 (1'b0),                 // input  wire                                    .write
+                .phy_mgmt_writedata             ({32{1'b0}}),           // input  wire [31:0]                             .writedata
+                .tx_ready                       (  ),                   // output wire                            tx_ready.export
+                .rx_ready                       (  ),                   // output wire                            rx_ready.export
+                .pll_ref_clk                    (gxb_refclk),           // input  wire [0:0]                   pll_ref_clk.clk
+                .tx_serial_data                 (gxb_tx),               // output wire [0:0]                tx_serial_data.export
+                .tx_forceelecidle               (tx_elecidle),          // input  wire [0:0]              tx_forceelecidle.export
+                .pll_locked                     (  ),                   // output wire [0:0]                    pll_locked.export
+                .rx_serial_data                 (gxb_rx),               // input  wire [0:0]                rx_serial_data.export
+                .rx_runningdisp                 (  ),                   // output wire [3:0]                rx_runningdisp.export
+                .rx_is_lockedtoref              (rx_is_lockedtoref),    // output wire [0:0]             rx_is_lockedtoref.export
+                .rx_is_lockedtodata             (rx_is_lockedtodata),   // output wire [0:0]            rx_is_lockedtodata.export
+                .rx_signaldetect                (rx_signaldetect),      // output wire [0:0]               rx_signaldetect.export
+                .rx_patterndetect               (rx_patterndetect),     // output wire [3:0]              rx_patterndetect.export
+                .rx_syncstatus                  (rx_syncstatus),        // output wire [3:0]                 rx_syncstatus.export
+                .rx_bitslipboundaryselectout    (  ),                   // output wire [4:0]   rx_bitslipboundaryselectout.export
+                .tx_clkout                      (tx_clock),             // output wire [0:0]                     tx_clkout.export
+                .rx_clkout                      (rx_clock),             // output wire [0:0]                     rx_clkout.export
+                .tx_parallel_data               (tx_data),              // input  wire [31:0]             tx_parallel_data.export
+                .tx_datak                       (tx_datak),             // input  wire [3:0]                      tx_datak.export
+                .rx_parallel_data               (rx_data),              // output wire [31:0]             rx_parallel_data.export
+                .rx_datak                       (rx_datak),             // output wire [3:0]                      rx_datak.export
+                .reconfig_from_xcvr             (reconfig_from_xcvr),   // output wire [91:0]           reconfig_from_xcvr.reconfig_from_xcvr
+                .reconfig_to_xcvr               (reconfig_to_xcvr)      // input  wire [139:0]            reconfig_to_xcvr.reconfig_to_xcvr
+            ); // the_av_sata3_xcvr_core
+        end
+        else begin: xcvr_gen1
+            av_sata_xcvr_core
+            the_av_sata_xcvr_core
+            (
+                .phy_mgmt_clk                   (reconfig_clk),         // input  wire                        phy_mgmt_clk.clk
+                .phy_mgmt_clk_reset             (greset),               // input  wire                  phy_mgmt_clk_reset.reset
+                .phy_mgmt_address               ({9{1'b0}}),            // input  wire [8:0]                      phy_mgmt.address
+                .phy_mgmt_read                  (1'b0),                 // input  wire                                    .read
+                .phy_mgmt_readdata              (  ),                   // output wire [31:0]                             .readdata
+                .phy_mgmt_waitrequest           (  ),                   // output wire                                    .waitrequest
+                .phy_mgmt_write                 (1'b0),                 // input  wire                                    .write
+                .phy_mgmt_writedata             ({32{1'b0}}),           // input  wire [31:0]                             .writedata
+                .tx_ready                       (  ),                   // output wire                            tx_ready.export
+                .rx_ready                       (  ),                   // output wire                            rx_ready.export
+                .pll_ref_clk                    (gxb_refclk),           // input  wire [0:0]                   pll_ref_clk.clk
+                .tx_serial_data                 (gxb_tx),               // output wire [0:0]                tx_serial_data.export
+                .tx_forceelecidle               (tx_elecidle),          // input  wire [0:0]              tx_forceelecidle.export
+                .pll_locked                     (  ),                   // output wire [0:0]                    pll_locked.export
+                .rx_serial_data                 (gxb_rx),               // input  wire [0:0]                rx_serial_data.export
+                .rx_runningdisp                 (  ),                   // output wire [3:0]                rx_runningdisp.export
+                .rx_is_lockedtoref              (rx_is_lockedtoref),    // output wire [0:0]             rx_is_lockedtoref.export
+                .rx_is_lockedtodata             (rx_is_lockedtodata),   // output wire [0:0]            rx_is_lockedtodata.export
+                .rx_signaldetect                (rx_signaldetect),      // output wire [0:0]               rx_signaldetect.export
+                .rx_patterndetect               (rx_patterndetect),     // output wire [3:0]              rx_patterndetect.export
+                .rx_syncstatus                  (rx_syncstatus),        // output wire [3:0]                 rx_syncstatus.export
+                .rx_bitslipboundaryselectout    (  ),                   // output wire [4:0]   rx_bitslipboundaryselectout.export
+                .tx_clkout                      (tx_clock),             // output wire [0:0]                     tx_clkout.export
+                .rx_clkout                      (rx_clock),             // output wire [0:0]                     rx_clkout.export
+                .tx_parallel_data               (tx_data),              // input  wire [31:0]             tx_parallel_data.export
+                .tx_datak                       (tx_datak),             // input  wire [3:0]                      tx_datak.export
+                .rx_parallel_data               (rx_data),              // output wire [31:0]             rx_parallel_data.export
+                .rx_datak                       (rx_datak),             // output wire [3:0]                      rx_datak.export
+                .reconfig_from_xcvr             (reconfig_from_xcvr),   // output wire [91:0]           reconfig_from_xcvr.reconfig_from_xcvr
+                .reconfig_to_xcvr               (reconfig_to_xcvr)      // input  wire [139:0]            reconfig_to_xcvr.reconfig_to_xcvr
+            ); // the_av_sata_xcvr_core
+        end
+    endgenerate
     
     //------------------------------------------------------------------------------------
     //      Ядро реконфигурации высокоскоростного приемопередатчика

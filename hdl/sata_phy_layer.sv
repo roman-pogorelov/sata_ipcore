@@ -527,6 +527,9 @@ module sata_phy_layer
             //      Модуль высокоскоростного приемопередатчика ArriaV, настроенного для
             //      работы с интерфейсом SerialATA
             av_sata_xcvr
+            #(
+                .GENERATION         (GENERATION)                    // Поколение ("SATA1" | "SATA2" | "SATA3")
+            )
             the_av_sata_xcvr
             (
                 // Сброс и тактирование интерфейса реконфигурации
