@@ -38,6 +38,13 @@
     
     `define LFSR_POLYNOMIAL 16'ha011
     `define LFSR_INITVALUE  48'hb16e4b431f73
+    
+    `define REG_FIS_H2D     8'h27
+    `define REG_FIS_D2H     8'h34
+    `define PIO_SET_FIS     8'h5F
+    `define DMA_ACT_FIS     8'h39
+    `define DATA_FIS        8'h46
+    
 `endif
 
 
