@@ -75,6 +75,19 @@ module av_sata_xcvr
     //      Объявление сигналов
     logic [139 : 0]         reconfig_to_xcvr;
     logic [91 : 0]          reconfig_from_xcvr;
+    //
+    logic                   pll_powerdown;
+    logic                   pll_clkout;
+    logic                   pll_locked;
+    //
+    logic                   tx_analogreset;
+    logic                   tx_digitalreset;
+    logic                   tx_cal_busy;
+    logic                   rx_analogreset;
+    logic                   rx_digitalreset;
+    logic                   rx_cal_busy;
+    //
+    /*
     logic                   greset;
     
     //------------------------------------------------------------------------------------
@@ -210,6 +223,83 @@ module av_sata_xcvr
             ); // the_av_sata_xcvr_core
         end
     endgenerate
+    */
+    
+    //------------------------------------------------------------------------------------
+    //      Ядро высокоскоростного приемопередатчика Serial ATA
+    av_sata_xcvr_core
+    the_av_sata_xcvr_core
+    (
+        .pll_powerdown              (pll_powerdown),                // i  [0:0]            pll_powerdown.pll_powerdown
+        .tx_analogreset             (tx_analogreset),               // i  [0:0]           tx_analogreset.tx_analogreset
+        .tx_digitalreset            (tx_digitalreset),              // i  [0:0]          tx_digitalreset.tx_digitalreset
+        .tx_serial_data             (gxb_tx),                       // o  [0:0]           tx_serial_data.tx_serial_data
+        .ext_pll_clk                (pll_clkout),                   // i  [0:0]              ext_pll_clk.ext_pll_clk
+        .rx_analogreset             (rx_analogreset),               // i  [0:0]           rx_analogreset.rx_analogreset
+        .rx_digitalreset            (rx_digitalreset),              // i  [0:0]          rx_digitalreset.rx_digitalreset
+        .rx_cdr_refclk              (gxb_refclk),                   // i  [0:0]            rx_cdr_refclk.rx_cdr_refclk
+        .rx_serial_data             (gxb_rx),                       // i  [0:0]           rx_serial_data.rx_serial_data
+        .rx_is_lockedtoref          (rx_is_lockedtoref),            // o  [0:0]        rx_is_lockedtoref.rx_is_lockedtoref
+        .rx_is_lockedtodata         (rx_is_lockedtodata),           // o  [0:0]       rx_is_lockedtodata.rx_is_lockedtodata
+        .tx_std_coreclkin           (tx_clock),                     // i  [0:0]         tx_std_coreclkin.tx_std_coreclkin
+        .rx_std_coreclkin           (rx_clock),                     // i  [0:0]         rx_std_coreclkin.rx_std_coreclkin
+        .tx_std_clkout              (tx_clock),                     // o  [0:0]            tx_std_clkout.tx_std_clkout
+        .rx_std_clkout              (rx_clock),                     // o  [0:0]            rx_std_clkout.rx_std_clkout
+        .tx_std_elecidle            (tx_elecidle),                  // i  [0:0]          tx_std_elecidle.tx_std_elecidle
+        .rx_std_signaldetect        (rx_signaldetect),              // o  [0:0]      rx_std_signaldetect.rx_std_signaldetect
+        .tx_cal_busy                (tx_cal_busy),                  // o  [0:0]              tx_cal_busy.tx_cal_busy
+        .rx_cal_busy                (rx_cal_busy),                  // o  [0:0]              rx_cal_busy.rx_cal_busy
+        .reconfig_to_xcvr           (reconfig_to_xcvr[69 : 0]),     // i  [69:0]        reconfig_to_xcvr.reconfig_to_xcvr
+        .reconfig_from_xcvr         (reconfig_from_xcvr[45 : 0]),   // o  [45:0]      reconfig_from_xcvr.reconfig_from_xcvr
+        .tx_parallel_data           (tx_data),                      // i  [31:0]        tx_parallel_data.tx_parallel_data
+        .tx_datak                   (tx_datak),                     // i  [3:0]                 tx_datak.tx_datak
+        .unused_tx_parallel_data    ({8{1'b0}}),                    // i  [7:0]  unused_tx_parallel_data.unused_tx_parallel_data
+        .rx_parallel_data           (rx_data),                      // o  [31:0]        rx_parallel_data.rx_parallel_data
+        .rx_datak                   (rx_datak),                     // o  [3:0]                 rx_datak.rx_datak
+        .rx_errdetect               (  ),                           // o  [3:0]             rx_errdetect.rx_errdetect
+        .rx_disperr                 (  ),                           // o  [3:0]               rx_disperr.rx_disperr
+        .rx_runningdisp             (  ),                           // o  [3:0]           rx_runningdisp.rx_runningdisp
+        .rx_patterndetect           (rx_patterndetect),             // o  [3:0]         rx_patterndetect.rx_patterndetect
+        .rx_syncstatus              (rx_syncstatus),                // o  [3:0]            rx_syncstatus.rx_syncstatus
+        .unused_rx_parallel_data    (  )                            // o  [7:0]  unused_rx_parallel_data.unused_rx_parallel_data
+    ); // the_av_sata_xcvr_core
+    
+    //------------------------------------------------------------------------------------
+    //      Ядро PLL, тактирования передающей части высокоскоростного приемопередатчика
+    av_sata_cmupll_core
+    the_av_sata_cmupll_core
+    (
+        .pll_powerdown              (pll_powerdown),                // i              pll_powerdown.pll_powerdown
+        .pll_refclk                 (gxb_refclk),                   // i  [0:0]          pll_refclk.pll_refclk
+        .pll_fbclk                  (1'b0),                         // i                  pll_fbclk.pll_fbclk
+        .pll_clkout                 (pll_clkout),                   // o                 pll_clkout.pll_clkout
+        .pll_locked                 (pll_locked),                   // o                 pll_locked.pll_locked
+        .fboutclk                   (  ),                           // o  [0:0]            fboutclk.fboutclk
+        .hclk                       (  ),                           // o  [0:0]                hclk.hclk
+        .reconfig_to_xcvr           (reconfig_to_xcvr[139 : 70]),   // i  [69:0]   reconfig_to_xcvr.reconfig_to_xcvr
+        .reconfig_from_xcvr         (reconfig_from_xcvr[91 : 46])   // o  [45:0] reconfig_from_xcvr.reconfig_from_xcvr
+    ); // the_av_sata_cmupll_core
+    
+    //------------------------------------------------------------------------------------
+    //      Ядро модуля сброса высокоскоростного приемопередатчика
+    av_sata_xcvr_rst_core
+    the_av_sata_xcvr_rst_core
+    (
+        .clock                      (gxb_refclk),                   // i                     clock.clk
+        .reset                      (gxb_reset),                    // i                     reset.reset
+        .pll_powerdown              (pll_powerdown),                // o  [0:0]      pll_powerdown.pll_powerdown
+        .tx_analogreset             (tx_analogreset),               // o  [0:0]     tx_analogreset.tx_analogreset
+        .tx_digitalreset            (tx_digitalreset),              // o  [0:0]    tx_digitalreset.tx_digitalreset
+        .tx_ready                   (  ),                           // o  [0:0]           tx_ready.tx_ready
+        .pll_locked                 (pll_locked),                   // i  [0:0]         pll_locked.pll_locked
+        .pll_select                 (1'b0),                         // i  [0:0]         pll_select.pll_select
+        .tx_cal_busy                (tx_cal_busy),                  // i  [0:0]        tx_cal_busy.tx_cal_busy
+        .rx_analogreset             (rx_analogreset),               // o  [0:0]     rx_analogreset.rx_analogreset
+        .rx_digitalreset            (rx_digitalreset),              // o  [0:0]    rx_digitalreset.rx_digitalreset
+        .rx_ready                   (  ),                           // o  [0:0]           rx_ready.rx_ready
+        .rx_is_lockedtodata         (rx_is_lockedtodata),           // i  [0:0] rx_is_lockedtodata.rx_is_lockedtodata
+        .rx_cal_busy                (rx_cal_busy)                   // i  [0:0]        rx_cal_busy.rx_cal_busy
+    ); // the_av_sata_xcvr_rst_core
     
     //------------------------------------------------------------------------------------
     //      Ядро реконфигурации высокоскоростного приемопередатчика
@@ -218,7 +308,7 @@ module av_sata_xcvr
     (
         .reconfig_busy                  (  ),                   // output wire              reconfig_busy.reconfig_busy
         .mgmt_clk_clk                   (reconfig_clk),         // input  wire               mgmt_clk_clk.clk
-        .mgmt_rst_reset                 (greset),               // input  wire             mgmt_rst_reset.reset
+        .mgmt_rst_reset                 (reconfig_reset),       // input  wire             mgmt_rst_reset.reset
         .reconfig_mgmt_address          ({7{1'b0}}),            // input  wire [6:0]        reconfig_mgmt.address
         .reconfig_mgmt_read             (1'b0),                 // input  wire                           .read
         .reconfig_mgmt_readdata         (  ),                   // output wire [31:0]                    .readdata
