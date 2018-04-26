@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simPackage>
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/altera_xcvr_functions.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/altera_xcvr_functions.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/sv_reconfig_bundle_to_xcvr.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/sv_reconfig_bundle_to_ip.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/sv_reconfig_bundle_merger.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/sv_reconfig_bundle_to_xcvr.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/sv_reconfig_bundle_to_ip.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/sv_reconfig_bundle_merger.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/av_xcvr_h.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/av_xcvr_avmm_csr.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/av_tx_pma_ch.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/av_tx_pma.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/av_rx_pma.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/av_pma.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/av_pcs_ch.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/av_pcs.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/av_xcvr_avmm.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/av_xcvr_native.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/av_xcvr_plls.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/av_xcvr_data_adapter.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/av_reconfig_bundle_to_basic.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/av_reconfig_bundle_to_xcvr.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/av_xcvr_h.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/av_xcvr_avmm_csr.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/av_tx_pma_ch.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/av_tx_pma.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/av_rx_pma.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/av_pma.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/av_pcs_ch.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/av_pcs.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/av_xcvr_avmm.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/av_xcvr_native.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/av_xcvr_plls.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/av_xcvr_data_adapter.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/av_reconfig_bundle_to_basic.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/av_reconfig_bundle_to_xcvr.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/av_hssi_8g_rx_pcs_rbc.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/av_hssi_8g_tx_pcs_rbc.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/av_hssi_common_pcs_pma_interface_rbc.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/av_hssi_common_pld_pcs_interface_rbc.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/av_hssi_pipe_gen1_2_rbc.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/av_hssi_rx_pcs_pma_interface_rbc.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/av_hssi_rx_pld_pcs_interface_rbc.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/av_hssi_tx_pcs_pma_interface_rbc.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/av_hssi_tx_pld_pcs_interface_rbc.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/av_hssi_8g_rx_pcs_rbc.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/av_hssi_8g_tx_pcs_rbc.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/av_hssi_common_pcs_pma_interface_rbc.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/av_hssi_common_pld_pcs_interface_rbc.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/av_hssi_pipe_gen1_2_rbc.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/av_hssi_rx_pcs_pma_interface_rbc.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/av_hssi_rx_pld_pcs_interface_rbc.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/av_hssi_tx_pcs_pma_interface_rbc.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/av_hssi_tx_pld_pcs_interface_rbc.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/alt_reset_ctrl_lego.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/alt_reset_ctrl_tgx_cdrauto.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/alt_xcvr_resync.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/alt_reset_ctrl_lego.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/alt_reset_ctrl_tgx_cdrauto.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/alt_xcvr_resync.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/alt_xcvr_csr_common_h.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/alt_xcvr_csr_common.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/alt_xcvr_csr_pcs8g_h.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/alt_xcvr_csr_pcs8g.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/alt_xcvr_csr_selector.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/alt_xcvr_mgmt2dec.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/altera_wait_generate.v"
+   type="VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/alt_xcvr_csr_common_h.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/alt_xcvr_csr_common.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/alt_xcvr_csr_pcs8g_h.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/alt_xcvr_csr_pcs8g.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/alt_xcvr_csr_selector.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/alt_xcvr_mgmt2dec.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/altera_wait_generate.v"
+   type="VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/altera_xcvr_native_av_functions_h.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/altera_xcvr_native_av.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/altera_xcvr_data_adapter_av.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/altera_xcvr_native_av_functions_h.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/altera_xcvr_native_av.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor/altera_xcvr_data_adapter_av.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_xcvr_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/plain_files.txt"
+   type="OTHER"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/mentor_files.txt"
+   type="OTHER"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/cadence_files.txt"
+   type="OTHER"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/synopsys_files.txt"
+   type="OTHER"
+   library="av_sata_xcvr_core" />
+ <file
+   path="av_sata_xcvr_core_sim/altera_xcvr_native_av/aldec_files.txt"
+   type="OTHER"
+   library="av_sata_xcvr_core" />
+ <file path="av_sata_xcvr_core_sim/av_sata_xcvr_core.v" type="VERILOG" />
+ <topLevel name="av_sata_xcvr_core" />
+ <deviceFamily name="arriav" />
+</simPackage>
