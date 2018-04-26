@@ -1,0 +1,6 @@
+./mentor/altera_xcvr_functions.sv
+./mentor/av_xcvr_h.sv
+./mentor/av_xcvr_plls.sv
+./mentor/av_reconfig_bundle_to_xcvr.sv
+./mentor/av_xcvr_avmm_csr.sv
+./mentor/alt_xcvr_resync.sv
