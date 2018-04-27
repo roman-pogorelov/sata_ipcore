@@ -27,8 +27,8 @@ set_global_assignment -entity "alt_xcvr_reconfig" -library "av_sata_reconf_core"
 set_global_assignment -entity "alt_xcvr_reconfig" -library "av_sata_reconf_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX2Jlcg==::MA==::RW5hYmxlIEJpdCBFcnJvciBSYXRlIEJsb2Nr"
 set_global_assignment -entity "alt_xcvr_reconfig" -library "av_sata_reconf_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX2RmZQ==::MA==::RW5hYmxlIGRlY2lzaW9uIGZlZWRiYWNrIGVxdWFsaXplciAoREZFKSBibG9jaw=="
 set_global_assignment -entity "alt_xcvr_reconfig" -library "av_sata_reconf_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX2FkY2U=::MA==::RW5hYmxlIGFkYXB0aXZlIGVxdWFsaXphdGlvbiAoQUVRKSBibG9jaw=="
-set_global_assignment -entity "alt_xcvr_reconfig" -library "av_sata_reconf_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX21pZg==::MA==::RW5hYmxlIGNoYW5uZWwvUExMIHJlY29uZmlndXJhdGlvbg=="
-set_global_assignment -entity "alt_xcvr_reconfig" -library "av_sata_reconf_core" -name IP_COMPONENT_PARAMETER "Z3VpX2VuYWJsZV9wbGw=::MA==::RW5hYmxlIFBMTCByZWNvbmZpZ3VyYXRpb24gc3VwcG9ydCBibG9jaw=="
+set_global_assignment -entity "alt_xcvr_reconfig" -library "av_sata_reconf_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX21pZg==::MQ==::RW5hYmxlIGNoYW5uZWwvUExMIHJlY29uZmlndXJhdGlvbg=="
+set_global_assignment -entity "alt_xcvr_reconfig" -library "av_sata_reconf_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BsbA==::MQ==::RW5hYmxlIFBMTCByZWNvbmZpZ3VyYXRpb24gc3VwcG9ydCBibG9jaw=="
 set_global_assignment -entity "alt_xcvr_reconfig" -library "av_sata_reconf_core" -name IP_COMPONENT_PARAMETER "Z3VpX2NhbF9zdGF0dXNfcG9ydA==::ZmFsc2U=::Q3JlYXRlIG9wdGlvbmFsIGNhbGlicmF0aW9uIHN0YXR1cyBwb3J0cw=="
 
 set_global_assignment -library "av_sata_reconf_core" -name VERILOG_FILE [file join $::quartus(qip_path) "av_sata_reconf_core.v"]

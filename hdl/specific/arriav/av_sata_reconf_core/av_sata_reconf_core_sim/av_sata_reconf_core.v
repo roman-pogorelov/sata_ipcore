@@ -13,6 +13,10 @@ module av_sata_reconf_core (
 		output wire         reconfig_mgmt_waitrequest, //                   .waitrequest
 		input  wire         reconfig_mgmt_write,       //                   .write
 		input  wire [31:0]  reconfig_mgmt_writedata,   //                   .writedata
+		output wire [31:0]  reconfig_mif_address,      //       reconfig_mif.address
+		output wire         reconfig_mif_read,         //                   .read
+		input  wire [15:0]  reconfig_mif_readdata,     //                   .readdata
+		input  wire         reconfig_mif_waitrequest,  //                   .waitrequest
 		output wire [139:0] reconfig_to_xcvr,          //   reconfig_to_xcvr.reconfig_to_xcvr
 		input  wire [91:0]  reconfig_from_xcvr         // reconfig_from_xcvr.reconfig_from_xcvr
 	);
@@ -29,8 +33,8 @@ module av_sata_reconf_core (
 		.enable_ber                    (0),
 		.enable_dfe                    (0),
 		.enable_adce                   (0),
-		.enable_mif                    (0),
-		.enable_pll                    (0)
+		.enable_mif                    (1),
+		.enable_pll                    (1)
 	) av_sata_reconf_core_inst (
 		.reconfig_busy             (reconfig_busy),             //      reconfig_busy.reconfig_busy
 		.mgmt_clk_clk              (mgmt_clk_clk),              //       mgmt_clk_clk.clk
@@ -41,15 +45,15 @@ module av_sata_reconf_core (
 		.reconfig_mgmt_waitrequest (reconfig_mgmt_waitrequest), //                   .waitrequest
 		.reconfig_mgmt_write       (reconfig_mgmt_write),       //                   .write
 		.reconfig_mgmt_writedata   (reconfig_mgmt_writedata),   //                   .writedata
+		.reconfig_mif_address      (reconfig_mif_address),      //       reconfig_mif.address
+		.reconfig_mif_read         (reconfig_mif_read),         //                   .read
+		.reconfig_mif_readdata     (reconfig_mif_readdata),     //                   .readdata
+		.reconfig_mif_waitrequest  (reconfig_mif_waitrequest),  //                   .waitrequest
 		.reconfig_to_xcvr          (reconfig_to_xcvr),          //   reconfig_to_xcvr.reconfig_to_xcvr
 		.reconfig_from_xcvr        (reconfig_from_xcvr),        // reconfig_from_xcvr.reconfig_from_xcvr
 		.tx_cal_busy               (),                          //        (terminated)
 		.rx_cal_busy               (),                          //        (terminated)
-		.cal_busy_in               (1'b0),                      //        (terminated)
-		.reconfig_mif_address      (),                          //        (terminated)
-		.reconfig_mif_read         (),                          //        (terminated)
-		.reconfig_mif_readdata     (16'b0000000000000000),      //        (terminated)
-		.reconfig_mif_waitrequest  (1'b0)                       //        (terminated)
+		.cal_busy_in               (1'b0)                       //        (terminated)
 	);
 
 endmodule
