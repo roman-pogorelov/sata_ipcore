@@ -74,7 +74,7 @@ module sata_phy_layer
 );
     //------------------------------------------------------------------------------------
     //      Описание констант
-    localparam int unsigned         CLKFREQ = (GENERATION == "SATA1") ? 37_500 : (GENERATION == "SATA2") ? 75_000 : 150_000;
+    localparam int unsigned         CLKFREQ = 150_000;
     localparam int unsigned         TIMEOUT = (880 * CLKFREQ) / 1000;
     localparam int unsigned         TCWIDTH = $clog2(TIMEOUT + 1);
     localparam int unsigned         FIFOLEN = 32;
@@ -108,16 +108,15 @@ module sata_phy_layer
     logic                           tx_comwake;
     logic                           tx_oobfinish;
     logic                           tx_select;
+    logic                           tx_select_resync;
     logic                           tx_obb_ready;
     //
     logic                           rx_cominit;
-    logic                           rx_cominit_resync;
     logic                           rx_comwake;
-    logic                           rx_comwake_resync;
     logic                           rx_oobfinish;
-    logic                           rx_oobfinish_resync;
     //
     logic                           link_ready;
+    logic                           link_ready_resync;
     logic                           timeout_inc;
     logic [TCWIDTH - 1 : 0]         timeout_cnt;
     logic [7 : 0]                   align_cnt;
@@ -160,8 +159,8 @@ module sata_phy_layer
     
     //------------------------------------------------------------------------------------
     //      Логика переходов конечного автомата
-    always @(posedge tx_reset, posedge tx_clk)
-        if (tx_reset)
+    always @(posedge gxb_reset, posedge gxb_refclk)
+        if (gxb_reset)
             state <= st_idle;
         else case (state)
             st_idle:
@@ -180,7 +179,7 @@ module sata_phy_layer
                     state <= st_suspend_comreset;
                 
             st_wait_cominit:
-                if (rx_cominit_resync)
+                if (rx_cominit)
                     state <= st_send_comwake;
                 else if (timeout_cnt == TIMEOUT)
                     state <= st_idle;
@@ -197,7 +196,7 @@ module sata_phy_layer
                     state <= st_suspend_comwake;
                 
             st_wait_comwake:
-                if (rx_comwake_resync)
+                if (rx_comwake)
                     state <= st_wait_oobfinish;
                 else if (timeout_cnt == TIMEOUT)
                     state <= st_idle;
@@ -205,7 +204,7 @@ module sata_phy_layer
                     state <= st_wait_comwake;
                 
             st_wait_oobfinish:
-                if (rx_oobfinish_resync)
+                if (rx_oobfinish)
                     state <= st_send_dial;
                 else if (timeout_cnt == TIMEOUT)
                     state <= st_idle;
@@ -284,15 +283,15 @@ module sata_phy_layer
     //      Модуль синхронизации сигнала на последовательной триггерной цепочке
     ff_synchronizer
     #(
-        .WIDTH          (43),           // Разрядность синхронизируемой шины
+        .WIDTH          (42),           // Разрядность синхронизируемой шины
         .EXTRA_STAGES   (1),            // Количество дополнительных ступеней цепи синхронизации
-        .RESET_VALUE    ({43{1'b0}})    // Значение по умолчанию для ступеней цепи синхронизации
+        .RESET_VALUE    ({42{1'b0}})    // Значение по умолчанию для ступеней цепи синхронизации
     )
-    rx2tx_ff_synchronizer
+    rx2ref_ff_synchronizer
     (
         // Сброс и тактирование
-        .reset          (tx_reset),     // i
-        .clk            (tx_clk),       // i
+        .reset          (gxb_reset),    // i
+        .clk            (gxb_refclk),   // i
         
         // Асинхронный входной сигнал
         .async_data     ({              // i  [WIDTH - 1 : 0]
@@ -300,8 +299,7 @@ module sata_phy_layer
                             rx_is_lockedtoref,
                             rx_syncstatus,
                             rx_datak_align,
-                            rx_data_align,
-                            rx_oobfinish
+                            rx_data_align
                         }),
         
         // Синхронный выходной сигнал
@@ -310,62 +308,36 @@ module sata_phy_layer
                             rx_is_lockedtoref_resync,
                             rx_syncstatus_resync,
                             rx_datak_resync,
-                            rx_data_resync,
-                            rx_oobfinish_resync
+                            rx_data_resync
                         })
-    ); // rx2tx_ff_synchronizer
+    ); // rx2ref_ff_synchronizer
     
     //------------------------------------------------------------------------------------
-    //      Модуль синхронизации передачи одиночных (длительностью 1 такт) импульсов
-    //      между двумя асинхронными доменами. Работоспособность обеспечивается
-    //      только для импульсов длительностью в один такт частоты источника и периодом
-    //      следования не менее двух тактов частоты приемника
-    single_pulse_synchronizer
+    //      Модуль синхронизации сигнала на последовательной триггерной цепочке
+    ff_synchronizer
     #(
-        .EXTRA_STAGES   (1)                 // Количество дополнительных ступеней цепи синхронизации
+        .WIDTH          (2),            // Разрядность синхронизируемой шины
+        .EXTRA_STAGES   (1),            // Количество дополнительных ступеней цепи синхронизации
+        .RESET_VALUE    ({2{1'b0}})     // Значение по умолчанию для ступеней цепи синхронизации
     )
-    rx2tx_cominit_synchronizer
+    ref2tx_ff_synchronizer
     (
-        // Сброс и тактирование домена источника
-        .src_reset      (rx_reset),         // i
-        .src_clk        (rx_clk),           // i
+        // Сброс и тактирование
+        .reset          (tx_reset),     // i
+        .clk            (tx_clk),       // i
         
-        // Сброс и тактирование домена приемника
-        .dst_reset      (tx_reset),         // i
-        .dst_clk        (tx_clk),           // i
+        // Асинхронный входной сигнал
+        .async_data     ({              // i  [WIDTH - 1 : 0]
+                            tx_select,
+                            link_ready
+                        }),
         
-        // Одиночный импульс домена источника
-        .src_pulse      (rx_cominit),       // i
-        
-        // Одиночный импульс домена приемника
-        .dst_pulse      (rx_cominit_resync) // o
-    ); // rx2tx_cominit_synchronizer
-    
-    //------------------------------------------------------------------------------------
-    //      Модуль синхронизации передачи одиночных (длительностью 1 такт) импульсов
-    //      между двумя асинхронными доменами. Работоспособность обеспечивается
-    //      только для импульсов длительностью в один такт частоты источника и периодом
-    //      следования не менее двух тактов частоты приемника
-    single_pulse_synchronizer
-    #(
-        .EXTRA_STAGES   (1)                 // Количество дополнительных ступеней цепи синхронизации
-    )
-    rx2tx_comwake_synchronizer
-    (
-        // Сброс и тактирование домена источника
-        .src_reset      (rx_reset),         // i
-        .src_clk        (rx_clk),           // i
-        
-        // Сброс и тактирование домена приемника
-        .dst_reset      (tx_reset),         // i
-        .dst_clk        (tx_clk),           // i
-        
-        // Одиночный импульс домена источника
-        .src_pulse      (rx_comwake),       // i
-        
-        // Одиночный импульс домена приемника
-        .dst_pulse      (rx_comwake_resync) // o
-    ); // rx2tx_comwake_synchronizer
+        // Синхронный выходной сигнал
+        .sync_data      ({              // o  [WIDTH - 1 : 0]
+                            tx_select_resync,
+                            link_ready_resync
+                        })
+    ); // ref2tx_ff_synchronizer
     
     //------------------------------------------------------------------------------------
     //      Кодер OOB-последовательностей Serial ATA
@@ -376,8 +348,8 @@ module sata_phy_layer
     the_sata_oob_coder
     (
         // Сброс и тактирование
-        .reset          (tx_reset),             // i
-        .clk            (tx_clk),               // i
+        .reset          (gxb_reset),            // i
+        .clk            (gxb_refclk),           // i
         
         // Индикатор готовности к приему команды
         .ready          (tx_obb_ready),         // o
@@ -402,8 +374,8 @@ module sata_phy_layer
     the_sata_oob_decoder
     (
         // Сброс и тактирование
-        .reset          (rx_reset),         // i
-        .clk            (rx_clk),           // i
+        .reset          (gxb_reset),        // i
+        .clk            (gxb_refclk),       // i
         
         // Индикатор активности на линии приема
         .rxsignaldetect (rx_signaldetect),  // i
@@ -561,12 +533,12 @@ module sata_phy_layer
                 .gxb_tx             (gxb_tx)                        // o
             ); // the_av_sata_xcvr
         end
-        
     endgenerate
+    
     //------------------------------------------------------------------------------------
     //      Счетчик тактов таймаута для прерывания операции
-    always @(posedge tx_reset, posedge tx_clk)
-        if (tx_reset)
+    always @(posedge gxb_reset, posedge gxb_refclk)
+        if (gxb_reset)
             timeout_cnt <= '0;
         else if (timeout_inc)
             timeout_cnt <= timeout_cnt + 1'b1;
@@ -578,7 +550,7 @@ module sata_phy_layer
     always @(posedge tx_reset, posedge tx_clk)
         if (tx_reset)
             align_cnt <= '0;
-        else if (link_ready)
+        else if (link_ready_resync)
             align_cnt <= align_cnt + 1'b1;
         else
             align_cnt <= '0;
@@ -589,16 +561,16 @@ module sata_phy_layer
         if (tx_reset)
             align_reg <= '0;
         else
-            align_reg <= link_ready & ((align_cnt == 0) | (align_cnt == 1));
+            align_reg <= link_ready_resync & ((align_cnt == 0) | (align_cnt == 1));
     
     //------------------------------------------------------------------------------------
     //      Регист данных для передачи
     always @(posedge tx_reset, posedge tx_clk)
         if (tx_reset)
             tx_data_reg <= '0;
-        else if (tx_select)
+        else if (tx_select_resync)
             tx_data_reg <= `DIAL_DATA;
-        else if (link_ready & ~align_reg)
+        else if (link_ready_resync & ~align_reg)
             tx_data_reg <= tx_data;
         else
             tx_data_reg <= `ALIGN_PRIM;
@@ -608,9 +580,9 @@ module sata_phy_layer
     always @(posedge tx_reset, posedge tx_clk)
         if (tx_reset)
             tx_datak_reg <= '0;
-        else if (tx_select)
+        else if (tx_select_resync)
             tx_datak_reg <= `DWORD_IS_DATA;
-        else if (link_ready & ~align_reg)
+        else if (link_ready_resync & ~align_reg)
             tx_datak_reg <= tx_datak;
         else
             tx_datak_reg <= `DWORD_IS_PRIM;
@@ -620,7 +592,7 @@ module sata_phy_layer
     always @(posedge tx_reset, posedge tx_clk)
         if (tx_reset)
             linkup_cnt <= '0;
-        else if (link_ready)
+        else if (link_ready_resync)
             linkup_cnt <= linkup_cnt + (linkup_cnt != (FIFOLEN - 1));
         else
             linkup_cnt <= '0;
@@ -631,7 +603,7 @@ module sata_phy_layer
         if (tx_reset)
             linkup_reg <= '0;
         else
-            linkup_reg <= link_ready & (linkup_cnt == (FIFOLEN - 1));
+            linkup_reg <= link_ready_resync & (linkup_cnt == (FIFOLEN - 1));
     
     //------------------------------------------------------------------------------------
     //      Регистр сброса Rate-Match FIFO
@@ -640,7 +612,7 @@ module sata_phy_layer
         if (tx_reset)
             reset_rmfifo_reg <= '1;
         else
-            reset_rmfifo_reg <= ~link_ready;
+            reset_rmfifo_reg <= ~link_ready_resync;
     
     //------------------------------------------------------------------------------------
     //      Признак готовности интерфейса передатчика (не готов во время передачи
