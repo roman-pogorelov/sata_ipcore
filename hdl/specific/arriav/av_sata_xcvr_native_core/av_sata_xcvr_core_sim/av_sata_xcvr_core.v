@@ -47,9 +47,9 @@ module av_sata_xcvr_core (
 		.data_path_select                ("standard"),
 		.channels                        (1),
 		.bonded_mode                     ("non_bonded"),
-		.data_rate                       ("1500 Mbps"),
+		.data_rate                       ("6000 Mbps"),
 		.pma_width                       (20),
-		.tx_pma_clk_div                  (4),
+		.tx_pma_clk_div                  (1),
 		.pll_reconfig_enable             (0),
 		.pll_external_enable             (1),
 		.pll_data_rate                   ("6000 Mbps"),
@@ -159,19 +159,19 @@ module av_sata_xcvr_core (
 		.rx_std_polinv             (1'b0)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     //         (terminated)
 	);
 
-	assign rx_patterndetect = { av_sata_xcvr_core_inst_rx_parallel_data[60], av_sata_xcvr_core_inst_rx_parallel_data[44], av_sata_xcvr_core_inst_rx_parallel_data[28], av_sata_xcvr_core_inst_rx_parallel_data[12] };
-
-	assign rx_runningdisp = { av_sata_xcvr_core_inst_rx_parallel_data[63], av_sata_xcvr_core_inst_rx_parallel_data[47], av_sata_xcvr_core_inst_rx_parallel_data[31], av_sata_xcvr_core_inst_rx_parallel_data[15] };
-
 	assign rx_disperr = { av_sata_xcvr_core_inst_rx_parallel_data[59], av_sata_xcvr_core_inst_rx_parallel_data[43], av_sata_xcvr_core_inst_rx_parallel_data[27], av_sata_xcvr_core_inst_rx_parallel_data[11] };
+
+	assign rx_datak = { av_sata_xcvr_core_inst_rx_parallel_data[56], av_sata_xcvr_core_inst_rx_parallel_data[40], av_sata_xcvr_core_inst_rx_parallel_data[24], av_sata_xcvr_core_inst_rx_parallel_data[8] };
 
 	assign unused_rx_parallel_data = { av_sata_xcvr_core_inst_rx_parallel_data[62], av_sata_xcvr_core_inst_rx_parallel_data[61], av_sata_xcvr_core_inst_rx_parallel_data[46], av_sata_xcvr_core_inst_rx_parallel_data[45], av_sata_xcvr_core_inst_rx_parallel_data[30], av_sata_xcvr_core_inst_rx_parallel_data[29], av_sata_xcvr_core_inst_rx_parallel_data[14], av_sata_xcvr_core_inst_rx_parallel_data[13] };
 
 	assign rx_parallel_data = { av_sata_xcvr_core_inst_rx_parallel_data[55], av_sata_xcvr_core_inst_rx_parallel_data[54], av_sata_xcvr_core_inst_rx_parallel_data[53], av_sata_xcvr_core_inst_rx_parallel_data[52], av_sata_xcvr_core_inst_rx_parallel_data[51], av_sata_xcvr_core_inst_rx_parallel_data[50], av_sata_xcvr_core_inst_rx_parallel_data[49], av_sata_xcvr_core_inst_rx_parallel_data[48], av_sata_xcvr_core_inst_rx_parallel_data[39], av_sata_xcvr_core_inst_rx_parallel_data[38], av_sata_xcvr_core_inst_rx_parallel_data[37], av_sata_xcvr_core_inst_rx_parallel_data[36], av_sata_xcvr_core_inst_rx_parallel_data[35], av_sata_xcvr_core_inst_rx_parallel_data[34], av_sata_xcvr_core_inst_rx_parallel_data[33], av_sata_xcvr_core_inst_rx_parallel_data[32], av_sata_xcvr_core_inst_rx_parallel_data[23], av_sata_xcvr_core_inst_rx_parallel_data[22], av_sata_xcvr_core_inst_rx_parallel_data[21], av_sata_xcvr_core_inst_rx_parallel_data[20], av_sata_xcvr_core_inst_rx_parallel_data[19], av_sata_xcvr_core_inst_rx_parallel_data[18], av_sata_xcvr_core_inst_rx_parallel_data[17], av_sata_xcvr_core_inst_rx_parallel_data[16], av_sata_xcvr_core_inst_rx_parallel_data[7], av_sata_xcvr_core_inst_rx_parallel_data[6], av_sata_xcvr_core_inst_rx_parallel_data[5], av_sata_xcvr_core_inst_rx_parallel_data[4], av_sata_xcvr_core_inst_rx_parallel_data[3], av_sata_xcvr_core_inst_rx_parallel_data[2], av_sata_xcvr_core_inst_rx_parallel_data[1], av_sata_xcvr_core_inst_rx_parallel_data[0] };
 
-	assign rx_errdetect = { av_sata_xcvr_core_inst_rx_parallel_data[57], av_sata_xcvr_core_inst_rx_parallel_data[41], av_sata_xcvr_core_inst_rx_parallel_data[25], av_sata_xcvr_core_inst_rx_parallel_data[9] };
+	assign rx_runningdisp = { av_sata_xcvr_core_inst_rx_parallel_data[63], av_sata_xcvr_core_inst_rx_parallel_data[47], av_sata_xcvr_core_inst_rx_parallel_data[31], av_sata_xcvr_core_inst_rx_parallel_data[15] };
 
-	assign rx_datak = { av_sata_xcvr_core_inst_rx_parallel_data[56], av_sata_xcvr_core_inst_rx_parallel_data[40], av_sata_xcvr_core_inst_rx_parallel_data[24], av_sata_xcvr_core_inst_rx_parallel_data[8] };
+	assign rx_patterndetect = { av_sata_xcvr_core_inst_rx_parallel_data[60], av_sata_xcvr_core_inst_rx_parallel_data[44], av_sata_xcvr_core_inst_rx_parallel_data[28], av_sata_xcvr_core_inst_rx_parallel_data[12] };
+
+	assign rx_errdetect = { av_sata_xcvr_core_inst_rx_parallel_data[57], av_sata_xcvr_core_inst_rx_parallel_data[41], av_sata_xcvr_core_inst_rx_parallel_data[25], av_sata_xcvr_core_inst_rx_parallel_data[9] };
 
 	assign rx_syncstatus = { av_sata_xcvr_core_inst_rx_parallel_data[58], av_sata_xcvr_core_inst_rx_parallel_data[42], av_sata_xcvr_core_inst_rx_parallel_data[26], av_sata_xcvr_core_inst_rx_parallel_data[10] };
 
