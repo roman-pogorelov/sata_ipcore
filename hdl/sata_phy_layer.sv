@@ -129,33 +129,43 @@ module sata_phy_layer
     logic                           linkup_reg;
     //
     logic                           reset_rmfifo_reg;
+    //
+    logic [1 : 0]                   sata_gen_reg;
+    logic                           recfg_request;
+    logic                           recfg_request_resync;
+    logic                           recfg_ready;
+    logic                           recfg_ready_resync;
+    logic [1 : 0]                   recfg_sata_gen_resync;
     
     //------------------------------------------------------------------------------------
     //      Кодирование состояний конечного автомата
-    enum logic [7 : 0] {
-        st_idle             = 8'b00_0_0_0_0_0_0,
-        st_send_comreset    = 8'b00_0_0_0_0_1_0,
-        st_suspend_comreset = 8'b01_0_0_0_0_0_0,
-        st_wait_cominit     = 8'b00_1_0_0_0_0_0,
-        st_send_comwake     = 8'b00_0_0_0_1_0_0,
-        st_suspend_comwake  = 8'b10_0_0_0_0_0_0,
-        st_wait_comwake     = 8'b01_1_0_0_0_0_0,
-        st_wait_oobfinish   = 8'b10_1_0_0_0_0_0,
-        st_send_dial        = 8'b11_1_1_1_0_0_0,
-        st_send_align       = 8'b11_1_0_1_0_0_0,
-        st_link_ready       = 8'b11_0_0_1_0_0_1
+    enum logic [8 : 0] {
+        st_idle             = 9'b00_0_0_0_0_0_0_0,
+        st_send_comreset    = 9'b00_0_0_0_0_0_1_0,
+        st_suspend_comreset = 9'b01_0_0_0_0_0_0_0,
+        st_wait_cominit     = 9'b00_0_1_0_0_0_0_0,
+        st_send_comwake     = 9'b00_0_0_0_0_1_0_0,
+        st_suspend_comwake  = 9'b10_0_0_0_0_0_0_0,
+        st_wait_comwake     = 9'b01_0_1_0_0_0_0_0,
+        st_wait_oobfinish   = 9'b10_0_1_0_0_0_0_0,
+        st_send_dial        = 9'b11_0_1_1_1_0_0_0,
+        st_request_recfg    = 9'b11_1_0_0_0_0_0_0,
+        st_wait_recfg       = 9'b11_0_1_0_0_0_0_0,
+        st_send_align       = 9'b11_0_1_0_1_0_0_0,
+        st_link_ready       = 9'b11_0_0_0_1_0_0_1
     } state;
-    wire [7 : 0] st;
+    wire [8 : 0] st;
     assign st = state;
     
     //------------------------------------------------------------------------------------
     //      Управляющие сигналы конечного автомата
-    assign link_ready   = st[0];
-    assign tx_cominit   = st[1];
-    assign tx_comwake   = st[2];
-    assign tx_oobfinish = st[3];
-    assign tx_select    = st[4];
-    assign timeout_inc  = st[5];
+    assign link_ready    = st[0];
+    assign tx_cominit    = st[1];
+    assign tx_comwake    = st[2];
+    assign tx_oobfinish  = st[3];
+    assign tx_select     = st[4];
+    assign timeout_inc   = st[5];
+    assign recfg_request = st[6];
     
     //------------------------------------------------------------------------------------
     //      Логика переходов конечного автомата
@@ -215,9 +225,21 @@ module sata_phy_layer
                 if ((rx_data_resync == `ALIGN_PRIM) & (rx_datak_resync == {{3{1'b0}}, `DWORD_IS_PRIM}) & (&rx_syncstatus_resync))
                     state <= st_send_align;
                 else if (timeout_cnt == TIMEOUT)
-                    state <= st_idle;
+                    state <= st_request_recfg;
                 else
                     state <= st_send_dial;
+            
+            st_request_recfg:
+                if (recfg_ready)
+                    state <= st_wait_recfg;
+                else
+                    state <= st_request_recfg;
+                
+            st_wait_recfg:
+                if (timeout_cnt == TIMEOUT)
+                    state <= st_idle;
+                else
+                    state <= st_wait_recfg;
             
             st_send_align:
                 if ((rx_data_resync == `SYNC_PRIM) & (rx_datak_resync == {{3{1'b0}}, `DWORD_IS_PRIM}))
@@ -338,6 +360,36 @@ module sata_phy_layer
                             link_ready_resync
                         })
     ); // ref2tx_ff_synchronizer
+    
+    //------------------------------------------------------------------------------------
+    //      Модуль синхронизации интерфейса DataStream между двумя доменами
+    //      тактирования на основе механизма взаимного подтверждения
+    ds_hs_synchronizer
+    #(
+        .WIDTH      (2),                        // Разрядность потока
+        .ESTAGES    (1),                        // Количество дополнительных ступеней цепи синхронизации
+        .HSTYPE     (2)                         // Схема взаимного подтверждения (2 - с двумя фазами 4 - с четырьмя фазами)
+    )
+    reconfig_synchronizer
+    (
+        // Сброс и тактирование входного потокового интерфейса
+        .i_reset    (gxb_reset),                // i
+        .i_clk      (gxb_refclk),               // i
+        
+        // Входной потоковый интерфейс
+        .i_dat      (sata_gen_reg),             // i  [WIDTH - 1 : 0]
+        .i_val      (recfg_request),            // i
+        .i_rdy      (recfg_ready),              // o
+        
+        // Сброс и тактирование выходного потокового интерфейса
+        .o_reset    (reconfig_reset),           // i
+        .o_clk      (reconfig_clk),             // i
+        
+        // Выходной потоковый интерфейс
+        .o_dat      (recfg_sata_gen_resync),    // o  [WIDTH - 1 : 0]
+        .o_val      (recfg_request_resync),     // o
+        .o_rdy      (recfg_ready_resync)        // i
+    ); // reconfig_synchronizer
     
     //------------------------------------------------------------------------------------
     //      Кодер OOB-последовательностей Serial ATA
@@ -512,6 +564,12 @@ module sata_phy_layer
                 .gxb_reset          (gxb_reset),                    // i
                 .gxb_refclk         (gxb_refclk),                   // i
                 
+                // Интерфейс реконфигурации между поколениями SATA
+                // (домен reconfig_clk)
+                .recfg_request      (recfg_request_resync),         // i
+                .recfg_sata_gen     (recfg_sata_gen_resync),        // i  [1 : 0]
+                .recfg_ready        (recfg_ready_resync),           // o
+                
                 // Интерфейсные сигналы приемника
                 .rx_clock           (rx_clk),                       // o
                 .rx_data            (rx_data_unalign),              // o  [31 : 0]
@@ -613,6 +671,21 @@ module sata_phy_layer
             reset_rmfifo_reg <= '1;
         else
             reset_rmfifo_reg <= ~link_ready_resync;
+    
+    //------------------------------------------------------------------------------------
+    //      Регистр последовательного перебора поколений SATA
+    initial sata_gen_reg = 2'h1;
+    always @(posedge gxb_reset, posedge gxb_refclk)
+        if (gxb_reset)
+            sata_gen_reg <= 2'h1;
+        else if (recfg_request & recfg_ready)
+            case (sata_gen_reg)
+                2'h1:    sata_gen_reg <= 2'h0;
+                2'h2:    sata_gen_reg <= 2'h1;
+                default: sata_gen_reg <= 2'h2;
+            endcase
+        else
+            sata_gen_reg <= sata_gen_reg;
     
     //------------------------------------------------------------------------------------
     //      Признак готовности интерфейса передатчика (не готов во время передачи
