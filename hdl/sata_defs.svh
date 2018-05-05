@@ -1,6 +1,10 @@
 `ifndef SATA_DEFINES
     `define SATA_DEFINES
     
+    `define SATA_GEN1       2'h1
+    `define SATA_GEN2       2'h2
+    `define SATA_GEN3       2'h3
+    
     `define ALIGN_PRIM      32'h7b4a4abc
     `define SYNC_PRIM       32'hb5b5957c
     `define SOF_PRIM        32'h3737b57c
