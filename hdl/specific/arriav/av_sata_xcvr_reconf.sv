@@ -25,6 +25,8 @@
     ); // the_av_sata_xcvr_reconf
 */
 
+`include "sata_defs.svh"
+
 module av_sata_xcvr_reconf
 (
     // Сброс и тактирование
@@ -267,8 +269,8 @@ module av_sata_xcvr_reconf
             param_reg <= SATA3_PARAMS;
         else if ((cstate == st_idle) & cmd_reconfig)
             case (cmd_sata_gen)
-                2'h1:       param_reg <= SATA2_PARAMS;
-                2'h2:       param_reg <= SATA3_PARAMS;
+                `SATA_GEN2: param_reg <= SATA2_PARAMS;
+                `SATA_GEN3: param_reg <= SATA3_PARAMS;
                 default:    param_reg <= SATA1_PARAMS;
             endcase
         else if ((cstate == st_set_value) & ~recfg_busy)
