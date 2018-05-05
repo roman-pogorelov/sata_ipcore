@@ -19,14 +19,17 @@
         // Выходное тактирование интерфейса приемника и передатчика
         .link_clk           (), // o
         
-        // Индикатор установки соединения
+        // Индикатор установки соединения (домен link_clk)
         .linkup             (), // o
         
-        // Интерфейс приемника
+        // Индикатор поколения SATA (домен link_clk)
+        .sata_gen           (), // o  [1 : 0]
+        
+        // Интерфейс приемника (домен link_clk)
         .rx_data            (), // o  [31 : 0]
         .rx_datak           (), // o
         
-        // Интерфейс передатчика
+        // Интерфейс передатчика (домен link_clk)
         .tx_data            (), // i  [31 : 0]
         .tx_datak           (), // i
         .tx_ready           (), // o
@@ -56,14 +59,17 @@ module sata_phy_layer
     // Выходное тактирование интерфейса приемника и передатчика
     output logic            link_clk,
         
-    // Индикатор установки соединения
+    // Индикатор установки соединения (домен link_clk)
     output logic            linkup,
     
-    // Интерфейс приемника
+    // Индикатор поколения SATA (домен link_clk)
+    output logic [1 : 0]    sata_gen,
+    
+    // Интерфейс приемника (домен link_clk)
     output logic [31 : 0]   rx_data,
     output logic            rx_datak,
     
-    // Интерфейс передатчика
+    // Интерфейс передатчика (домен link_clk)
     input  logic [31 : 0]   tx_data,
     input  logic            tx_datak,
     output logic            tx_ready,
@@ -130,12 +136,13 @@ module sata_phy_layer
     //
     logic                           reset_rmfifo_reg;
     //
-    logic [1 : 0]                   sata_gen_reg;
     logic                           recfg_request;
     logic                           recfg_request_resync;
     logic                           recfg_ready;
     logic                           recfg_ready_resync;
+    logic [1 : 0]                   recfg_sata_gen_reg;
     logic [1 : 0]                   recfg_sata_gen_resync;
+    logic [1 : 0]                   sata_gen_reg;
     
     //------------------------------------------------------------------------------------
     //      Кодирование состояний конечного автомата
@@ -338,7 +345,7 @@ module sata_phy_layer
     //      Модуль синхронизации сигнала на последовательной триггерной цепочке
     ff_synchronizer
     #(
-        .WIDTH          (2),            // Разрядность синхронизируемой шины
+        .WIDTH          (4),            // Разрядность синхронизируемой шины
         .EXTRA_STAGES   (1),            // Количество дополнительных ступеней цепи синхронизации
         .RESET_VALUE    ({2{1'b0}})     // Значение по умолчанию для ступеней цепи синхронизации
     )
@@ -351,13 +358,15 @@ module sata_phy_layer
         // Асинхронный входной сигнал
         .async_data     ({              // i  [WIDTH - 1 : 0]
                             tx_select,
-                            link_ready
+                            link_ready,
+                            sata_gen_reg & {2{link_ready}}
                         }),
         
         // Синхронный выходной сигнал
         .sync_data      ({              // o  [WIDTH - 1 : 0]
                             tx_select_resync,
-                            link_ready_resync
+                            link_ready_resync,
+                            sata_gen
                         })
     ); // ref2tx_ff_synchronizer
     
@@ -377,7 +386,7 @@ module sata_phy_layer
         .i_clk      (gxb_refclk),               // i
         
         // Входной потоковый интерфейс
-        .i_dat      (sata_gen_reg),             // i  [WIDTH - 1 : 0]
+        .i_dat      (recfg_sata_gen_reg),       // i  [WIDTH - 1 : 0]
         .i_val      (recfg_request),            // i
         .i_rdy      (recfg_ready),              // o
         
@@ -673,19 +682,32 @@ module sata_phy_layer
             reset_rmfifo_reg <= ~link_ready_resync;
     
     //------------------------------------------------------------------------------------
-    //      Регистр последовательного перебора поколений SATA
-    initial sata_gen_reg = 2'h1;
-    always @(posedge gxb_reset, posedge gxb_refclk)
-        if (gxb_reset)
-            sata_gen_reg <= 2'h1;
+    //      Регист текущей конфигурации SATA
+    initial sata_gen_reg = `SATA_GEN3;
+    always @(posedge tx_reset, posedge tx_clk)
+        if (tx_reset)
+            sata_gen_reg <= `SATA_GEN3;
         else if (recfg_request & recfg_ready)
-            case (sata_gen_reg)
-                2'h1:    sata_gen_reg <= 2'h0;
-                2'h2:    sata_gen_reg <= 2'h1;
-                default: sata_gen_reg <= 2'h2;
-            endcase
+            if (sata_gen_reg == `SATA_GEN1)
+                sata_gen_reg <= `SATA_GEN3;
+            else
+                sata_gen_reg <= sata_gen_reg - 1'b1;
         else
             sata_gen_reg <= sata_gen_reg;
+    
+    //------------------------------------------------------------------------------------
+    //      Регистр следующей конфигурации SATA
+    initial recfg_sata_gen_reg = `SATA_GEN2;
+    always @(posedge gxb_reset, posedge gxb_refclk)
+        if (gxb_reset)
+            recfg_sata_gen_reg <= `SATA_GEN2;
+        else if (recfg_request & recfg_ready)
+            if (recfg_sata_gen_reg == `SATA_GEN1)
+                recfg_sata_gen_reg <= `SATA_GEN3;
+            else
+                recfg_sata_gen_reg <= recfg_sata_gen_reg - 1'b1;
+        else
+            recfg_sata_gen_reg <= recfg_sata_gen_reg;
     
     //------------------------------------------------------------------------------------
     //      Признак готовности интерфейса передатчика (не готов во время передачи
