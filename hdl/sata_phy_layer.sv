@@ -684,8 +684,8 @@ module sata_phy_layer
     //------------------------------------------------------------------------------------
     //      Регист текущей конфигурации SATA
     initial sata_gen_reg = `SATA_GEN3;
-    always @(posedge tx_reset, posedge tx_clk)
-        if (tx_reset)
+    always @(posedge gxb_reset, posedge gxb_refclk)
+        if (gxb_reset)
             sata_gen_reg <= `SATA_GEN3;
         else if (recfg_request & recfg_ready)
             if (sata_gen_reg == `SATA_GEN1)
