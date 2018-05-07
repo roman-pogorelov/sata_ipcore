@@ -115,15 +115,6 @@ module sata_link_layer
     localparam logic [4 : 0]    GOOD_CRC_CODE       = 5'h0e;
     localparam logic [4 : 0]    BAD_END_CODE        = 5'h0f;
     localparam logic [4 : 0]    GOOD_END_CODE       = 5'h10;
-    //
-    localparam logic [2 : 0]    NOTHING_CODE        = 3'h0;
-    localparam logic [2 : 0]    TX_SUCCESS_CODE     = 3'h1;
-    localparam logic [2 : 0]    TX_ABORT_CODE       = 3'h2;
-    localparam logic [2 : 0]    TX_FAULT_CODE       = 3'h3;
-    localparam logic [2 : 0]    RX_SUCCESS_CODE     = 3'h4;
-    localparam logic [2 : 0]    RX_ABORT_CODE       = 3'h5;
-    localparam logic [2 : 0]    RX_FAULT_CODE       = 3'h6;
-    localparam logic [2 : 0]    UNKNOWN_FAULT_CODE  = 3'h7;
     
     //------------------------------------------------------------------------------------
     //      Объявление сигналов
@@ -369,110 +360,110 @@ module sata_link_layer
     
     //------------------------------------------------------------------------------------
     //      Регистр результата последнего обмена
-    initial link_result_reg = NOTHING_CODE;
+    initial link_result_reg = `LINK_NOTHING_CODE;
     always @(posedge reset, posedge clk)
         if (reset)
-            link_result_reg <= NOTHING_CODE;
+            link_result_reg <= `LINK_NOTHING_CODE;
         else case (state)
             st_idle:
                 if (x_rdy_det | ~tx_fifo_empty)
-                    link_result_reg <= NOTHING_CODE;
+                    link_result_reg <= `LINK_NOTHING_CODE;
                 else
                     link_result_reg <= link_result_reg;
             
             st_send_chk_rdy:
-                link_result_reg <= NOTHING_CODE;
+                link_result_reg <= `LINK_NOTHING_CODE;
             
             st_send_sof:
                 if (sync_det)
-                    link_result_reg <= TX_ABORT_CODE;
+                    link_result_reg <= `LINK_TX_ABORT_CODE;
                 else
-                    link_result_reg <= NOTHING_CODE;
+                    link_result_reg <= `LINK_NOTHING_CODE;
             
             st_send_data:
                 if (sync_det)
-                    link_result_reg <= TX_ABORT_CODE;
+                    link_result_reg <= `LINK_TX_ABORT_CODE;
                 else
-                    link_result_reg <= NOTHING_CODE;
+                    link_result_reg <= `LINK_NOTHING_CODE;
             
             st_send_eof:
                 if (sync_det)
-                    link_result_reg <= TX_ABORT_CODE;
+                    link_result_reg <= `LINK_TX_ABORT_CODE;
                 else
-                    link_result_reg <= NOTHING_CODE;
+                    link_result_reg <= `LINK_NOTHING_CODE;
             
             st_send_hold:
                 if (sync_det)
-                    link_result_reg <= TX_ABORT_CODE;
+                    link_result_reg <= `LINK_TX_ABORT_CODE;
                 else
-                    link_result_reg <= NOTHING_CODE;
+                    link_result_reg <= `LINK_NOTHING_CODE;
             
             st_rcvr_hold:
                 if (sync_det)
-                    link_result_reg <= TX_ABORT_CODE;
+                    link_result_reg <= `LINK_TX_ABORT_CODE;
                 else
-                    link_result_reg <= NOTHING_CODE;
+                    link_result_reg <= `LINK_NOTHING_CODE;
             
             st_wait:
                 if (sync_det)
-                    link_result_reg <= TX_ABORT_CODE;
+                    link_result_reg <= `LINK_TX_ABORT_CODE;
                 else if (r_err_det)
-                    link_result_reg <= TX_FAULT_CODE;
+                    link_result_reg <= `LINK_TX_FAULT_CODE;
                 else if (r_ok_det)
-                    link_result_reg <= TX_SUCCESS_CODE;
+                    link_result_reg <= `LINK_TX_SUCCESS_CODE;
                 else
-                    link_result_reg <= NOTHING_CODE;
+                    link_result_reg <= `LINK_NOTHING_CODE;
             
             st_rcv_wait_fifo:
                 if (~(x_rdy_det | align_det))
-                    link_result_reg <= RX_ABORT_CODE;
+                    link_result_reg <= `LINK_RX_ABORT_CODE;
                 else
-                    link_result_reg <= NOTHING_CODE;
+                    link_result_reg <= `LINK_NOTHING_CODE;
             
             st_rcv_chk_rdy:
                 if (~(x_rdy_det | align_det | sof_det))
-                    link_result_reg <= RX_ABORT_CODE;
+                    link_result_reg <= `LINK_RX_ABORT_CODE;
                 else
-                    link_result_reg <= NOTHING_CODE;
+                    link_result_reg <= `LINK_NOTHING_CODE;
             
             st_rcv_data:
                 if (sync_det)
-                    link_result_reg <= RX_ABORT_CODE;
+                    link_result_reg <= `LINK_RX_ABORT_CODE;
                 else
-                    link_result_reg <= NOTHING_CODE;
+                    link_result_reg <= `LINK_NOTHING_CODE;
             
             st_hold:
                 if (sync_det)
-                    link_result_reg <= RX_ABORT_CODE;
+                    link_result_reg <= `LINK_RX_ABORT_CODE;
                 else
-                    link_result_reg <= NOTHING_CODE;
+                    link_result_reg <= `LINK_NOTHING_CODE;
             
             st_rcv_hold:
                 if (sync_det)
-                    link_result_reg <= RX_ABORT_CODE;
+                    link_result_reg <= `LINK_RX_ABORT_CODE;
                 else
-                    link_result_reg <= NOTHING_CODE;
+                    link_result_reg <= `LINK_NOTHING_CODE;
             
             st_rcv_eof:
-                link_result_reg <= NOTHING_CODE;
+                link_result_reg <= `LINK_NOTHING_CODE;
             
             st_good_crc:
-                link_result_reg <= NOTHING_CODE;
+                link_result_reg <= `LINK_NOTHING_CODE;
             
             st_bad_end:
                 if (sync_det)
-                    link_result_reg <= RX_FAULT_CODE;
+                    link_result_reg <= `LINK_RX_FAULT_CODE;
                 else
-                    link_result_reg <= NOTHING_CODE;
+                    link_result_reg <= `LINK_NOTHING_CODE;
             
             st_good_end:
                 if (sync_det)
-                    link_result_reg <= RX_SUCCESS_CODE;
+                    link_result_reg <= `LINK_RX_SUCCESS_CODE;
                 else
-                    link_result_reg <= NOTHING_CODE;
+                    link_result_reg <= `LINK_NOTHING_CODE;
             
             default:
-                link_result_reg <= UNKNOWN_FAULT_CODE;
+                link_result_reg <= `LINK_UNKNOWN_FAULT_CODE;
         endcase
     assign stat_link_result = link_result_reg;
     
