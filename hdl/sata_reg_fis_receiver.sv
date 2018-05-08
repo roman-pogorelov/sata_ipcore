@@ -13,6 +13,7 @@
         .i_val          (), // i
         .i_eop          (), // i
         .i_err          (), // i
+        .i_rdy          (), // o
         
         // Выходной параллельный интерфейс принятого фрейма
         .o_dat_type     (), // o  [7 : 0]
@@ -37,6 +38,7 @@ module sata_reg_fis_receiver
     input  logic                i_val,
     input  logic                i_eop,
     input  logic                i_err,
+    output logic                i_rdy,
     
     // Выходной параллельный интерфейс принятого фрейма
     output logic [7 : 0]        o_dat_type,
@@ -58,6 +60,10 @@ module sata_reg_fis_receiver
     logic [FIS_LEN : 0]             pos_reg;
     logic [FIS_LEN - 1 : 0][31 : 0] fis_reg;
     logic                           crc_reg;
+    
+    //------------------------------------------------------------------------------------
+    //      Постоянная готовность к приему
+    assign i_rdy = 1'b1;
     
     //------------------------------------------------------------------------------------
     //      Регистр признака достоверности принятого фрейма
