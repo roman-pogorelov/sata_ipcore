@@ -12,7 +12,7 @@
 # or its authorized distributors. Please refer to the applicable 
 # agreement for further details.
 
-# ACDS 17.1 590 win32 2018.03.07.11:58:54
+# ACDS 17.1 590 win32 2018.05.14.16:50:26
 
 # ----------------------------------------
 # ncsim - auto-generated simulation script
@@ -106,7 +106,7 @@
 # within the Quartus project, and generate a unified
 # script which supports all the Altera IP within the design.
 # ----------------------------------------
-# ACDS 17.1 590 win32 2018.03.07.11:58:54
+# ACDS 17.1 590 win32 2018.05.14.16:50:26
 # ----------------------------------------
 # initialize variables
 TOP_LEVEL_NAME="av_sata_xcvr_core"

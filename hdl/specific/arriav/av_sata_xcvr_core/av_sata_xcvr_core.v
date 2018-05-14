@@ -50,7 +50,7 @@ module av_sata_xcvr_core (
 		.ser_base_factor                       (8),
 		.ser_words                             (4),
 		.data_rate                             ("1500 Mbps"),
-		.base_data_rate                        ("1500 Mbps"),
+		.base_data_rate                        ("6000 Mbps"),
 		.en_synce_support                      (0),
 		.tx_bitslip_enable                     ("false"),
 		.rx_use_coreclk                        ("false"),
@@ -199,7 +199,7 @@ endmodule
 // Retrieval info: 	<generic name="gui_pcs_pma_width" value="PARAM_DEFAULT" />
 // Retrieval info: 	<generic name="gui_pll_type" value="CMU" />
 // Retrieval info: 	<generic name="data_rate" value="1500 Mbps" />
-// Retrieval info: 	<generic name="gui_base_data_rate" value="1250 Mbps" />
+// Retrieval info: 	<generic name="gui_base_data_rate" value="6000 Mbps" />
 // Retrieval info: 	<generic name="gui_pll_refclk_freq" value="150.0 MHz" />
 // Retrieval info: 	<generic name="en_synce_support" value="0" />
 // Retrieval info: 	<generic name="gui_tx_bitslip_enable" value="false" />

@@ -48,7 +48,7 @@ module av_sata_xcvr_core (
 		.ser_base_factor                       (8),
 		.ser_words                             (4),
 		.data_rate                             ("1500 Mbps"),
-		.base_data_rate                        ("1500 Mbps"),
+		.base_data_rate                        ("6000 Mbps"),
 		.en_synce_support                      (0),
 		.tx_bitslip_enable                     ("false"),
 		.rx_use_coreclk                        ("false"),
