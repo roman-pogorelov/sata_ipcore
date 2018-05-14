@@ -51,9 +51,9 @@ module sata_oob_coder
     //------------------------------------------------------------------------------------
     //      Описание констант
     localparam int unsigned     REFFREQ     = 1_500_000;
-    localparam int unsigned     BURST       = (170 * CLKFREQ + (REFFREQ / 2)) / REFFREQ;
-    localparam int unsigned     GAPINIT     = (470 * CLKFREQ + (REFFREQ / 2)) / REFFREQ;
-    localparam int unsigned     GAPWAKE     = (150 * CLKFREQ + (REFFREQ / 2)) / REFFREQ;
+    localparam int unsigned     BURST       = 17;//(160 * CLKFREQ + (REFFREQ / 2)) / REFFREQ;
+    localparam int unsigned     GAPINIT     = 47;//(480 * CLKFREQ + (REFFREQ / 2)) / REFFREQ;
+    localparam int unsigned     GAPWAKE     = 15;//(160 * CLKFREQ + (REFFREQ / 2)) / REFFREQ;
     localparam int unsigned     BURSTWIDTH  = $clog2(BURST);
     localparam int unsigned     GAPWIDTH    = $clog2(GAPINIT);
     localparam int unsigned     AMOUNT      = 6;
