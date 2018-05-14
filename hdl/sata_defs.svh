@@ -49,6 +49,12 @@
     `define DMA_ACT_FIS             8'h39
     `define DATA_FIS                8'h46
     
+    `define IDENTIFY_DEVICE_CMD     8'hEC
+    `define READ_DMA_EXT_CMD        8'h25
+    `define WRITE_DMA_EXT_CMD       8'h35
+    
+    `define MAX_DMA_BURST           17'h10000
+    
     `define LINK_NOTHING_CODE       3'h0
     `define LINK_TX_SUCCESS_CODE    3'h1
     `define LINK_TX_ABORT_CODE      3'h2
