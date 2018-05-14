@@ -1,0 +1,833 @@
+/*
+    //------------------------------------------------------------------------------------
+    //      DMA-движок доступа к устройствам интерфейса SATA
+    sata_dma_engine
+    the_sata_dma_engine
+    (
+        // Сброс и тактирование домена пользователя
+        .usr_reset                  (), // i
+        .usr_clk                    (), // i
+        
+        // Сброс и тактирование домена Link-уровня SATA
+        .sata_reset                 (), // i
+        .sata_clk                   (), // i
+        
+        // Интерфейс команд пользователя (домен usr_clk)
+        .usr_cmd_valid              (), // i
+        .usr_cmd_type               (), // i
+        .usr_cmd_address            (), // i  [47 : 0]
+        .usr_cmd_size               (), // i  [47 : 0]
+        .usr_cmd_ready              (), // o
+        .usr_cmd_fault              (), // o
+        
+        // Интерфейс информационных сигналов пользователя (домен usr_clk)
+        .usr_info_valid             (), // o
+        .usr_info_max_lba_address   (), // o  [47 : 0]
+        .usr_info_sata_supported    (), // o  [2 : 0]
+        
+        // Потоковый интерфейс записи (домен usr_clk)
+        .usr_wr_dat                 (), // i  [31 : 0]
+        .usr_wr_val                 (), // i
+        .usr_wr_rdy                 (), // o
+        
+        // Потоковый интерфейс чтения (домен usr_clk)
+        .usr_rd_dat                 (), // o  [31 : 0]
+        .usr_rd_val                 (), // o
+        .usr_rd_eop                 (), // o
+        .usr_rd_err                 (), // o
+        .usr_rd_rdy                 (), // i
+        
+        // Потоковый интерфейс передаваемых фреймов SATA (домен sata_clk)
+        .sata_tx_dat                (), // o  [31 : 0]
+        .sata_tx_val                (), // o
+        .sata_tx_eop                (), // o
+        .sata_tx_rdy                (), // i
+        
+        // Потоковый интерфейс принимаемых фреймов SATA (домен sata_clk)
+        .sata_rx_dat                (), // i  [31 : 0]
+        .sata_rx_val                (), // i
+        .sata_rx_eop                (), // i
+        .sata_rx_err                (), // i
+        .sata_rx_rdy                (), // o
+        
+        // Интерфейс состояния Link-уровня SATA (домен sata_clk)
+        .sata_link_busy             (), // i
+        .sata_link_result           ()  // i  [2 : 0]
+    ); // the_sata_dma_engine
+*/
+
+`include "sata_defs.svh"
+
+module sata_dma_engine
+(
+    // Сброс и тактирование домена пользователя
+    input  logic            usr_reset,
+    input  logic            usr_clk,
+    
+    // Сброс и тактирование домена Link-уровня SATA
+    input  logic            sata_reset,
+    input  logic            sata_clk,
+    
+    // Интерфейс команд пользователя (домен usr_clk)
+    input  logic            usr_cmd_valid,
+    input  logic            usr_cmd_type,
+    input  logic [47 : 0]   usr_cmd_address,
+    input  logic [47 : 0]   usr_cmd_size,
+    output logic            usr_cmd_ready,
+    output logic            usr_cmd_fault,
+    
+    // Интерфейс информационных сигналов пользователя (домен usr_clk)
+    output logic            usr_info_valid,
+    output logic [47 : 0]   usr_info_max_lba_address,
+    output logic [2 : 0]    usr_info_sata_supported,
+    
+    // Потоковый интерфейс записи (домен usr_clk)
+    input  logic [31 : 0]   usr_wr_dat,
+    input  logic            usr_wr_val,
+    output logic            usr_wr_rdy,
+    
+    // Потоковый интерфейс чтения (домен usr_clk)
+    output logic [31 : 0]   usr_rd_dat,
+    output logic            usr_rd_val,
+    output logic            usr_rd_eop,
+    output logic            usr_rd_err,
+    input  logic            usr_rd_rdy,
+    
+    // Потоковый интерфейс передаваемых фреймов SATA (домен sata_clk)
+    output logic [31 : 0]   sata_tx_dat,
+    output logic            sata_tx_val,
+    output logic            sata_tx_eop,
+    input  logic            sata_tx_rdy,
+    
+    // Потоковый интерфейс принимаемых фреймов SATA (домен sata_clk)
+    input  logic [31 : 0]   sata_rx_dat,
+    input  logic            sata_rx_val,
+    input  logic            sata_rx_eop,
+    input  logic            sata_rx_err,
+    output logic            sata_rx_rdy,
+    
+    // Интерфейс состояния Link-уровня SATA (домен sata_clk)
+    input  logic            sata_link_busy,
+    input  logic [2 : 0]    sata_link_result
+);
+    //------------------------------------------------------------------------------------
+    //      Объявление констант
+    localparam int unsigned     BUFFER_DEPTH = 16;
+    //
+    localparam logic [1 : 0]    H2D_ID       = 2'h0;
+    localparam logic [1 : 0]    H2D_RD       = 2'h1;
+    localparam logic [1 : 0]    H2D_WR       = 2'h2;
+    //
+    localparam logic            TX_REG       = 1'b0;
+    localparam logic            TX_DATA      = 1'b1;
+    //
+    localparam logic [1 : 0]    RX_REG       = 2'h0;
+    localparam logic [1 : 0]    RX_ID_DATA   = 2'h1;
+    localparam logic [1 : 0]    RX_DMA_DATA  = 2'h2;
+    localparam logic [1 : 0]    RX_NOTHING   = 2'h3;
+    //
+    localparam logic            RD_TYPE_CODE = 1'b0;
+    localparam logic            WR_TYPE_CODE = 1'b1;
+    
+    //------------------------------------------------------------------------------------
+    //      Объявление сигналов
+    logic                   buffer_reset;
+    //
+    logic                   link_busy;
+    logic [2 : 0]           link_result;
+    logic                   link_done;
+    //
+    logic                   tx_select;
+    logic [1 : 0]           rx_select;
+    //
+    logic [1 : 0]           h2d_select;
+    logic [7 : 0]           h2d_dat_command;
+    logic [47 : 0]          h2d_dat_address;
+    logic [15 : 0]          h2d_dat_scount;
+    logic                   h2d_valid;
+    logic                   h2d_ready;
+    //
+    logic [31 : 0]          tx_dat;
+    logic                   tx_val;
+    logic                   tx_eop;
+    logic                   tx_rdy;
+    //
+    logic [31 : 0]          rx_dat;
+    logic                   rx_val;
+    logic                   rx_eop;
+    logic                   rx_err;
+    logic                   rx_rdy;
+    //
+    logic [31 : 0]          reg_fis_tx_dat;
+    logic                   reg_fis_tx_val;
+    logic                   reg_fis_tx_eop;
+    logic                   reg_fis_tx_rdy;
+    //
+    logic [31 : 0]          reg_fis_rx_dat;
+    logic                   reg_fis_rx_val;
+    logic                   reg_fis_rx_eop;
+    logic                   reg_fis_rx_err;
+    logic                   reg_fis_rx_rdy;
+    //
+    logic [31 : 0]          id_fis_rx_dat;
+    logic                   id_fis_rx_val;
+    logic                   id_fis_rx_eop;
+    logic                   id_fis_rx_err;
+    logic                   id_fis_rx_rdy;
+    //
+    logic                   cmd_ready;
+    logic                   cmd_ready_reg;
+    logic                   cmd_fault;
+    logic                   cmd_fault_reg;
+    //
+    logic                   type_reg;
+    logic [47 : 0]          address_cnt;
+    logic [48 : 0]          max_address_reg;
+    logic                   zero_size_reg;
+    //
+    logic                   trans_start;
+    logic                   trans_complete;
+    logic [31 : 0]          amount_cnt;
+    logic [16 : 0]          scount_reg;
+    //
+    logic [11 : 0]          data_fis_cnt;
+    logic                   data_fis_complete;
+    
+    //------------------------------------------------------------------------------------
+    //      Модуль синхронизации сигналов асинхронного сброса (предустановки)
+    areset_synchronizer
+    #(
+        .EXTRA_STAGES   (1),            // Количество дополнительных ступеней цепи синхронизации
+        .ACTIVE_LEVEL   (1'b1)          // Активный уровень сигнала сброса
+    )
+    buffer_reset_synchronizer
+    (
+        // Сигнал тактирования
+        .clk            (usr_clk),      // i
+        
+        // Входной сброс (асинхронный 
+        // относительно сигнала тактирования)
+        .areset         (
+                            usr_reset |
+                            sata_reset
+                        ),              // i
+        
+        // Выходной сброс (синхронный 
+        // относительно сигнала тактирования)
+        .sreset         (buffer_reset)  // o
+    ); // buffer_reset_synchronizer
+    
+    //------------------------------------------------------------------------------------
+    //      Модуль синхронизации сигнала на последовательной триггерной цепочке
+    ff_synchronizer
+    #(
+        .WIDTH          (4),            // Разрядность синхронизируемой шины
+        .EXTRA_STAGES   (1),            // Количество дополнительных ступеней цепи синхронизации
+        .RESET_VALUE    ({4{1'b0}})     // Значение по умолчанию для ступеней цепи синхронизации
+    )
+    link_state_synchronizer
+    (
+        // Сброс и тактирование
+        .reset          (usr_reset),    // i
+        .clk            (usr_clk),      // i
+        
+        // Асинхронный входной сигнал
+        .async_data     ({
+                            sata_link_busy,
+                            sata_link_result
+                        }),             // i  [WIDTH - 1 : 0]
+        
+        // Синхронный выходной сигнал
+        .sync_data      ({
+                            link_busy,
+                            link_result
+                        })              // o  [WIDTH - 1 : 0]
+    ); // link_state_synchronizer
+    
+    //------------------------------------------------------------------------------------
+    //      Буфер синхронизации потоковых интерфейсов между двумя доменами тактирования
+    sata_dma_resync_buffer
+    #(
+        .DWIDTH     (33),           // Разрядность потока
+        .DEPTH      (BUFFER_DEPTH), // Глубина FIFO
+        .RAMTYPE    ("AUTO")        // Тип блоков встроенной памяти ("MLAB", "M20K", ...)
+    )
+    tx_resync_buffer
+    (
+        // Сброс и тактирование
+        .reset      (buffer_reset), // i
+        .wr_clk     (usr_clk),      // i
+        .rd_clk     (sata_clk),     // i
+        
+        // Входной потоковый интерфейс
+        .wr_dat     ({
+                        tx_dat,
+                        tx_eop
+                    }),             // i  [DWIDTH - 1 : 0]
+        .wr_val     (tx_val),       // i
+        .wr_rdy     (tx_rdy),       // o
+        
+        // Выходной потоковый интерфейс
+        .rd_dat     ({
+                        sata_tx_dat,
+                        sata_tx_eop
+                    }),             // o  [DWIDTH - 1 : 0]
+        .rd_val     (sata_tx_val),  // o
+        .rd_rdy     (sata_tx_rdy)   // i
+    ); // tx_resync_buffer
+    
+    //------------------------------------------------------------------------------------
+    //      Буфер синхронизации потоковых интерфейсов между двумя доменами тактирования
+    sata_dma_resync_buffer
+    #(
+        .DWIDTH     (34),           // Разрядность потока
+        .DEPTH      (BUFFER_DEPTH), // Глубина FIFO
+        .RAMTYPE    ("AUTO")        // Тип блоков встроенной памяти ("MLAB", "M20K", ...)
+    )
+    rx_resync_buffer
+    (
+        // Сброс и тактирование
+        .reset      (buffer_reset), // i
+        .wr_clk     (sata_clk),     // i
+        .rd_clk     (usr_clk),      // i
+        
+        // Входной потоковый интерфейс
+        .wr_dat     ({
+                        sata_rx_dat,
+                        sata_rx_eop,
+                        sata_rx_err
+                    }),             // i  [DWIDTH - 1 : 0]
+        .wr_val     (sata_rx_val),  // i
+        .wr_rdy     (sata_rx_rdy),  // o
+        
+        // Выходной потоковый интерфейс
+        .rd_dat     ({
+                        rx_dat,
+                        rx_eop,
+                        rx_err
+                    }),             // o  [DWIDTH - 1 : 0]
+        .rd_val     (rx_val),       // o
+        .rd_rdy     (rx_rdy)        // i
+    ); // rx_resync_buffer
+    
+    //------------------------------------------------------------------------------------
+    //      Модуль мультиплексирования потоковых интерфейсов
+    sata_dma_stream_mux
+    #(
+        .INPUTS     (2),            // Количество входов
+        .WIDTH      (33)            // Разрядность потока
+    )
+    tx_stream_mux
+    (
+        // Сигнал выбора
+        .select     (tx_select),    // i  [$clog2(INPUTS) - 1 : 0]
+        
+        // Входные потоковые интерфейсы
+        .i_dat      ({
+                        {
+                            usr_wr_dat,
+                            1'b0
+                        },
+                        {
+                            reg_fis_tx_dat,
+                            reg_fis_tx_eop
+                        }
+                    }),             // i  [INPUTS - 1 : 0][WIDTH - 1 : 0]
+        .i_val      ({
+                        usr_wr_val,
+                        reg_fis_tx_val
+                    }),             // i  [INPUTS - 1 : 0]
+        .i_rdy      ({
+                        usr_wr_rdy,
+                        reg_fis_tx_rdy
+                    }),             // o  [INPUTS - 1 : 0]
+        
+        // Выходной потоковый интерфейс
+        .o_dat      ({
+                        tx_dat,
+                        tx_eop
+                    }),             // o  [WIDTH - 1 : 0]
+        .o_val      (tx_val),       // o
+        .o_rdy      (tx_rdy)        // i
+    ); // tx_stream_mux
+    
+    //------------------------------------------------------------------------------------
+    //      Модуль демультиплексирования потоковых интерфейсов
+    sata_dma_stream_demux
+    #(
+        .OUTPUTS    (4),            // Количество выходов
+        .WIDTH      (34)            // Разрядность потока
+    )
+    rx_stream_demux
+    (
+        // Сигнал выбора
+        .select     (rx_select),    // i  [$clog2(OUTPUTS) - 1 : 0]
+        
+        // Входной потоковый интерфейс
+        .i_dat      ({
+                        rx_dat,
+                        rx_eop,
+                        rx_err
+                    }),             // i  [WIDTH - 1 : 0]
+        .i_val      (rx_val),       // i
+        .i_rdy      (rx_rdy),       // o
+        
+        // Выходные потоковые интерфейсы
+        .o_dat      ({
+                        // NC
+                        {
+                            usr_rd_dat,
+                            usr_rd_eop,
+                            usr_rd_err
+                        },
+                        {
+                            id_fis_rx_dat,
+                            id_fis_rx_eop,
+                            id_fis_rx_err
+                        },
+                        {
+                            reg_fis_rx_dat,
+                            reg_fis_rx_eop,
+                            reg_fis_rx_err
+                        }
+                    }),             // o  [OUTPUTS - 1 : 0][WIDTH - 1 : 0]
+        .o_val      ({
+                        // NC
+                        usr_rd_val,
+                        id_fis_rx_val,
+                        reg_fis_rx_val
+                    }),             // o  [OUTPUTS - 1 : 0]
+        .o_rdy      ({
+                        1'b1,
+                        usr_rd_rdy,
+                        id_fis_rx_rdy,
+                        reg_fis_rx_rdy
+                    })              // i  [OUTPUTS - 1 : 0]
+    ); // rx_stream_demux
+    
+    //------------------------------------------------------------------------------------
+    //      Модуль отправки фреймов SATA Register FIS
+    sata_reg_fis_sender
+    the_sata_reg_fis_sender
+    (
+        // Сброс и тактирование
+        .reset          (usr_reset),            // i
+        .clk            (usr_clk),              // i
+        
+        // Входной параллельный интерфейс передаваемого фрейма
+        .i_dat_type     (`REG_FIS_H2D),         // i  [7 : 0]
+        .i_dat_command  (h2d_dat_command),      // i  [7 : 0]
+        .i_dat_address  (h2d_dat_address),      // i  [47 : 0]
+        .i_dat_scount   (h2d_dat_scount),       // i  [15 : 0]
+        .i_val          (h2d_valid),            // i
+        .i_rdy          (h2d_ready),            // o
+        
+        // Выходной последовательный интерфейс передаваемого фрейма
+        .o_dat          (reg_fis_tx_dat),       // o  [31 : 0]
+        .o_val          (reg_fis_tx_val),       // o
+        .o_eop          (reg_fis_tx_eop),       // o
+        .o_rdy          (reg_fis_tx_rdy)        // i
+    ); // the_sata_reg_fis_sender
+    
+    //------------------------------------------------------------------------------------
+    //      Модуль приема фреймов SATA Register FIS, Setup PIO FIS
+    sata_reg_fis_receiver
+    the_sata_reg_fis_receiver
+    (
+        // Сброс и тактирование
+        .reset          (usr_reset),        // i
+        .clk            (usr_clk),          // i
+        
+        // Входной последовательный интерфейс принимаемого фрейма
+        .i_dat          (reg_fis_rx_dat),   // i  [31 : 0]
+        .i_val          (reg_fis_rx_val),   // i
+        .i_eop          (reg_fis_rx_eop),   // i
+        .i_err          (reg_fis_rx_err),   // i
+        .i_rdy          (reg_fis_rx_rdy),   // o
+        
+        // Выходной параллельный интерфейс принятого фрейма
+        .o_dat_type     (  ),               // o  [7 : 0]
+        .o_dat_status   (  ),               // o  [7 : 0]
+        .o_dat_error    (  ),               // o  [7 : 0]
+        .o_dat_address  (  ),               // o  [47 : 0]
+        .o_dat_scount   (  ),               // o  [15 : 0]
+        .o_dat_tcount   (  ),               // o  [15 : 0]
+        .o_dat_badcrc   (  ),               // o
+        .o_val          (  )                // o
+    ); // the_sata_reg_fis_receiver
+    
+    //------------------------------------------------------------------------------------
+    //      Модуль разбора фрейма данных с идентификационной информацией
+    sata_identify_parser
+    the_sata_identify_parser
+    (
+        // Сброс и тактирование
+        .reset              (usr_reset),                    // i
+        .clk                (usr_clk),                      // i
+        
+        // Входной последовательный интерфейс принимаемого фрейма
+        .i_dat              (id_fis_rx_dat),                // i  [31 : 0]
+        .i_val              (id_fis_rx_val),                // i
+        .i_eop              (id_fis_rx_eop),                // i
+        .i_err              (id_fis_rx_err),                // i
+        .i_rdy              (id_fis_rx_rdy),                // o
+        
+        // Выходной параллельный интерфейс идентификационной информации
+        .identify_done      (usr_info_valid),               // o
+        .sata1_supported    (usr_info_sata_supported[0]),   // o
+        .sata2_supported    (usr_info_sata_supported[1]),   // o
+        .sata3_supported    (usr_info_sata_supported[2]),   // o
+        .max_lba_address    (usr_info_max_lba_address),     // o  [47 : 0]
+        .bad_checksum       (  )                            // o
+    ); // the_sata_identify_parser
+    
+    //------------------------------------------------------------------------------------
+    //      Модуль формирования одиночных импульсов индикаторов фронта входного сигнала
+    edgedetector
+    #(
+        .INIT           (1'b0)      // Исходное значение регистра ('0 | '1)
+    )
+    link_busy_edgedetector
+    (
+        // Сброс и тактирование
+        .reset          (usr_reset),
+        .clk            (usr_clk),
+        
+        // Входной сигнал
+        .i_pulse        (link_busy),
+        
+        // Выходные импульсы индикаторы фронтов
+        .o_rise         (  ),
+        .o_fall         (link_done),
+        .o_either       (  )
+    ); // link_busy_edgedetector
+    
+    //------------------------------------------------------------------------------------
+    //      Кодирование состояний конечного автомата
+    (* syn_encoding = "gray" *) enum int unsigned {
+        st_rcv_init_d2h,
+        st_trm_id_h2d,
+        st_wait_id_h2d,
+        st_rcv_pio,
+        st_rcv_id_data,
+        st_ready,
+        st_check_params,
+        st_trm_rd_h2d,
+        st_wait_rd_h2d,
+        st_rcv_rd_data,
+        st_rd_fis_got,
+        st_rcv_rd_d2h,
+        st_rd_trans_complete,
+        st_hard_fault
+    } cstate, nstate;
+    
+    //------------------------------------------------------------------------------------
+    //      Регистр текущего состояния конечного автомата и его регистровые выходы
+    always @(posedge usr_reset, posedge usr_clk)
+        if (usr_reset) begin
+            cstate <= st_rcv_init_d2h;
+            cmd_ready_reg <= 1'b0;
+            cmd_fault_reg <= 1'b0;
+        end
+        else begin
+            cstate <= nstate;
+            cmd_ready_reg <= cmd_ready;
+            cmd_fault_reg <= cmd_fault;
+        end
+    
+    //------------------------------------------------------------------------------------
+    //      Логика формирования следующего состояния конечного автомата и его выходов
+    always_comb begin
+        
+        // Установка значений по умолчанию
+        tx_select = TX_REG;
+        rx_select = RX_NOTHING;
+        h2d_select = H2D_ID;
+        h2d_valid = 1'b0;
+        cmd_ready = 1'b0;
+        cmd_fault = cmd_fault_reg;
+        trans_start = 1'b0;
+        trans_complete = 1'b0;
+        data_fis_complete = 1'b0;
+        
+        // Выбор в зависимости от текущего состояния
+        case (cstate)
+            st_rcv_init_d2h: begin
+                rx_select = RX_REG;
+                
+                if (link_done)
+                    if (link_result == `LINK_RX_SUCCESS_CODE)
+                        nstate = st_trm_id_h2d;
+                    else if (link_result == `LINK_RX_FAULT_CODE)
+                        nstate = st_rcv_init_d2h;
+                    else
+                        nstate = st_hard_fault;
+                else
+                    nstate = st_rcv_init_d2h;
+            end
+            
+            st_trm_id_h2d: begin
+                h2d_valid = 1'b1;
+                
+                if (h2d_ready)
+                    nstate = st_wait_id_h2d;
+                else
+                    nstate = st_trm_id_h2d;
+            end
+            
+            st_wait_id_h2d: begin
+                if (link_done)
+                    if (link_result == `LINK_TX_SUCCESS_CODE)
+                        nstate = st_rcv_pio;
+                    else
+                        nstate = st_trm_id_h2d;
+                else
+                    nstate = st_wait_id_h2d;
+            end
+            
+            st_rcv_pio: begin
+                rx_select = RX_REG;
+                
+                if (link_done)
+                    if (link_result == `LINK_RX_SUCCESS_CODE)
+                        nstate = st_rcv_id_data;
+                    else if (link_result == `LINK_RX_FAULT_CODE)
+                        nstate = st_rcv_pio;
+                    else
+                        nstate = st_hard_fault;
+                else
+                    nstate = st_rcv_pio;
+            end
+            
+            st_rcv_id_data: begin
+                rx_select = RX_ID_DATA;
+                
+                if (link_done)
+                    if (link_result == `LINK_RX_SUCCESS_CODE) begin
+                        cmd_ready = 1'b1;
+                        nstate = st_ready;
+                    end
+                    else if (link_result == `LINK_RX_FAULT_CODE)
+                        nstate = st_rcv_id_data;
+                    else
+                        nstate = st_hard_fault;
+                else
+                    nstate = st_rcv_id_data;
+            end
+            
+            st_ready: begin
+                if (usr_cmd_valid) begin
+                    cmd_fault = 1'b0;
+                    nstate = st_check_params;
+                end
+                else begin
+                    cmd_ready = 1'b1;
+                    nstate = st_ready;
+                end
+            end
+            
+            st_check_params: begin
+                if (($unsigned(max_address_reg) > $unsigned(usr_info_max_lba_address)) | zero_size_reg) begin
+                    cmd_ready = 1'b1;
+                    cmd_fault = 1'b1;
+                    nstate = st_ready;
+                end
+                else begin
+                    if (type_reg) begin // TODO: Заглушка для записи
+                        cmd_ready = 1'b1;
+                        nstate = st_ready;
+                    end
+                    else
+                        nstate = st_trm_rd_h2d;
+                end
+            end
+            
+            st_trm_rd_h2d: begin
+                h2d_select = H2D_RD;
+                h2d_valid = 1'b1;
+                trans_start = h2d_ready;
+                
+                if (h2d_ready)
+                    nstate = st_wait_rd_h2d;
+                else
+                    nstate = st_trm_rd_h2d;
+            end
+            
+            st_wait_rd_h2d: begin
+                if (link_done)
+                    if (link_result == `LINK_TX_SUCCESS_CODE)
+                        nstate = st_rcv_rd_data;
+                    else
+                        nstate = st_trm_rd_h2d;
+                else
+                    nstate = st_wait_rd_h2d;
+            end
+            
+            st_rcv_rd_data: begin
+                rx_select = RX_DMA_DATA;
+                
+                if (link_done)
+                    if (link_result == `LINK_RX_SUCCESS_CODE) begin
+                        nstate = st_rd_fis_got;
+                    end
+                    else if (link_result == `LINK_RX_FAULT_CODE)
+                        nstate = st_rcv_rd_data;
+                    else
+                        nstate = st_hard_fault;
+                else
+                    nstate = st_rcv_rd_data;
+            end
+            
+            st_rd_fis_got: begin
+                data_fis_complete = 1'b1;
+                
+                if (data_fis_cnt == 1)
+                    nstate = st_rcv_rd_d2h;
+                else
+                    nstate = st_rcv_rd_data;
+            end
+            
+            st_rcv_rd_d2h: begin
+                rx_select = RX_REG;
+                
+                if (link_done)
+                    if (link_result == `LINK_RX_SUCCESS_CODE) begin
+                        nstate = st_rd_trans_complete;
+                    end
+                    else if (link_result == `LINK_RX_FAULT_CODE)
+                        nstate = st_rcv_rd_d2h;
+                    else
+                        nstate = st_hard_fault;
+                else
+                    nstate = st_rcv_rd_d2h;
+            end
+            
+            st_rd_trans_complete: begin
+                trans_complete = 1'b1;
+                
+                if (amount_cnt == 1)
+                    nstate = st_ready;
+                else
+                    nstate = st_trm_rd_h2d;
+            end
+            
+            st_hard_fault: begin
+                nstate = st_hard_fault;
+            end
+            
+            default: begin
+                nstate = st_hard_fault;
+            end
+        endcase
+        
+    end
+    
+    //------------------------------------------------------------------------------------
+    //      Признак готовности к приему очередной команды
+    assign usr_cmd_ready = cmd_ready_reg;
+    
+    //------------------------------------------------------------------------------------
+    //      Признак невозможности выполнения команды
+    assign usr_cmd_fault = cmd_fault_reg;
+    
+    //------------------------------------------------------------------------------------
+    //      Мультиплексирование передаваемых фреймов Register H2D
+    always_comb case (h2d_select)
+        H2D_RD: begin
+            h2d_dat_command = `READ_DMA_EXT_CMD;
+            h2d_dat_address = address_cnt;
+            h2d_dat_scount  = scount_reg[15 : 0];
+        end
+        
+        H2D_WR: begin
+            h2d_dat_command = `WRITE_DMA_EXT_CMD;
+            h2d_dat_address = address_cnt;
+            h2d_dat_scount  = scount_reg[15 : 0];
+        end
+        
+        default: begin
+            h2d_dat_command = `IDENTIFY_DEVICE_CMD;
+            h2d_dat_address = {48{1'b0}};
+            h2d_dat_scount  = scount_reg[15 : 0];
+        end
+    endcase
+    
+    //------------------------------------------------------------------------------------
+    //      Регистр типа операции
+    always @(posedge usr_reset, posedge usr_clk)
+        if (usr_reset)
+            type_reg <= '0;
+        else if (usr_cmd_ready)
+            type_reg <= usr_cmd_type;
+        else
+            type_reg <= type_reg;
+    
+    //------------------------------------------------------------------------------------
+    //      Счетчик адреса доступа
+    always @(posedge usr_reset, posedge usr_clk)
+        if (usr_reset)
+            address_cnt <= '0;
+        else if (usr_cmd_ready)
+            address_cnt <= usr_cmd_address;
+        else if (trans_start)
+            address_cnt <= address_cnt + scount_reg;
+        else
+            address_cnt <= address_cnt;
+    
+    //------------------------------------------------------------------------------------
+    //      Регистр адреса последнего сектора доступа
+    always @(posedge usr_reset, posedge usr_clk)
+        if (usr_reset)
+            max_address_reg <= '0;
+        else if (usr_cmd_ready)
+            max_address_reg <= {1'b0, usr_cmd_address} + {1'b0, usr_cmd_size};
+        else
+            max_address_reg <= max_address_reg;
+    
+    //------------------------------------------------------------------------------------
+    //      Регистр признака нулевой длины доступа
+    always @(posedge usr_reset, posedge usr_clk)
+        if (usr_reset)
+            zero_size_reg <= '0;
+        else if (usr_cmd_ready)
+            zero_size_reg <= (usr_cmd_size == 0);
+        else
+            zero_size_reg <= zero_size_reg;
+    
+    //------------------------------------------------------------------------------------
+    //      Счетчик количества транзакций доступа
+    always @(posedge usr_reset, posedge usr_clk)
+        if (usr_reset)
+            amount_cnt <= '0;
+        else if (usr_cmd_ready)
+            amount_cnt <= usr_cmd_size[47 : 16] + (usr_cmd_size[15 : 0] != 0);
+        else if (trans_complete)
+            amount_cnt <= amount_cnt - 1'b1;
+        else
+            amount_cnt <= amount_cnt;
+    
+    //------------------------------------------------------------------------------------
+    //      Регистр размера транзакции доступа в сектора
+    always @(posedge usr_reset, posedge usr_clk)
+        if (usr_reset)
+            scount_reg <= '0;
+        else if (usr_cmd_ready)
+            scount_reg <= {(usr_cmd_size[15 : 0] == 0), usr_cmd_size[15 : 0]};
+        else if (trans_start)
+            scount_reg <= `MAX_DMA_BURST;
+        else
+            scount_reg <= scount_reg;
+    
+    //------------------------------------------------------------------------------------
+    //      Счетчик фреймов данных
+    always @(posedge usr_reset, posedge usr_clk)
+        if (usr_reset)
+            data_fis_cnt <= '0;
+        else if (usr_cmd_ready)
+            data_fis_cnt <= usr_cmd_size[15 : 4] + (usr_cmd_size[3 : 0] != 0);
+        else if (data_fis_complete)
+            data_fis_cnt <= data_fis_cnt - 1'b1;
+        else
+            data_fis_cnt <= data_fis_cnt;
+    
+endmodule: sata_dma_engine
