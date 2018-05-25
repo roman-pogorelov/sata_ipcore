@@ -118,13 +118,8 @@ module sata_dma_engine
     localparam logic [1 : 0]    H2D_RD       = 2'h1;
     localparam logic [1 : 0]    H2D_WR       = 2'h2;
     //
-    localparam logic            TX_REG       = 1'b0;
-    localparam logic            TX_DATA      = 1'b1;
-    //
-    localparam logic [1 : 0]    RX_REG       = 2'h0;
-    localparam logic [1 : 0]    RX_ID_DATA   = 2'h1;
-    localparam logic [1 : 0]    RX_DMA_DATA  = 2'h2;
-    localparam logic [1 : 0]    RX_NOTHING   = 2'h3;
+    localparam logic            RX_DMA_DATA  = 1'b0;
+    localparam logic            RX_ID_DATA   = 1'b1;
     //
     localparam logic            RD_TYPE_CODE = 1'b0;
     localparam logic            WR_TYPE_CODE = 1'b1;
@@ -137,8 +132,7 @@ module sata_dma_engine
     logic [2 : 0]           link_result;
     logic                   link_done;
     //
-    logic                   tx_select;
-    logic [1 : 0]           rx_select;
+    logic                   rx_select;
     //
     logic [1 : 0]           h2d_select;
     logic [7 : 0]           h2d_dat_command;
@@ -169,11 +163,27 @@ module sata_dma_engine
     logic                   reg_fis_rx_err;
     logic                   reg_fis_rx_rdy;
     //
+    logic [31 : 0]          dma_act_fis_rx_dat;
+    logic                   dma_act_fis_rx_val;
+    logic                   dma_act_fis_rx_eop;
+    logic                   dma_act_fis_rx_err;
+    logic                   dma_act_fis_rx_rdy;
+    //
+    logic [31 : 0]          data_fis_rx_dat;
+    logic                   data_fis_rx_val;
+    logic                   data_fis_rx_eop;
+    logic                   data_fis_rx_err;
+    logic                   data_fis_rx_rdy;
+    //
     logic [31 : 0]          id_fis_rx_dat;
     logic                   id_fis_rx_val;
     logic                   id_fis_rx_eop;
     logic                   id_fis_rx_err;
     logic                   id_fis_rx_rdy;
+    //
+    logic                   reg_fis_rcvd_reg;
+    logic                   data_fis_rcvd_reg;
+    logic                   dma_act_fis_rcvd_reg;
     //
     logic                   cmd_ready;
     logic                   cmd_ready_reg;
@@ -185,13 +195,9 @@ module sata_dma_engine
     logic [48 : 0]          max_address_reg;
     logic                   zero_size_reg;
     //
-    logic                   trans_start;
     logic                   trans_complete;
     logic [31 : 0]          amount_cnt;
     logic [16 : 0]          scount_reg;
-    //
-    logic [11 : 0]          data_fis_cnt;
-    logic                   data_fis_complete;
     
     //------------------------------------------------------------------------------------
     //      Модуль синхронизации сигналов асинхронного сброса (предустановки)
@@ -245,8 +251,9 @@ module sata_dma_engine
     ); // link_state_synchronizer
     
     //------------------------------------------------------------------------------------
-    //      Буфер синхронизации потоковых интерфейсов между двумя доменами тактирования
-    sata_dma_resync_buffer
+    //      Буфер синхронизации потоковых интерфейсов фреймов SATA между 
+    //      двумя доменами тактирования
+    sata_fis_resynchronizer
     #(
         .DWIDTH     (33),           // Разрядность потока
         .DEPTH      (BUFFER_DEPTH), // Глубина FIFO
@@ -277,8 +284,9 @@ module sata_dma_engine
     ); // tx_resync_buffer
     
     //------------------------------------------------------------------------------------
-    //      Буфер синхронизации потоковых интерфейсов между двумя доменами тактирования
-    sata_dma_resync_buffer
+    //      Буфер синхронизации потоковых интерфейсов фреймов SATA между 
+    //      двумя доменами тактирования
+    sata_fis_resynchronizer
     #(
         .DWIDTH     (34),           // Разрядность потока
         .DEPTH      (BUFFER_DEPTH), // Глубина FIFO
@@ -311,99 +319,116 @@ module sata_dma_engine
     ); // rx_resync_buffer
     
     //------------------------------------------------------------------------------------
-    //      Модуль мультиплексирования потоковых интерфейсов
-    sata_dma_stream_mux
-    #(
-        .INPUTS     (2),            // Количество входов
-        .WIDTH      (33)            // Разрядность потока
-    )
-    tx_stream_mux
+    //      Арбитр потоковых интерфейсов фреймов SATA с приоритетом младшего
+    sata_fis_arbiter
+    the_sata_fis_arbiter
     (
-        // Сигнал выбора
-        .select     (tx_select),    // i  [$clog2(INPUTS) - 1 : 0]
+        // Сброс и тактирование
+        .reset      (usr_reset),        // i
+        .clk        (usr_clk),          // i
         
-        // Входные потоковые интерфейсы
-        .i_dat      ({
-                        {
-                            usr_wr_dat,
-                            1'b0
-                        },
-                        {
-                            reg_fis_tx_dat,
-                            reg_fis_tx_eop
-                        }
-                    }),             // i  [INPUTS - 1 : 0][WIDTH - 1 : 0]
-        .i_val      ({
-                        usr_wr_val,
-                        reg_fis_tx_val
-                    }),             // i  [INPUTS - 1 : 0]
-        .i_rdy      ({
-                        usr_wr_rdy,
-                        reg_fis_tx_rdy
-                    }),             // o  [INPUTS - 1 : 0]
+        // Входной потоковый интерфейс #1 фреймов SATA
+        .i1_dat     (reg_fis_tx_dat),   // i  [31 : 0]
+        .i1_val     (reg_fis_tx_val),   // i
+        .i1_eop     (reg_fis_tx_eop),   // i
+        .i1_rdy     (reg_fis_tx_rdy),   // o
         
-        // Выходной потоковый интерфейс
-        .o_dat      ({
-                        tx_dat,
-                        tx_eop
-                    }),             // o  [WIDTH - 1 : 0]
-        .o_val      (tx_val),       // o
-        .o_rdy      (tx_rdy)        // i
-    ); // tx_stream_mux
+        // Входной потоковый интерфейс #2 фреймов SATA
+        .i2_dat     ({32{1'b0}}),       // i  [31 : 0]
+        .i2_val     (1'b0),             // i
+        .i2_eop     (1'b0),             // i
+        .i2_rdy     (    ),             // o
+        
+        // Выходной потоковый интерфейс фреймов SATA
+        .o_dat      (tx_dat),           // o  [31 : 0]
+        .o_val      (tx_val),           // o
+        .o_eop      (tx_eop),           // o
+        .o_rdy      (tx_rdy)            // i
+    ); // the_sata_fis_arbiter
     
     //------------------------------------------------------------------------------------
-    //      Модуль демультиплексирования потоковых интерфейсов
-    sata_dma_stream_demux
-    #(
-        .OUTPUTS    (4),            // Количество выходов
-        .WIDTH      (34)            // Разрядность потока
-    )
-    rx_stream_demux
+    //      Маршрутизатор принимаемых SATA фреймов
+    sata_fis_router
+    rx_fis_router
     (
-        // Сигнал выбора
-        .select     (rx_select),    // i  [$clog2(OUTPUTS) - 1 : 0]
+        // Сброс и тактирование
+        .reset          (usr_reset),            // i
+        .clk            (usr_clk),              // i
         
-        // Входной потоковый интерфейс
-        .i_dat      ({
-                        rx_dat,
-                        rx_eop,
-                        rx_err
-                    }),             // i  [WIDTH - 1 : 0]
-        .i_val      (rx_val),       // i
-        .i_rdy      (rx_rdy),       // o
+        // Входной потоковый интерфейс принимаемых фреймов
+        .rx_dat         (rx_dat),               // i  [31 : 0]
+        .rx_val         (rx_val),               // i
+        .rx_eop         (rx_eop),               // i
+        .rx_err         (rx_err),               // i
+        .rx_rdy         (rx_rdy),               // o
         
-        // Выходные потоковые интерфейсы
-        .o_dat      ({
-                        // NC
-                        {
-                            usr_rd_dat,
-                            usr_rd_eop,
-                            usr_rd_err
-                        },
-                        {
-                            id_fis_rx_dat,
-                            id_fis_rx_eop,
-                            id_fis_rx_err
-                        },
-                        {
-                            reg_fis_rx_dat,
-                            reg_fis_rx_eop,
-                            reg_fis_rx_err
-                        }
-                    }),             // o  [OUTPUTS - 1 : 0][WIDTH - 1 : 0]
-        .o_val      ({
-                        // NC
-                        usr_rd_val,
-                        id_fis_rx_val,
-                        reg_fis_rx_val
-                    }),             // o  [OUTPUTS - 1 : 0]
-        .o_rdy      ({
-                        1'b1,
-                        usr_rd_rdy,
-                        id_fis_rx_rdy,
-                        reg_fis_rx_rdy
-                    })              // i  [OUTPUTS - 1 : 0]
-    ); // rx_stream_demux
+        // Выходной потоковый интерфейс фреймов 
+        // Register D->H и PIO Setup D->H
+        .reg_pio_dat    (reg_fis_rx_dat),       // o  [31 : 0]
+        .reg_pio_val    (reg_fis_rx_val),       // o
+        .reg_pio_eop    (reg_fis_rx_eop),       // o
+        .reg_pio_err    (reg_fis_rx_err),       // o
+        .reg_pio_rdy    (reg_fis_rx_rdy),       // i
+        
+        // Выходной потоковый интерфейс фреймов
+        // DMA Activate D->H
+        .dma_act_dat    (dma_act_fis_rx_dat),   // o  [31 : 0]
+        .dma_act_val    (dma_act_fis_rx_val),   // o
+        .dma_act_eop    (dma_act_fis_rx_eop),   // o
+        .dma_act_err    (dma_act_fis_rx_err),   // o
+        .dma_act_rdy    (dma_act_fis_rx_rdy),   // i
+        
+        // Выходной потоковый интерфейс фреймов
+        // данных D->H (с удаленными заголовками)
+        .data_dat       (data_fis_rx_dat),      // o  [31 : 0]
+        .data_val       (data_fis_rx_val),      // o
+        .data_eop       (data_fis_rx_eop),      // o
+        .data_err       (data_fis_rx_err),      // o
+        .data_rdy       (data_fis_rx_rdy),      // i
+        
+        // Выходной потоковый интерфейс фреймов
+        // остальных типов
+        .default_dat    (    ),                 // o  [31 : 0]
+        .default_val    (    ),                 // o
+        .default_eop    (    ),                 // o
+        .default_err    (    ),                 // o
+        .default_rdy    (1'b1)                  // i
+    ); // rx_fis_router
+    assign dma_act_fis_rx_rdy = 1'b1;
+    
+    //------------------------------------------------------------------------------------
+    //      Модуль демультиплексирования потоковых интерфейсов фреймов SATA
+    sata_fis_demux
+    rx_fis_demux
+    (
+        // Сброс и тактирование
+        .reset      (usr_reset),            // i
+        .clk        (usr_clk),              // i
+        
+        // Выбор выходного интерфейса
+        .select     (rx_select),            // i
+        
+        // Входной потоковый интерфейс фреймов SATA
+        .i_dat      (data_fis_rx_dat),      // i  [31 : 0]
+        .i_val      (data_fis_rx_val),      // i
+        .i_eop      (data_fis_rx_eop),      // i
+        .i_err      (data_fis_rx_err),      // i
+        .i_rdy      (data_fis_rx_rdy),      // o
+        
+        // Выходной потоковый интерфейс #1 фреймов SATA
+        .o1_dat     (usr_rd_dat),           // o  [31 : 0]
+        .o1_val     (usr_rd_val),           // o
+        .o1_eop     (usr_rd_eop),           // o
+        .o1_err     (usr_rd_err),           // o
+        .o1_rdy     (usr_rd_rdy),           // i
+        
+        // Выходной потоковый интерфейс #2 фреймов SATA
+        .o2_dat     (id_fis_rx_dat),        // o  [31 : 0]
+        .o2_val     (id_fis_rx_val),        // o
+        .o2_eop     (id_fis_rx_eop),        // o
+        .o2_err     (id_fis_rx_err),        // o
+        .o2_rdy     (id_fis_rx_rdy)         // i
+    ); // rx_fis_demux
     
     //------------------------------------------------------------------------------------
     //      Модуль отправки фреймов SATA Register FIS
@@ -506,17 +531,19 @@ module sata_dma_engine
     //      Кодирование состояний конечного автомата
     (* syn_encoding = "gray" *) enum int unsigned {
         st_rcv_init_d2h,
+        st_wait_init_d2h,
         st_trm_id_h2d,
         st_wait_id_h2d,
         st_rcv_pio,
+        st_wait_pio,
         st_rcv_id_data,
+        st_wait_id_data,
         st_ready,
         st_check_params,
         st_trm_rd_h2d,
         st_wait_rd_h2d,
         st_rcv_rd_data,
-        st_rd_fis_got,
-        st_rcv_rd_d2h,
+        st_wait_rd_data,
         st_rd_trans_complete,
         st_hard_fault
     } cstate, nstate;
@@ -540,22 +567,32 @@ module sata_dma_engine
     always_comb begin
         
         // Установка значений по умолчанию
-        tx_select = TX_REG;
-        rx_select = RX_NOTHING;
+        rx_select = RX_DMA_DATA;
         h2d_select = H2D_ID;
         h2d_valid = 1'b0;
         cmd_ready = 1'b0;
         cmd_fault = cmd_fault_reg;
-        trans_start = 1'b0;
         trans_complete = 1'b0;
-        data_fis_complete = 1'b0;
         
         // Выбор в зависимости от текущего состояния
         case (cstate)
             st_rcv_init_d2h: begin
-                rx_select = RX_REG;
-                
-                if (link_done)
+                if (reg_fis_rcvd_reg)
+                    if (~link_busy)
+                        if (link_result == `LINK_RX_SUCCESS_CODE)
+                            nstate = st_trm_id_h2d;
+                        else if (link_result == `LINK_RX_FAULT_CODE)
+                            nstate = st_rcv_init_d2h;
+                        else
+                            nstate = st_hard_fault;
+                    else
+                        nstate = st_wait_init_d2h;
+                else
+                    nstate = st_rcv_init_d2h;
+            end
+            
+            st_wait_init_d2h: begin
+                if (~link_busy)
                     if (link_result == `LINK_RX_SUCCESS_CODE)
                         nstate = st_trm_id_h2d;
                     else if (link_result == `LINK_RX_FAULT_CODE)
@@ -563,7 +600,7 @@ module sata_dma_engine
                     else
                         nstate = st_hard_fault;
                 else
-                    nstate = st_rcv_init_d2h;
+                    nstate = st_wait_init_d2h;
             end
             
             st_trm_id_h2d: begin
@@ -586,9 +623,22 @@ module sata_dma_engine
             end
             
             st_rcv_pio: begin
-                rx_select = RX_REG;
-                
-                if (link_done)
+                if (reg_fis_rcvd_reg)
+                    if (~link_busy)
+                        if (link_result == `LINK_RX_SUCCESS_CODE)
+                            nstate = st_rcv_id_data;
+                        else if (link_result == `LINK_RX_FAULT_CODE)
+                            nstate = st_rcv_pio;
+                        else
+                            nstate = st_hard_fault;
+                    else
+                        nstate = st_wait_pio;
+                else
+                    nstate = st_rcv_pio;
+            end
+            
+            st_wait_pio: begin
+                if (~link_busy)
                     if (link_result == `LINK_RX_SUCCESS_CODE)
                         nstate = st_rcv_id_data;
                     else if (link_result == `LINK_RX_FAULT_CODE)
@@ -596,23 +646,36 @@ module sata_dma_engine
                     else
                         nstate = st_hard_fault;
                 else
-                    nstate = st_rcv_pio;
+                    nstate = st_wait_pio;
             end
             
             st_rcv_id_data: begin
                 rx_select = RX_ID_DATA;
                 
-                if (link_done)
+                if (data_fis_rcvd_reg)
+                    if (~link_busy)
+                        if (link_result == `LINK_RX_SUCCESS_CODE) begin
+                            cmd_ready = 1'b1;
+                            nstate = st_ready;
+                        end
+                        else
+                            nstate = st_hard_fault;
+                    else
+                        nstate = st_wait_id_data;
+                else
+                    nstate = st_rcv_id_data;
+            end
+            
+            st_wait_id_data: begin
+                if (~link_busy)
                     if (link_result == `LINK_RX_SUCCESS_CODE) begin
                         cmd_ready = 1'b1;
                         nstate = st_ready;
                     end
-                    else if (link_result == `LINK_RX_FAULT_CODE)
-                        nstate = st_rcv_id_data;
                     else
                         nstate = st_hard_fault;
                 else
-                    nstate = st_rcv_id_data;
+                    nstate = st_wait_id_data;
             end
             
             st_ready: begin
@@ -645,7 +708,6 @@ module sata_dma_engine
             st_trm_rd_h2d: begin
                 h2d_select = H2D_RD;
                 h2d_valid = 1'b1;
-                trans_start = h2d_ready;
                 
                 if (h2d_ready)
                     nstate = st_wait_rd_h2d;
@@ -664,42 +726,32 @@ module sata_dma_engine
             end
             
             st_rcv_rd_data: begin
-                rx_select = RX_DMA_DATA;
-                
-                if (link_done)
+                if (reg_fis_rcvd_reg)
+                    if (~link_busy)
+                        if (link_result == `LINK_RX_SUCCESS_CODE) begin
+                            nstate = st_rd_trans_complete;
+                        end
+                        else if (link_result == `LINK_RX_FAULT_CODE)
+                            nstate = st_rcv_rd_data;
+                        else
+                            nstate = st_hard_fault;
+                    else
+                        nstate = st_wait_rd_data;
+                else
+                    nstate = st_rcv_rd_data;
+            end
+            
+            st_wait_rd_data: begin
+                if (~link_busy)
                     if (link_result == `LINK_RX_SUCCESS_CODE) begin
-                        nstate = st_rd_fis_got;
+                        nstate = st_rd_trans_complete;
                     end
                     else if (link_result == `LINK_RX_FAULT_CODE)
                         nstate = st_rcv_rd_data;
                     else
                         nstate = st_hard_fault;
                 else
-                    nstate = st_rcv_rd_data;
-            end
-            
-            st_rd_fis_got: begin
-                data_fis_complete = 1'b1;
-                
-                if (data_fis_cnt == 1)
-                    nstate = st_rcv_rd_d2h;
-                else
-                    nstate = st_rcv_rd_data;
-            end
-            
-            st_rcv_rd_d2h: begin
-                rx_select = RX_REG;
-                
-                if (link_done)
-                    if (link_result == `LINK_RX_SUCCESS_CODE) begin
-                        nstate = st_rd_trans_complete;
-                    end
-                    else if (link_result == `LINK_RX_FAULT_CODE)
-                        nstate = st_rcv_rd_d2h;
-                    else
-                        nstate = st_hard_fault;
-                else
-                    nstate = st_rcv_rd_d2h;
+                    nstate = st_wait_rd_data;
             end
             
             st_rd_trans_complete: begin
@@ -753,6 +805,30 @@ module sata_dma_engine
     endcase
     
     //------------------------------------------------------------------------------------
+    //      Регистр признака приема фрейма типа Reg D2H или PIO Setup
+    always @(posedge usr_reset, posedge usr_clk)
+        if (usr_reset)
+            reg_fis_rcvd_reg <= '0;
+        else
+            reg_fis_rcvd_reg <= reg_fis_rx_val & reg_fis_rx_rdy & reg_fis_rx_eop;
+    
+    //------------------------------------------------------------------------------------
+    //      Регистр признака приема фрейма типа Data
+    always @(posedge usr_reset, posedge usr_clk)
+        if (usr_reset)
+            data_fis_rcvd_reg <= '0;
+        else
+            data_fis_rcvd_reg <= data_fis_rx_val & data_fis_rx_rdy & data_fis_rx_eop;
+    
+    //------------------------------------------------------------------------------------
+    //      Регистр признака приема фрейма типа DMA Activate
+    always @(posedge usr_reset, posedge usr_clk)
+        if (usr_reset)
+            dma_act_fis_rcvd_reg <= '0;
+        else
+            dma_act_fis_rcvd_reg <= dma_act_fis_rx_val & dma_act_fis_rx_rdy & dma_act_fis_rx_eop;
+    
+    //------------------------------------------------------------------------------------
     //      Регистр типа операции
     always @(posedge usr_reset, posedge usr_clk)
         if (usr_reset)
@@ -769,7 +845,7 @@ module sata_dma_engine
             address_cnt <= '0;
         else if (usr_cmd_ready)
             address_cnt <= usr_cmd_address;
-        else if (trans_start)
+        else if (trans_complete)
             address_cnt <= address_cnt + scount_reg;
         else
             address_cnt <= address_cnt;
@@ -813,21 +889,9 @@ module sata_dma_engine
             scount_reg <= '0;
         else if (usr_cmd_ready)
             scount_reg <= {(usr_cmd_size[15 : 0] == 0), usr_cmd_size[15 : 0]};
-        else if (trans_start)
+        else if (trans_complete)
             scount_reg <= `MAX_DMA_BURST;
         else
             scount_reg <= scount_reg;
-    
-    //------------------------------------------------------------------------------------
-    //      Счетчик фреймов данных
-    always @(posedge usr_reset, posedge usr_clk)
-        if (usr_reset)
-            data_fis_cnt <= '0;
-        else if (usr_cmd_ready)
-            data_fis_cnt <= usr_cmd_size[15 : 4] + (usr_cmd_size[3 : 0] != 0);
-        else if (data_fis_complete)
-            data_fis_cnt <= data_fis_cnt - 1'b1;
-        else
-            data_fis_cnt <= data_fis_cnt;
     
 endmodule: sata_dma_engine

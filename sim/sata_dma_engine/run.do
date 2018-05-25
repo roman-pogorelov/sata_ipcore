@@ -1,7 +1,8 @@
 vlog +incdir+../../hdl/ -work work ../../hdl/sata_dma_engine.sv
-vlog +incdir+../../hdl/ -work work ../../hdl/sata_dma_resync_buffer.sv
-vlog +incdir+../../hdl/ -work work ../../hdl/sata_dma_stream_demux.sv
-vlog +incdir+../../hdl/ -work work ../../hdl/sata_dma_stream_mux.sv
+vlog +incdir+../../hdl/ -work work ../../hdl/sata_fis_resynchronizer.sv
+vlog +incdir+../../hdl/ -work work ../../hdl/sata_fis_arbiter.sv
+vlog +incdir+../../hdl/ -work work ../../hdl/sata_fis_router.sv
+vlog +incdir+../../hdl/ -work work ../../hdl/sata_fis_demux.sv
 vlog +incdir+../../hdl/ -work work ../../hdl/sata_identify_parser.sv
 vlog +incdir+../../hdl/ -work work ../../hdl/sata_reg_fis_receiver.sv
 vlog +incdir+../../hdl/ -work work ../../hdl/sata_reg_fis_sender.sv
@@ -10,8 +11,8 @@ vsim -fsmdebug work.sata_dma_engine_opt
 
 do wave.do
 
-force usr_reset 1 0ns, 0 30ns
-force usr_clk 1 0ns, 0 10ns -r 20ns
+force usr_reset 1 0ns, 0 15ns
+force usr_clk 1 0ns, 0 5ns -r 10ns
 
 force sata_reset 1 0ns, 0 15ns
 force sata_clk 1 0ns, 0 5ns -r 10ns
