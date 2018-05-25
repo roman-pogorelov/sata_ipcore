@@ -50,9 +50,9 @@ module sata_identify_parser
 );
     //------------------------------------------------------------------------------------
     //      Объявление констант
-    localparam int unsigned     FIS_LEN         = 128 + 1;
-    localparam int unsigned     SATA_CAP_OFFSET = 38 + 1;
-    localparam int unsigned     MAX_LBA_OFFSET  = 50 + 1;
+    localparam int unsigned     FIS_LEN         = 128;
+    localparam int unsigned     SATA_CAP_OFFSET = 38;
+    localparam int unsigned     MAX_LBA_OFFSET  = 50;
     
     //------------------------------------------------------------------------------------
     //      Объявление сигналов
@@ -88,7 +88,7 @@ module sata_identify_parser
             if (i_eop)
                 len_cnt <= '0;
             else if (len_cnt == 0)
-                len_cnt <= {len_cnt[$high(len_cnt) : 1], sop_reg & (i_dat[7 : 0] == `DATA_FIS)};
+                len_cnt <= {len_cnt[$high(len_cnt) : 1], sop_reg};
             else
                 len_cnt <= len_cnt + (len_cnt != FIS_LEN);
         else
@@ -100,7 +100,7 @@ module sata_identify_parser
         if (reset)
             done_reg <= '0;
         else if (done_reg)
-            done_reg <= ~(i_val & sop_reg & ~i_eop & (i_dat[7 : 0] == `DATA_FIS));
+            done_reg <= ~(i_val & sop_reg & ~i_eop);
         else
             done_reg <= i_val & i_eop & (len_cnt == (FIS_LEN - 1));
     assign identify_done = done_reg;
