@@ -1,13 +1,14 @@
 /*
     //------------------------------------------------------------------------------------
-    //      Буфер синхронизации потоковых интерфейсов между двумя доменами тактирования
-    sata_dma_resync_buffer
+    //      Буфер синхронизации потоковых интерфейсов фреймов SATA между 
+    //      двумя доменами тактирования
+    sata_fis_resynchronizer
     #(
         .DWIDTH     (), // Разрядность потока
         .DEPTH      (), // Глубина FIFO
         .RAMTYPE    ()  // Тип блоков встроенной памяти ("MLAB", "M20K", ...)
     )
-    the_sata_dma_resync_buffer
+    the_sata_fis_resynchronizer
     (
         // Сброс и тактирование
         .reset      (), // i
@@ -23,10 +24,10 @@
         .rd_dat     (), // o  [DWIDTH - 1 : 0]
         .rd_val     (), // o
         .rd_rdy     ()  // i
-    ); // the_sata_dma_resync_buffer
+    ); // the_sata_fis_resynchronizer
 */
 
-module sata_dma_resync_buffer
+module sata_fis_resynchronizer
 #(
     parameter                       DWIDTH  = 8,        // Разрядность потока
     parameter                       DEPTH   = 8,        // Глубина FIFO
@@ -93,4 +94,4 @@ module sata_dma_resync_buffer
     assign wr_rdy = ~fifo_wrfull;
     assign rd_val = ~fifo_rdempty;
     
-endmodule: sata_dma_resync_buffer
+endmodule: sata_fis_resynchronizer
