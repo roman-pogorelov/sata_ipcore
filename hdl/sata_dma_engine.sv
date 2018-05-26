@@ -157,6 +157,11 @@ module sata_dma_engine
     logic                   reg_fis_tx_eop;
     logic                   reg_fis_tx_rdy;
     //
+    logic [31 : 0]          data_fis_tx_dat;
+    logic                   data_fis_tx_val;
+    logic                   data_fis_tx_eop;
+    logic                   data_fis_tx_rdy;
+    //
     logic [31 : 0]          reg_fis_rx_dat;
     logic                   reg_fis_rx_val;
     logic                   reg_fis_rx_eop;
@@ -189,6 +194,9 @@ module sata_dma_engine
     logic                   cmd_ready_reg;
     logic                   cmd_fault;
     logic                   cmd_fault_reg;
+    //
+    logic                   tx_shaper_valid;
+    logic                   tx_shaper_ready;
     //
     logic                   type_reg;
     logic [47 : 0]          address_cnt;
@@ -319,6 +327,32 @@ module sata_dma_engine
     ); // rx_resync_buffer
     
     //------------------------------------------------------------------------------------
+    //      Модуль формирования фреймов данных SATA из потока данных
+    sata_fis_data_shaper
+    sata_tx_fis_data_shaper
+    (
+        // Сброс и тактирование
+        .reset      (usr_reset),            // i
+        .clk        (usr_clk),              // i
+        
+        // Интерфейс управления
+        .ctl_valid  (tx_shaper_valid),      // i
+        .ctl_count  (scount_reg[15 : 0]),   // i  [15 : 0]
+        .ctl_ready  (tx_shaper_ready),      // o
+        
+        // Входной потоковый интерфейс
+        .i_dat      (usr_wr_dat),           // i  [31 : 0]
+        .i_val      (usr_wr_val),           // i
+        .i_rdy      (usr_wr_rdy),           // o
+        
+        // Выходной потоковый интерфейс
+        .o_dat      (data_fis_tx_dat),      // o  [31 : 0]
+        .o_val      (data_fis_tx_val),      // o
+        .o_eop      (data_fis_tx_eop),      // o
+        .o_rdy      (data_fis_tx_rdy)       // i
+    ); // sata_tx_fis_data_shaper
+    
+    //------------------------------------------------------------------------------------
     //      Арбитр потоковых интерфейсов фреймов SATA с приоритетом младшего
     sata_fis_arbiter
     the_sata_fis_arbiter
@@ -334,10 +368,10 @@ module sata_dma_engine
         .i1_rdy     (reg_fis_tx_rdy),   // o
         
         // Входной потоковый интерфейс #2 фреймов SATA
-        .i2_dat     ({32{1'b0}}),       // i  [31 : 0]
-        .i2_val     (1'b0),             // i
-        .i2_eop     (1'b0),             // i
-        .i2_rdy     (    ),             // o
+        .i2_dat     (data_fis_tx_dat),  // i  [31 : 0]
+        .i2_val     (data_fis_tx_val),  // i
+        .i2_eop     (data_fis_tx_eop),  // i
+        .i2_rdy     (data_fis_tx_rdy),  // o
         
         // Выходной потоковый интерфейс фреймов SATA
         .o_dat      (tx_dat),           // o  [31 : 0]
@@ -545,6 +579,14 @@ module sata_dma_engine
         st_rcv_rd_data,
         st_wait_rd_data,
         st_rd_trans_complete,
+        st_trm_wr_h2d,
+        st_wait_wr_h2d,
+        st_rcv_dma_act,
+        st_wait_dma_act,
+        st_run_tx_shaper,
+        st_send_wr_data,
+        st_wait_wr_data,
+        st_wr_trans_complete,
         st_hard_fault
     } cstate, nstate;
     
@@ -572,6 +614,7 @@ module sata_dma_engine
         h2d_valid = 1'b0;
         cmd_ready = 1'b0;
         cmd_fault = cmd_fault_reg;
+        tx_shaper_valid = 1'b0;
         trans_complete = 1'b0;
         
         // Выбор в зависимости от текущего состояния
@@ -696,10 +739,8 @@ module sata_dma_engine
                     nstate = st_ready;
                 end
                 else begin
-                    if (type_reg) begin // TODO: Заглушка для записи
-                        cmd_ready = 1'b1;
-                        nstate = st_ready;
-                    end
+                    if (type_reg)
+                        nstate = st_trm_wr_h2d;
                     else
                         nstate = st_trm_rd_h2d;
                 end
@@ -728,9 +769,8 @@ module sata_dma_engine
             st_rcv_rd_data: begin
                 if (reg_fis_rcvd_reg)
                     if (~link_busy)
-                        if (link_result == `LINK_RX_SUCCESS_CODE) begin
+                        if (link_result == `LINK_RX_SUCCESS_CODE)
                             nstate = st_rd_trans_complete;
-                        end
                         else if (link_result == `LINK_RX_FAULT_CODE)
                             nstate = st_rcv_rd_data;
                         else
@@ -743,9 +783,8 @@ module sata_dma_engine
             
             st_wait_rd_data: begin
                 if (~link_busy)
-                    if (link_result == `LINK_RX_SUCCESS_CODE) begin
+                    if (link_result == `LINK_RX_SUCCESS_CODE)
                         nstate = st_rd_trans_complete;
-                    end
                     else if (link_result == `LINK_RX_FAULT_CODE)
                         nstate = st_rcv_rd_data;
                     else
@@ -757,10 +796,102 @@ module sata_dma_engine
             st_rd_trans_complete: begin
                 trans_complete = 1'b1;
                 
-                if (amount_cnt == 1)
+                if (amount_cnt == 1) begin
+                    cmd_ready = 1'b1;
                     nstate = st_ready;
+                end
                 else
                     nstate = st_trm_rd_h2d;
+            end
+            
+            st_trm_wr_h2d: begin
+                h2d_select = H2D_WR;
+                h2d_valid = 1'b1;
+                
+                if (h2d_ready)
+                    nstate = st_wait_wr_h2d;
+                else
+                    nstate = st_trm_wr_h2d;
+            end
+            
+            st_wait_wr_h2d: begin
+                if (link_done)
+                    if (link_result == `LINK_TX_SUCCESS_CODE)
+                        nstate = st_rcv_dma_act;
+                    else
+                        nstate = st_trm_wr_h2d;
+                else
+                    nstate = st_wait_wr_h2d;
+            end
+            
+            st_rcv_dma_act: begin
+                if (dma_act_fis_rcvd_reg)
+                    if (~link_busy)
+                        if (link_result == `LINK_RX_SUCCESS_CODE)
+                            nstate = st_run_tx_shaper;
+                        else
+                            nstate = st_hard_fault;
+                    else
+                        nstate = st_wait_dma_act;
+                else
+                    nstate = st_rcv_dma_act;
+            end
+            
+            st_wait_dma_act: begin
+                if (~link_busy)
+                    if (link_result == `LINK_RX_SUCCESS_CODE)
+                        nstate = st_run_tx_shaper;
+                    else
+                        nstate = st_hard_fault;
+                else
+                    nstate = st_wait_dma_act;
+            end
+            
+            st_run_tx_shaper: begin
+                tx_shaper_valid = 1'b1;
+                
+                if (tx_shaper_ready)
+                    nstate = st_send_wr_data;
+                else
+                    nstate = st_run_tx_shaper;
+            end
+            
+            st_send_wr_data: begin
+                if (reg_fis_rcvd_reg)
+                    if (~link_busy)
+                        if (link_result == `LINK_RX_SUCCESS_CODE)
+                            nstate = st_wr_trans_complete;
+                        else if (link_result == `LINK_RX_FAULT_CODE)
+                            nstate =st_send_wr_data;
+                        else
+                            nstate = st_hard_fault;
+                    else
+                        nstate = st_wait_wr_data;
+                else
+                    nstate = st_send_wr_data;
+            end
+            
+            st_wait_wr_data: begin
+                if (~link_busy)
+                    if (link_result == `LINK_RX_SUCCESS_CODE)
+                        nstate = st_wr_trans_complete;
+                    else if (link_result == `LINK_RX_FAULT_CODE)
+                        nstate =st_send_wr_data;
+                    else
+                        nstate = st_hard_fault;
+                else
+                    nstate = st_wait_wr_data;
+            end
+            
+            st_wr_trans_complete: begin
+                trans_complete = 1'b1;
+                
+                if (amount_cnt == 1) begin
+                    cmd_ready = 1'b1;
+                    nstate = st_ready;
+                end
+                else
+                    nstate = st_trm_wr_h2d;
             end
             
             st_hard_fault: begin
