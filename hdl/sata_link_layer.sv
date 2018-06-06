@@ -197,12 +197,15 @@ module sata_link_layer
             state <= st_idle;
         else case (state)
             st_idle:
-                if (x_rdy_det)
-                    state <= st_rcv_wait_fifo;
-                else if (tx_fifo_empty)
-                    state <= st_idle;
+                if (tx_ready)
+                    if (x_rdy_det)
+                        state <= st_rcv_wait_fifo;
+                    else if (tx_fifo_empty)
+                        state <= st_idle;
+                    else
+                        state <= st_send_chk_rdy;
                 else
-                    state <= st_send_chk_rdy;
+                    state <= st_idle;
             
             st_send_chk_rdy:
                 if (x_rdy_det)
@@ -256,7 +259,7 @@ module sata_link_layer
             st_rcvr_hold:
                 if (sync_det)
                     state <= st_idle;
-                else if (hold_det)
+                else if (hold_det | align_det)
                     state <= st_rcvr_hold;
                 else
                     state <= st_send_data;
@@ -320,7 +323,7 @@ module sata_link_layer
                     state <= st_idle;
                 else if (eof_det)
                     state <= st_rcv_eof;
-                else if (hold_det)
+                else if (hold_det | align_det)
                     state <= st_rcv_hold;
                 else
                     state <= st_rcv_data;
@@ -366,7 +369,7 @@ module sata_link_layer
             link_result_reg <= `LINK_NOTHING_CODE;
         else case (state)
             st_idle:
-                if (x_rdy_det | ~tx_fifo_empty)
+                if ((x_rdy_det | ~tx_fifo_empty) & tx_ready)
                     link_result_reg <= `LINK_NOTHING_CODE;
                 else
                     link_result_reg <= link_result_reg;
