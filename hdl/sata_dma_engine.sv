@@ -197,6 +197,8 @@ module sata_dma_engine
     //
     logic                   tx_shaper_valid;
     logic                   tx_shaper_ready;
+    logic [10 : 0]          tx_shaper_count;
+    logic                   tx_shaper_1st_run_reg;
     //
     logic                   type_reg;
     logic [47 : 0]          address_cnt;
@@ -337,7 +339,7 @@ module sata_dma_engine
         
         // Интерфейс управления
         .ctl_valid  (tx_shaper_valid),      // i
-        .ctl_count  (scount_reg[15 : 0]),   // i  [15 : 0]
+        .ctl_count  (tx_shaper_count),      // i  [10 : 0]
         .ctl_ready  (tx_shaper_ready),      // o
         
         // Входной потоковый интерфейс
@@ -581,17 +583,17 @@ module sata_dma_engine
         st_rd_trans_complete,
         st_trm_wr_h2d,
         st_wait_wr_h2d,
-        st_rcv_dma_act,
+        st_wr_wait_resp,
         st_wait_dma_act,
         st_run_tx_shaper,
-        st_send_wr_data,
-        st_wait_wr_data,
+        st_wait_wr_d2h,
         st_wr_trans_complete,
         st_hard_fault
     } cstate, nstate;
     
     //------------------------------------------------------------------------------------
     //      Регистр текущего состояния конечного автомата и его регистровые выходы
+    initial cstate = st_rcv_init_d2h;
     always @(posedge usr_reset, posedge usr_clk)
         if (usr_reset) begin
             cstate <= st_rcv_init_d2h;
@@ -621,29 +623,29 @@ module sata_dma_engine
         case (cstate)
             st_rcv_init_d2h: begin
                 if (reg_fis_rcvd_reg)
-                    if (~link_busy)
-                        if (link_result == `LINK_RX_SUCCESS_CODE)
-                            nstate = st_trm_id_h2d;
-                        else if (link_result == `LINK_RX_FAULT_CODE)
-                            nstate = st_rcv_init_d2h;
-                        else
-                            nstate = st_hard_fault;
-                    else
+                    // if (~link_busy)
+                        // if (link_result == `LINK_RX_SUCCESS_CODE)
+                            // nstate = st_trm_id_h2d;
+                        // else if (link_result == `LINK_RX_FAULT_CODE)
+                            // nstate = st_rcv_init_d2h;
+                        // else
+                            // nstate = st_hard_fault;
+                    // else
                         nstate = st_wait_init_d2h;
                 else
                     nstate = st_rcv_init_d2h;
             end
             
             st_wait_init_d2h: begin
-                if (~link_busy)
-                    if (link_result == `LINK_RX_SUCCESS_CODE)
+                // if (~link_busy)
+                    // if (link_result == `LINK_RX_SUCCESS_CODE)
                         nstate = st_trm_id_h2d;
-                    else if (link_result == `LINK_RX_FAULT_CODE)
-                        nstate = st_rcv_init_d2h;
-                    else
-                        nstate = st_hard_fault;
-                else
-                    nstate = st_wait_init_d2h;
+                    // else if (link_result == `LINK_RX_FAULT_CODE)
+                        // nstate = st_rcv_init_d2h;
+                    // else
+                        // nstate = st_hard_fault;
+                // else
+                    // nstate = st_wait_init_d2h;
             end
             
             st_trm_id_h2d: begin
@@ -656,69 +658,69 @@ module sata_dma_engine
             end
             
             st_wait_id_h2d: begin
-                if (link_done)
-                    if (link_result == `LINK_TX_SUCCESS_CODE)
+                // if (link_done)
+                    // if (link_result == `LINK_TX_SUCCESS_CODE)
                         nstate = st_rcv_pio;
-                    else
-                        nstate = st_trm_id_h2d;
-                else
-                    nstate = st_wait_id_h2d;
+                    // else
+                        // nstate = st_trm_id_h2d;
+                // else
+                    // nstate = st_wait_id_h2d;
             end
             
             st_rcv_pio: begin
                 if (reg_fis_rcvd_reg)
-                    if (~link_busy)
-                        if (link_result == `LINK_RX_SUCCESS_CODE)
-                            nstate = st_rcv_id_data;
-                        else if (link_result == `LINK_RX_FAULT_CODE)
-                            nstate = st_rcv_pio;
-                        else
-                            nstate = st_hard_fault;
-                    else
+                    // if (~link_busy)
+                        // if (link_result == `LINK_RX_SUCCESS_CODE)
+                            // nstate = st_rcv_id_data;
+                        // else if (link_result == `LINK_RX_FAULT_CODE)
+                            // nstate = st_rcv_pio;
+                        // else
+                            // nstate = st_hard_fault;
+                    // else
                         nstate = st_wait_pio;
                 else
                     nstate = st_rcv_pio;
             end
             
             st_wait_pio: begin
-                if (~link_busy)
-                    if (link_result == `LINK_RX_SUCCESS_CODE)
+                // if (~link_busy)
+                    // if (link_result == `LINK_RX_SUCCESS_CODE)
                         nstate = st_rcv_id_data;
-                    else if (link_result == `LINK_RX_FAULT_CODE)
-                        nstate = st_rcv_pio;
-                    else
-                        nstate = st_hard_fault;
-                else
-                    nstate = st_wait_pio;
+                    // else if (link_result == `LINK_RX_FAULT_CODE)
+                        // nstate = st_rcv_pio;
+                    // else
+                        // nstate = st_hard_fault;
+                // else
+                    // nstate = st_wait_pio;
             end
             
             st_rcv_id_data: begin
                 rx_select = RX_ID_DATA;
                 
                 if (data_fis_rcvd_reg)
-                    if (~link_busy)
-                        if (link_result == `LINK_RX_SUCCESS_CODE) begin
-                            cmd_ready = 1'b1;
-                            nstate = st_ready;
-                        end
-                        else
-                            nstate = st_hard_fault;
-                    else
+                    // if (~link_busy)
+                        // if (link_result == `LINK_RX_SUCCESS_CODE) begin
+                            // cmd_ready = 1'b1;
+                            // nstate = st_ready;
+                        // end
+                        // else
+                            // nstate = st_hard_fault;
+                    // else
                         nstate = st_wait_id_data;
                 else
                     nstate = st_rcv_id_data;
             end
             
             st_wait_id_data: begin
-                if (~link_busy)
-                    if (link_result == `LINK_RX_SUCCESS_CODE) begin
+                // if (~link_busy)
+                    // if (link_result == `LINK_RX_SUCCESS_CODE) begin
                         cmd_ready = 1'b1;
                         nstate = st_ready;
-                    end
-                    else
-                        nstate = st_hard_fault;
-                else
-                    nstate = st_wait_id_data;
+                    // end
+                    // else
+                        // nstate = st_hard_fault;
+                // else
+                    // nstate = st_wait_id_data;
             end
             
             st_ready: begin
@@ -757,40 +759,40 @@ module sata_dma_engine
             end
             
             st_wait_rd_h2d: begin
-                if (link_done)
-                    if (link_result == `LINK_TX_SUCCESS_CODE)
+                // if (link_done)
+                    // if (link_result == `LINK_TX_SUCCESS_CODE)
                         nstate = st_rcv_rd_data;
-                    else
-                        nstate = st_trm_rd_h2d;
-                else
-                    nstate = st_wait_rd_h2d;
+                    // else
+                        // nstate = st_trm_rd_h2d;
+                // else
+                    // nstate = st_wait_rd_h2d;
             end
             
             st_rcv_rd_data: begin
                 if (reg_fis_rcvd_reg)
-                    if (~link_busy)
-                        if (link_result == `LINK_RX_SUCCESS_CODE)
-                            nstate = st_rd_trans_complete;
-                        else if (link_result == `LINK_RX_FAULT_CODE)
-                            nstate = st_rcv_rd_data;
-                        else
-                            nstate = st_hard_fault;
-                    else
+                    // if (~link_busy)
+                        // if (link_result == `LINK_RX_SUCCESS_CODE)
+                            // nstate = st_rd_trans_complete;
+                        // else if (link_result == `LINK_RX_FAULT_CODE)
+                            // nstate = st_rcv_rd_data;
+                        // else
+                            // nstate = st_hard_fault;
+                    // else
                         nstate = st_wait_rd_data;
                 else
                     nstate = st_rcv_rd_data;
             end
             
             st_wait_rd_data: begin
-                if (~link_busy)
-                    if (link_result == `LINK_RX_SUCCESS_CODE)
+                // if (~link_busy)
+                    // if (link_result == `LINK_RX_SUCCESS_CODE)
                         nstate = st_rd_trans_complete;
-                    else if (link_result == `LINK_RX_FAULT_CODE)
-                        nstate = st_rcv_rd_data;
-                    else
-                        nstate = st_hard_fault;
-                else
-                    nstate = st_wait_rd_data;
+                    // else if (link_result == `LINK_RX_FAULT_CODE)
+                        // nstate = st_rcv_rd_data;
+                    // else
+                        // nstate = st_hard_fault;
+                // else
+                    // nstate = st_wait_rd_data;
             end
             
             st_rd_trans_complete: begin
@@ -815,72 +817,63 @@ module sata_dma_engine
             end
             
             st_wait_wr_h2d: begin
-                if (link_done)
-                    if (link_result == `LINK_TX_SUCCESS_CODE)
-                        nstate = st_rcv_dma_act;
-                    else
-                        nstate = st_trm_wr_h2d;
-                else
-                    nstate = st_wait_wr_h2d;
+                // if (link_done)
+                    // if (link_result == `LINK_TX_SUCCESS_CODE)
+                        nstate = st_wr_wait_resp;
+                    // else
+                        // nstate = st_trm_wr_h2d;
+                // else
+                    // nstate = st_wait_wr_h2d;
             end
             
-            st_rcv_dma_act: begin
+            st_wr_wait_resp: begin
                 if (dma_act_fis_rcvd_reg)
-                    if (~link_busy)
-                        if (link_result == `LINK_RX_SUCCESS_CODE)
-                            nstate = st_run_tx_shaper;
-                        else
-                            nstate = st_hard_fault;
-                    else
+                    // if (~link_busy)
+                        // if (link_result == `LINK_RX_SUCCESS_CODE)
+                            // nstate = st_run_tx_shaper;
+                        // else
+                            // nstate = st_hard_fault;
+                    // else
                         nstate = st_wait_dma_act;
+                else if (reg_fis_rcvd_reg)
+                    // if (~link_busy)
+                        // if (link_result == `LINK_RX_SUCCESS_CODE)
+                            // nstate = st_wr_trans_complete;
+                        // else
+                            // nstate = st_hard_fault;
+                    // else
+                        nstate = st_wait_wr_d2h;
                 else
-                    nstate = st_rcv_dma_act;
+                    nstate = st_wr_wait_resp;
             end
             
             st_wait_dma_act: begin
-                if (~link_busy)
-                    if (link_result == `LINK_RX_SUCCESS_CODE)
+                // if (~link_busy)
+                    // if (link_result == `LINK_RX_SUCCESS_CODE)
                         nstate = st_run_tx_shaper;
-                    else
-                        nstate = st_hard_fault;
-                else
-                    nstate = st_wait_dma_act;
+                    // else
+                        // nstate = st_hard_fault;
+                // else
+                    // nstate = st_wait_dma_act;
             end
             
             st_run_tx_shaper: begin
                 tx_shaper_valid = 1'b1;
                 
                 if (tx_shaper_ready)
-                    nstate = st_send_wr_data;
+                    nstate = st_wr_wait_resp;
                 else
                     nstate = st_run_tx_shaper;
             end
             
-            st_send_wr_data: begin
-                if (reg_fis_rcvd_reg)
-                    if (~link_busy)
-                        if (link_result == `LINK_RX_SUCCESS_CODE)
-                            nstate = st_wr_trans_complete;
-                        else if (link_result == `LINK_RX_FAULT_CODE)
-                            nstate =st_send_wr_data;
-                        else
-                            nstate = st_hard_fault;
-                    else
-                        nstate = st_wait_wr_data;
-                else
-                    nstate = st_send_wr_data;
-            end
-            
-            st_wait_wr_data: begin
-                if (~link_busy)
-                    if (link_result == `LINK_RX_SUCCESS_CODE)
+            st_wait_wr_d2h: begin
+                // if (~link_busy)
+                    // if (link_result == `LINK_RX_SUCCESS_CODE)
                         nstate = st_wr_trans_complete;
-                    else if (link_result == `LINK_RX_FAULT_CODE)
-                        nstate =st_send_wr_data;
-                    else
-                        nstate = st_hard_fault;
-                else
-                    nstate = st_wait_wr_data;
+                    // else
+                        // nstate = st_hard_fault;
+                // else
+                    // nstate = st_wait_wr_d2h;
             end
             
             st_wr_trans_complete: begin
@@ -958,6 +951,21 @@ module sata_dma_engine
             dma_act_fis_rcvd_reg <= '0;
         else
             dma_act_fis_rcvd_reg <= dma_act_fis_rx_val & dma_act_fis_rx_rdy & dma_act_fis_rx_eop;
+    
+    //------------------------------------------------------------------------------------
+    //      Регистр индикатор первого запуска модуля формирования фреймов данных SATA
+    initial tx_shaper_1st_run_reg <= '1;
+    always @(posedge usr_reset, posedge usr_clk)
+        if (usr_reset)
+            tx_shaper_1st_run_reg <= '1;
+        else if (tx_shaper_1st_run_reg)
+            tx_shaper_1st_run_reg <= ~(tx_shaper_valid & tx_shaper_ready);
+        else
+            tx_shaper_1st_run_reg <= trans_complete;
+    
+    //------------------------------------------------------------------------------------
+    //      Количество слов в передаваемом фрейме данных SATA
+    assign tx_shaper_count = {{4{tx_shaper_1st_run_reg}} & scount_reg[3 : 0], {7{1'b0}}};
     
     //------------------------------------------------------------------------------------
     //      Регистр типа операции
