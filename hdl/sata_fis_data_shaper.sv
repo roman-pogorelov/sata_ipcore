@@ -10,7 +10,7 @@
         
         // Интерфейс управления
         .ctl_valid  (), // i
-        .ctl_count  (), // i  [15 : 0]
+        .ctl_count  (), // i  [10 : 0]
         .ctl_ready  (), // o
         
         // Входной потоковый интерфейс
@@ -36,7 +36,7 @@ module sata_fis_data_shaper
     
     // Интерфейс управления
     input  logic            ctl_valid,
-    input  logic [15 : 0]   ctl_count,
+    input  logic [10 : 0]   ctl_count,
     output logic            ctl_ready,
     
     // Входной потоковый интерфейс
@@ -54,7 +54,6 @@ module sata_fis_data_shaper
     //      Объявление сигналов
     logic                   o_sop_reg;
     logic                   pass_reg;
-    logic [11 : 0]          frame_cnt;
     logic [10 : 0]          word_cnt;
     
     //------------------------------------------------------------------------------------
@@ -74,22 +73,9 @@ module sata_fis_data_shaper
         if (reset)
             pass_reg <= '0;
         else if (pass_reg)
-            pass_reg <= ~(i_val & i_rdy & (frame_cnt == 1) & (word_cnt == 1));
+            pass_reg <= ~(i_val & i_rdy & (word_cnt == 1));
         else
             pass_reg <= ctl_valid;
-    
-    //------------------------------------------------------------------------------------
-    //      Счетчик фреймов
-    always @(posedge reset, posedge clk)
-        if (reset)
-            frame_cnt <= '0;
-        else if (pass_reg)
-            if (i_val & i_rdy & (word_cnt == 1))
-                frame_cnt <= frame_cnt - 1'b1;
-            else
-                frame_cnt <= frame_cnt;
-        else
-            frame_cnt <= ctl_count[15 : 4] + (ctl_count[3 : 0] != 0);
     
     //------------------------------------------------------------------------------------
     //      Счетчик слов фрейма
@@ -102,7 +88,7 @@ module sata_fis_data_shaper
             else
                 word_cnt <= word_cnt;
         else
-            word_cnt <= {ctl_count[3 : 0], {7{1'b0}}};
+            word_cnt <= ctl_count;
     
     //------------------------------------------------------------------------------------
     //      Признак готовности интерфейса управления

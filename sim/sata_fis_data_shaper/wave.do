@@ -18,11 +18,10 @@ add wave -noupdate /sata_fis_data_shaper/o_rdy
 add wave -noupdate -divider <NULL>
 add wave -noupdate /sata_fis_data_shaper/o_sop_reg
 add wave -noupdate /sata_fis_data_shaper/pass_reg
-add wave -noupdate -radix unsigned /sata_fis_data_shaper/frame_cnt
 add wave -noupdate -radix unsigned /sata_fis_data_shaper/word_cnt
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {0 ns} 0}
-quietly wave cursor active 0
+WaveRestoreCursors {{Cursor 1} {20 ns} 0}
+quietly wave cursor active 1
 configure wave -namecolwidth 150
 configure wave -valuecolwidth 100
 configure wave -justifyvalue left
