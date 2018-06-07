@@ -1,4 +1,4 @@
-vlog -work work ../../hdl/verilog/pcs_rate_match_fifo.sv
+vlog -work work ../../hdl/pcs_rate_match_fifo.sv
 vopt work.pcs_rate_match_fifo +acc -o pcs_rate_match_fifo_opt -L altera_mf_ver
 vsim -fsmdebug work.pcs_rate_match_fifo_opt
 

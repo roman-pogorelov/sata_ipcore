@@ -83,9 +83,9 @@ module sata_phy_layer
     localparam int unsigned         CLKFREQ = 150_000;
     localparam int unsigned         TIMEOUT = (880 * CLKFREQ) / 1000;
     localparam int unsigned         TCWIDTH = $clog2(TIMEOUT + 1);
-    localparam int unsigned         FIFOLEN = 32;
-    localparam int unsigned         MAXUSED = 24;
-    localparam int unsigned         MINUSED = 8;
+    localparam int unsigned         FIFOLEN = 10;
+    localparam int unsigned         MAXUSED = 7;
+    localparam int unsigned         MINUSED = 3;
     
     //------------------------------------------------------------------------------------
     //      Объявление сигналов

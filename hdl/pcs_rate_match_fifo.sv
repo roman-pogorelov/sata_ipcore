@@ -46,9 +46,9 @@ module pcs_rate_match_fifo
     parameter int unsigned              BYTES       = 8,            // Количество байт
     parameter logic [8 * BYTES - 1 : 0] DPATTERN    = 32'h7B4A4ABC, // Шаблон удаляемых/вставляемых данных
     parameter logic [BYTES - 1 : 0]     KPATTERN    = 4'h1,         // Шаблон удаляемых/вставляемых признаков контрольных символов
-    parameter int unsigned              FIFOLEN     = 32,           // Длина FIFO
-    parameter int unsigned              MAXUSED     = 20,           // Максимальное количество слов в FIFO
-    parameter int unsigned              MINUSED     = 10,           // Минимальное количество слов в FIFO
+    parameter int unsigned              FIFOLEN     = 10,           // Длина FIFO
+    parameter int unsigned              MAXUSED     = 7,            // Максимальное количество слов в FIFO
+    parameter int unsigned              MINUSED     = 3,            // Минимальное количество слов в FIFO
     parameter                           RAMTYPE     = "AUTO"        // Тип блоков встроенной памяти ("MLAB", "M20K", ...)
 )
 (
@@ -79,8 +79,7 @@ module pcs_rate_match_fifo
 );
     //------------------------------------------------------------------------------------
     //      Описание констан
-    localparam int unsigned             WTIME       = 4;
-    localparam int unsigned             HALFFIFOLEN = FIFOLEN / 2;
+    localparam int unsigned             WTIME = 4;
     
     //------------------------------------------------------------------------------------
     //      Объявление сигналов
@@ -180,7 +179,7 @@ module pcs_rate_match_fifo
             rd_state <= rd_st_init;
         else case (rd_state)
             rd_st_init:
-                if (fifo_rdcnt < HALFFIFOLEN)
+                if (fifo_rdcnt < MINUSED)
                     rd_state <= rd_st_init;
                 else
                     rd_state <= rd_st_normal;
