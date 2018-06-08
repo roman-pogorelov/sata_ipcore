@@ -2,9 +2,6 @@
     //------------------------------------------------------------------------------------
     //      Кодер OOB-последовательностей Serial ATA
     sata_oob_coder
-    #(
-        .CLKFREQ        ()  // Частота тактирования clk, кГц
-    )
     the_sata_oob_coder
     (
         // Сброс и тактирование
@@ -27,9 +24,6 @@
 */
 
 module sata_oob_coder
-#(
-    parameter int unsigned      CLKFREQ = 100_000   // Частота тактирования clk, кГц
-)
 (
     // Сброс и тактирование
     input  logic                reset,
@@ -50,10 +44,9 @@ module sata_oob_coder
 );
     //------------------------------------------------------------------------------------
     //      Описание констант
-    localparam int unsigned     REFFREQ     = 1_500_000;
-    localparam int unsigned     BURST       = 16;//(160 * CLKFREQ + (REFFREQ / 2)) / REFFREQ;
-    localparam int unsigned     GAPINIT     = 48;//(480 * CLKFREQ + (REFFREQ / 2)) / REFFREQ;
-    localparam int unsigned     GAPWAKE     = 16;//(160 * CLKFREQ + (REFFREQ / 2)) / REFFREQ;
+    localparam int unsigned     BURST       = 16;
+    localparam int unsigned     GAPINIT     = 48;
+    localparam int unsigned     GAPWAKE     = 16;
     localparam int unsigned     BURSTWIDTH  = $clog2(BURST);
     localparam int unsigned     GAPWIDTH    = $clog2(GAPINIT);
     localparam int unsigned     AMOUNT      = 6;

@@ -3,8 +3,7 @@
     //      Модуль физического уровня стека SerialATA
     sata_phy_layer
     #(
-        .FPGAFAMILY         (), // Семейство FPGA ("Arria V" | "Arria 10")
-        .GENERATION         ()  // Поколение ("SATA1" | "SATA2" | "SATA3")
+        .FPGAFAMILY         ()  // Семейство FPGA ("Arria V" | "Arria 10")
     )
     the_sata_phy_layer
     (
@@ -44,8 +43,7 @@
 
 module sata_phy_layer
 #(
-    parameter               FPGAFAMILY  = "Arria V",    // Семейство FPGA ("Arria V" | "Arria 10")
-    parameter               GENERATION  = "SATA1"       // Поколение ("SATA1" | "SATA2" | "SATA3")
+    parameter               FPGAFAMILY  = "Arria V"     // Семейство FPGA ("Arria V" | "Arria 10")
 )
 (
     // Сброс и тактирование интерфейса реконфигурации
@@ -403,9 +401,6 @@ module sata_phy_layer
     //------------------------------------------------------------------------------------
     //      Кодер OOB-последовательностей Serial ATA
     sata_oob_coder
-    #(
-        .CLKFREQ        (CLKFREQ)               // Частота тактирования clk, кГц
-    )
     the_sata_oob_coder
     (
         // Сброс и тактирование
@@ -429,9 +424,6 @@ module sata_phy_layer
     //------------------------------------------------------------------------------------
     //      Декодер OOB-последовательностей Serial ATA
     sata_oob_decoder
-    #(
-        .CLKFREQ        (CLKFREQ)           // Частота тактирования clk, кГц
-    )
     the_sata_oob_decoder
     (
         // Сброс и тактирование
@@ -560,9 +552,6 @@ module sata_phy_layer
             //      Модуль высокоскоростного приемопередатчика ArriaV, настроенного для
             //      работы с интерфейсом SerialATA
             av_sata_xcvr
-            #(
-                .GENERATION         (GENERATION)                    // Поколение ("SATA1" | "SATA2" | "SATA3")
-            )
             the_av_sata_xcvr
             (
                 // Сброс и тактирование интерфейса реконфигурации

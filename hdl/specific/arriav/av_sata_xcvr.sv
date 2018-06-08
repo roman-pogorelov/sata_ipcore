@@ -3,9 +3,6 @@
     //      Модуль высокоскоростного приемопередатчика ArriaV, настроенного для
     //      работы с интерфейсом SerialATA
     av_sata_xcvr
-    #(
-        .GENERATION         ()  // Поколение ("SATA1" | "SATA2" | "SATA3")
-    )
     the_av_sata_xcvr
     (
         // Сброс и тактирование интерфейса реконфигурации
@@ -45,9 +42,6 @@
 */
 
 module av_sata_xcvr
-#(
-    parameter               GENERATION  = "SATA1"       // Поколение ("SATA1" | "SATA2" | "SATA3")
-)
 (
     // Сброс и тактирование интерфейса реконфигурации
     input  logic            reconfig_reset,

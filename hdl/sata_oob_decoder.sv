@@ -2,9 +2,6 @@
     //------------------------------------------------------------------------------------
     //      Декодер OOB-последовательностей Serial ATA
     sata_oob_decoder
-    #(
-        .CLKFREQ        ()  // Частота тактирования clk, кГц
-    )
     the_sata_oob_decoder
     (
         // Сброс и тактирование
@@ -24,9 +21,6 @@
 */
 
 module sata_oob_decoder
-#(
-    parameter int unsigned      CLKFREQ = 100_000   // Частота тактирования clk, кГц
-)
 (
     // Сброс и тактирование
     input  logic                reset,
@@ -44,13 +38,12 @@ module sata_oob_decoder
 );
     //------------------------------------------------------------------------------------
     //      Описание констант
-    localparam int unsigned     REFFREQ      = 1_500_000;
-    localparam int unsigned     BURST_MIN    = 14;//(152 * CLKFREQ) / REFFREQ - 1;
-    localparam int unsigned     BURST_MAX    = 18;//(168 * CLKFREQ + (REFFREQ - 1)) / REFFREQ + 1;
-    localparam int unsigned     GAPINIT_MIN  = 46;//(456 * CLKFREQ) / REFFREQ - 1;
-    localparam int unsigned     GAPINIT_MAX  = 50;//(504 * CLKFREQ + (REFFREQ - 1)) / REFFREQ + 1;
-    localparam int unsigned     GAPWAKE_MIN  = 14;//(152 * CLKFREQ) / REFFREQ - 1;
-    localparam int unsigned     GAPWAKE_MAX  = 18;//(168 * CLKFREQ + (REFFREQ - 1)) / REFFREQ + 1;
+    localparam int unsigned     BURST_MIN    = 14;
+    localparam int unsigned     BURST_MAX    = 18;
+    localparam int unsigned     GAPINIT_MIN  = 46;
+    localparam int unsigned     GAPINIT_MAX  = 50;
+    localparam int unsigned     GAPWAKE_MIN  = 14;
+    localparam int unsigned     GAPWAKE_MAX  = 18;
     localparam int unsigned     OOBFIN       = BURST_MAX * 5;
     localparam int unsigned     BURSTWIDTH   = $clog2(BURST_MAX + 2);
     localparam int unsigned     GAPINITWIDTH = $clog2(GAPINIT_MAX + 2);
