@@ -4,23 +4,15 @@
 
 `timescale 1 ps / 1 ps
 module a10_sata_xcvr_fpll_core (
-		output wire        pll_cal_busy,          //    pll_cal_busy.pll_cal_busy
-		output wire        pll_locked,            //      pll_locked.pll_locked
-		input  wire        pll_powerdown,         //   pll_powerdown.pll_powerdown
-		input  wire        pll_refclk0,           //     pll_refclk0.clk
-		input  wire        reconfig_write0,       //  reconfig_avmm0.write
-		input  wire        reconfig_read0,        //                .read
-		input  wire [9:0]  reconfig_address0,     //                .address
-		input  wire [31:0] reconfig_writedata0,   //                .writedata
-		output wire [31:0] reconfig_readdata0,    //                .readdata
-		output wire        reconfig_waitrequest0, //                .waitrequest
-		input  wire        reconfig_clk0,         //   reconfig_clk0.clk
-		input  wire        reconfig_reset0,       // reconfig_reset0.reset
-		output wire        tx_serial_clk          //   tx_serial_clk.clk
+		output wire  pll_cal_busy,  //  pll_cal_busy.pll_cal_busy
+		output wire  pll_locked,    //    pll_locked.pll_locked
+		input  wire  pll_powerdown, // pll_powerdown.pll_powerdown
+		input  wire  pll_refclk0,   //   pll_refclk0.clk
+		output wire  tx_serial_clk  // tx_serial_clk.clk
 	);
 
 	altera_xcvr_fpll_a10 #(
-		.enable_pll_reconfig                                                          (1),
+		.enable_pll_reconfig                                                          (0),
 		.rcfg_jtag_enable                                                             (0),
 		.rcfg_separate_avmm_busy                                                      (0),
 		.dbg_embedded_debug_enable                                                    (0),
@@ -37,11 +29,11 @@ module a10_sata_xcvr_fpll_core (
 		.cmu_fpll_fpll_cas_out_enable                                                 ("fpll_cas_out_disable"),
 		.cmu_fpll_fpll_hclk_out_enable                                                ("fpll_hclk_out_disable"),
 		.cmu_fpll_fpll_iqtxrxclk_out_enable                                           ("fpll_iqtxrxclk_out_disable"),
-		.cmu_fpll_l_counter                                                           (4),
+		.cmu_fpll_l_counter                                                           (1),
 		.cmu_fpll_m_counter                                                           (20),
 		.cmu_fpll_n_counter                                                           (1),
 		.cmu_fpll_out_freq_hz                                                         ("0 hz"),
-		.cmu_fpll_out_freq                                                            ("000000101100101101000001011110000000"),
+		.cmu_fpll_out_freq                                                            ("000010110010110100000101111000000000"),
 		.cmu_fpll_pll_vco_freq_band_0                                                 ("pll_freq_band0"),
 		.cmu_fpll_pll_vco_freq_band_1                                                 ("pll_freq_band0_1"),
 		.cmu_fpll_primary_use                                                         ("tx"),
@@ -52,7 +44,7 @@ module a10_sata_xcvr_fpll_core (
 		.cmu_fpll_vco_freq_hz                                                         ("6000000000"),
 		.cmu_fpll_vco_freq                                                            ("000101100101101000001011110000000000"),
 		.cmu_fpll_pll_bw_mode                                                         ("hi_bw"),
-		.cmu_fpll_datarate                                                            ("1500000000 bps"),
+		.cmu_fpll_datarate                                                            ("6000000000 bps"),
 		.cmu_fpll_pll_cmu_rstn_value                                                  ("true"),
 		.cmu_fpll_pll_lpf_rstn_value                                                  ("lpf_normal"),
 		.cmu_fpll_pll_ppm_clk0_src                                                    ("ppm_clk0_vss"),
@@ -111,7 +103,7 @@ module a10_sata_xcvr_fpll_core (
 		.cmu_fpll_pll_vco_ph0_value                                                   ("pll_vco_ph0_vss"),
 		.cmu_fpll_pll_vco_ph1_en                                                      ("false"),
 		.cmu_fpll_pll_vco_ph1_value                                                   ("pll_vco_ph1_vss"),
-		.cmu_fpll_pll_vco_ph2_en                                                      ("false"),
+		.cmu_fpll_pll_vco_ph2_en                                                      ("true"),
 		.cmu_fpll_pll_vco_ph2_value                                                   ("pll_vco_ph2_vss"),
 		.cmu_fpll_pll_vco_ph3_en                                                      ("false"),
 		.cmu_fpll_pll_vco_ph3_value                                                   ("pll_vco_ph3_vss"),
@@ -122,7 +114,7 @@ module a10_sata_xcvr_fpll_core (
 		.cmu_fpll_pll_dsm_fractional_division                                         ("1"),
 		.cmu_fpll_pll_dsm_fractional_value_ready                                      ("pll_k_ready"),
 		.cmu_fpll_pll_l_counter_bypass                                                ("false"),
-		.cmu_fpll_pll_l_counter                                                       (4),
+		.cmu_fpll_pll_l_counter                                                       (1),
 		.cmu_fpll_pll_l_counter_enable                                                ("true"),
 		.cmu_fpll_pll_lock_fltr_cfg                                                   (25),
 		.cmu_fpll_pll_lock_fltr_test                                                  ("pll_lock_fltr_nrm"),
@@ -152,7 +144,7 @@ module a10_sata_xcvr_fpll_core (
 		.cmu_fpll_duty_cycle_1                                                        (50),
 		.cmu_fpll_duty_cycle_2                                                        (50),
 		.cmu_fpll_duty_cycle_3                                                        (50),
-		.cmu_fpll_hssi_output_clock_frequency                                         ("750.0 MHz"),
+		.cmu_fpll_hssi_output_clock_frequency                                         ("3000.0 MHz"),
 		.cmu_fpll_is_cascaded_pll                                                     ("false"),
 		.cmu_fpll_output_clock_frequency_0                                            ("0 ps"),
 		.cmu_fpll_output_clock_frequency_1                                            ("0 ps"),
@@ -217,7 +209,7 @@ module a10_sata_xcvr_fpll_core (
 		.cmu_fpll_refclk_select_mux_mux1_inclk4_logical_to_physical_mapping           ("power_down"),
 		.enable_analog_resets                                                         (0),
 		.hip_cal_en                                                                   ("disable"),
-		.cmu_fpll_reconfig_en                                                         ("1"),
+		.cmu_fpll_reconfig_en                                                         ("0"),
 		.cmu_fpll_dps_en                                                              ("false"),
 		.cmu_fpll_calibration_en                                                      ("enable"),
 		.cmu_fpll_refclk_freq                                                         ("000000001000111100001101000110000000"),
@@ -228,7 +220,7 @@ module a10_sata_xcvr_fpll_core (
 		.hssi_pma_cgb_master_x1_div_m_sel                                             ("divbypass"),
 		.hssi_pma_cgb_master_cgb_enable_iqtxrxclk                                     ("disable_iqtxrxclk"),
 		.hssi_pma_cgb_master_ser_mode                                                 ("sixty_four_bit"),
-		.hssi_pma_cgb_master_datarate                                                 ("1500000000 bps"),
+		.hssi_pma_cgb_master_datarate                                                 ("6000000000 bps"),
 		.hssi_pma_cgb_master_cgb_power_down                                           ("normal_cgb"),
 		.hssi_pma_cgb_master_observe_cgb_clocks                                       ("observe_nothing"),
 		.hssi_pma_cgb_master_op_mode                                                  ("enabled"),
@@ -237,61 +229,61 @@ module a10_sata_xcvr_fpll_core (
 		.hssi_pma_cgb_master_input_select                                             ("fpll_top"),
 		.hssi_pma_cgb_master_input_select_gen3                                        ("unused")
 	) xcvr_fpll_a10_0 (
-		.pll_refclk0              (pll_refclk0),                          //     pll_refclk0.clk
-		.pll_powerdown            (pll_powerdown),                        //   pll_powerdown.pll_powerdown
-		.pll_locked               (pll_locked),                           //      pll_locked.pll_locked
-		.tx_serial_clk            (tx_serial_clk),                        //   tx_serial_clk.clk
-		.reconfig_clk0            (reconfig_clk0),                        //   reconfig_clk0.clk
-		.reconfig_reset0          (reconfig_reset0),                      // reconfig_reset0.reset
-		.reconfig_write0          (reconfig_write0),                      //  reconfig_avmm0.write
-		.reconfig_read0           (reconfig_read0),                       //                .read
-		.reconfig_address0        (reconfig_address0),                    //                .address
-		.reconfig_writedata0      (reconfig_writedata0),                  //                .writedata
-		.reconfig_readdata0       (reconfig_readdata0),                   //                .readdata
-		.reconfig_waitrequest0    (reconfig_waitrequest0),                //                .waitrequest
-		.pll_cal_busy             (pll_cal_busy),                         //    pll_cal_busy.pll_cal_busy
-		.pll_refclk1              (1'b0),                                 //     (terminated)
-		.pll_refclk2              (1'b0),                                 //     (terminated)
-		.pll_refclk3              (1'b0),                                 //     (terminated)
-		.pll_refclk4              (1'b0),                                 //     (terminated)
-		.outclk0                  (),                                     //     (terminated)
-		.outclk1                  (),                                     //     (terminated)
-		.outclk2                  (),                                     //     (terminated)
-		.outclk3                  (),                                     //     (terminated)
-		.pll_pcie_clk             (),                                     //     (terminated)
-		.fpll_to_fpll_cascade_clk (),                                     //     (terminated)
-		.hssi_pll_cascade_clk     (),                                     //     (terminated)
-		.atx_to_fpll_cascade_clk  (1'b0),                                 //     (terminated)
-		.avmm_busy0               (),                                     //     (terminated)
-		.hip_cal_done             (),                                     //     (terminated)
-		.phase_reset              (1'b0),                                 //     (terminated)
-		.phase_en                 (1'b0),                                 //     (terminated)
-		.updn                     (1'b0),                                 //     (terminated)
-		.cntsel                   (4'b0000),                              //     (terminated)
-		.phase_done               (),                                     //     (terminated)
-		.extswitch                (1'b0),                                 //     (terminated)
-		.activeclk                (),                                     //     (terminated)
-		.clkbad                   (),                                     //     (terminated)
-		.clklow                   (),                                     //     (terminated)
-		.fref                     (),                                     //     (terminated)
-		.mcgb_rst                 (1'b0),                                 //     (terminated)
-		.mcgb_aux_clk0            (1'b0),                                 //     (terminated)
-		.mcgb_aux_clk1            (1'b0),                                 //     (terminated)
-		.mcgb_aux_clk2            (1'b0),                                 //     (terminated)
-		.tx_bonding_clocks        (),                                     //     (terminated)
-		.mcgb_serial_clk          (),                                     //     (terminated)
-		.pcie_sw                  (2'b00),                                //     (terminated)
-		.pcie_sw_done             (),                                     //     (terminated)
-		.reconfig_clk1            (1'b0),                                 //     (terminated)
-		.reconfig_reset1          (1'b0),                                 //     (terminated)
-		.reconfig_write1          (1'b0),                                 //     (terminated)
-		.reconfig_read1           (1'b0),                                 //     (terminated)
-		.reconfig_address1        (10'b0000000000),                       //     (terminated)
-		.reconfig_writedata1      (32'b00000000000000000000000000000000), //     (terminated)
-		.reconfig_readdata1       (),                                     //     (terminated)
-		.reconfig_waitrequest1    (),                                     //     (terminated)
-		.mcgb_cal_busy            (),                                     //     (terminated)
-		.mcgb_hip_cal_done        ()                                      //     (terminated)
+		.pll_refclk0              (pll_refclk0),                          //   pll_refclk0.clk
+		.pll_powerdown            (pll_powerdown),                        // pll_powerdown.pll_powerdown
+		.pll_locked               (pll_locked),                           //    pll_locked.pll_locked
+		.tx_serial_clk            (tx_serial_clk),                        // tx_serial_clk.clk
+		.pll_cal_busy             (pll_cal_busy),                         //  pll_cal_busy.pll_cal_busy
+		.pll_refclk1              (1'b0),                                 //   (terminated)
+		.pll_refclk2              (1'b0),                                 //   (terminated)
+		.pll_refclk3              (1'b0),                                 //   (terminated)
+		.pll_refclk4              (1'b0),                                 //   (terminated)
+		.outclk0                  (),                                     //   (terminated)
+		.outclk1                  (),                                     //   (terminated)
+		.outclk2                  (),                                     //   (terminated)
+		.outclk3                  (),                                     //   (terminated)
+		.pll_pcie_clk             (),                                     //   (terminated)
+		.fpll_to_fpll_cascade_clk (),                                     //   (terminated)
+		.hssi_pll_cascade_clk     (),                                     //   (terminated)
+		.atx_to_fpll_cascade_clk  (1'b0),                                 //   (terminated)
+		.reconfig_clk0            (1'b0),                                 //   (terminated)
+		.reconfig_reset0          (1'b0),                                 //   (terminated)
+		.reconfig_write0          (1'b0),                                 //   (terminated)
+		.reconfig_read0           (1'b0),                                 //   (terminated)
+		.reconfig_address0        (10'b0000000000),                       //   (terminated)
+		.reconfig_writedata0      (32'b00000000000000000000000000000000), //   (terminated)
+		.reconfig_readdata0       (),                                     //   (terminated)
+		.reconfig_waitrequest0    (),                                     //   (terminated)
+		.avmm_busy0               (),                                     //   (terminated)
+		.hip_cal_done             (),                                     //   (terminated)
+		.phase_reset              (1'b0),                                 //   (terminated)
+		.phase_en                 (1'b0),                                 //   (terminated)
+		.updn                     (1'b0),                                 //   (terminated)
+		.cntsel                   (4'b0000),                              //   (terminated)
+		.phase_done               (),                                     //   (terminated)
+		.extswitch                (1'b0),                                 //   (terminated)
+		.activeclk                (),                                     //   (terminated)
+		.clkbad                   (),                                     //   (terminated)
+		.clklow                   (),                                     //   (terminated)
+		.fref                     (),                                     //   (terminated)
+		.mcgb_rst                 (1'b0),                                 //   (terminated)
+		.mcgb_aux_clk0            (1'b0),                                 //   (terminated)
+		.mcgb_aux_clk1            (1'b0),                                 //   (terminated)
+		.mcgb_aux_clk2            (1'b0),                                 //   (terminated)
+		.tx_bonding_clocks        (),                                     //   (terminated)
+		.mcgb_serial_clk          (),                                     //   (terminated)
+		.pcie_sw                  (2'b00),                                //   (terminated)
+		.pcie_sw_done             (),                                     //   (terminated)
+		.reconfig_clk1            (1'b0),                                 //   (terminated)
+		.reconfig_reset1          (1'b0),                                 //   (terminated)
+		.reconfig_write1          (1'b0),                                 //   (terminated)
+		.reconfig_read1           (1'b0),                                 //   (terminated)
+		.reconfig_address1        (10'b0000000000),                       //   (terminated)
+		.reconfig_writedata1      (32'b00000000000000000000000000000000), //   (terminated)
+		.reconfig_readdata1       (),                                     //   (terminated)
+		.reconfig_waitrequest1    (),                                     //   (terminated)
+		.mcgb_cal_busy            (),                                     //   (terminated)
+		.mcgb_hip_cal_done        ()                                      //   (terminated)
 	);
 
 endmodule

@@ -5,11 +5,11 @@
  version="1.0"
  fabric="QSYS">
  <!-- Format version 17.1 590 (Future versions may contain additional information.) -->
- <!-- 2018.02.17.12:59:27 -->
+ <!-- 2018.06.13.12:48:06 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1518861567</value>
+  <value>1528883286</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -36,7 +36,7 @@
  </parameter>
  <parameter name="AUTO_DEVICE">
   <type>java.lang.String</type>
-  <value>10AS016C3U19E2LG</value>
+  <value>10AX016C3U19I2SG</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -82,36 +82,6 @@
   <sysinfo_type>RESET_DOMAIN</sysinfo_type>
   <sysinfo_arg>pll_refclk0</sysinfo_arg>
  </parameter>
- <parameter name="AUTO_RECONFIG_CLK0_CLOCK_RATE">
-  <type>java.lang.Long</type>
-  <value>-1</value>
-  <derived>false</derived>
-  <enabled>true</enabled>
-  <visible>false</visible>
-  <valid>true</valid>
-  <sysinfo_type>CLOCK_RATE</sysinfo_type>
-  <sysinfo_arg>reconfig_clk0</sysinfo_arg>
- </parameter>
- <parameter name="AUTO_RECONFIG_CLK0_CLOCK_DOMAIN">
-  <type>java.lang.Integer</type>
-  <value>-1</value>
-  <derived>false</derived>
-  <enabled>true</enabled>
-  <visible>false</visible>
-  <valid>true</valid>
-  <sysinfo_type>CLOCK_DOMAIN</sysinfo_type>
-  <sysinfo_arg>reconfig_clk0</sysinfo_arg>
- </parameter>
- <parameter name="AUTO_RECONFIG_CLK0_RESET_DOMAIN">
-  <type>java.lang.Integer</type>
-  <value>-1</value>
-  <derived>false</derived>
-  <enabled>true</enabled>
-  <visible>false</visible>
-  <valid>true</valid>
-  <sysinfo_type>RESET_DOMAIN</sysinfo_type>
-  <sysinfo_arg>reconfig_clk0</sysinfo_arg>
- </parameter>
  <parameter name="deviceFamily">
   <type>java.lang.String</type>
   <value>Arria 10</value>
@@ -146,7 +116,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="enable_pll_reconfig">
    <type>int</type>
-   <value>1</value>
+   <value>0</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -164,7 +134,7 @@ the requested settings for a module instance. -->
    <type>int</type>
    <value>0</value>
    <derived>false</derived>
-   <enabled>true</enabled>
+   <enabled>false</enabled>
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
@@ -172,7 +142,7 @@ the requested settings for a module instance. -->
    <type>int</type>
    <value>0</value>
    <derived>false</derived>
-   <enabled>true</enabled>
+   <enabled>false</enabled>
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
@@ -180,7 +150,7 @@ the requested settings for a module instance. -->
    <type>int</type>
    <value>0</value>
    <derived>false</derived>
-   <enabled>true</enabled>
+   <enabled>false</enabled>
    <visible>false</visible>
    <valid>true</valid>
   </parameter>
@@ -188,7 +158,7 @@ the requested settings for a module instance. -->
    <type>int</type>
    <value>0</value>
    <derived>false</derived>
-   <enabled>true</enabled>
+   <enabled>false</enabled>
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
@@ -204,7 +174,7 @@ the requested settings for a module instance. -->
    <type>int</type>
    <value>0</value>
    <derived>false</derived>
-   <enabled>true</enabled>
+   <enabled>false</enabled>
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
@@ -212,7 +182,7 @@ the requested settings for a module instance. -->
    <type>int</type>
    <value>0</value>
    <derived>true</derived>
-   <enabled>true</enabled>
+   <enabled>false</enabled>
    <visible>false</visible>
    <valid>true</valid>
   </parameter>
@@ -252,7 +222,7 @@ the requested settings for a module instance. -->
    <type>java.lang.String</type>
    <value>altera_xcvr_fpll_a10</value>
    <derived>false</derived>
-   <enabled>true</enabled>
+   <enabled>false</enabled>
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
@@ -260,7 +230,7 @@ the requested settings for a module instance. -->
    <type>int</type>
    <value>0</value>
    <derived>false</derived>
-   <enabled>true</enabled>
+   <enabled>false</enabled>
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
@@ -268,7 +238,7 @@ the requested settings for a module instance. -->
    <type>int</type>
    <value>0</value>
    <derived>false</derived>
-   <enabled>true</enabled>
+   <enabled>false</enabled>
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
@@ -284,7 +254,7 @@ the requested settings for a module instance. -->
    <type>int</type>
    <value>0</value>
    <derived>false</derived>
-   <enabled>true</enabled>
+   <enabled>false</enabled>
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
@@ -555,7 +525,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="cmu_fpll_l_counter">
    <type>int</type>
-   <value>4</value>
+   <value>1</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>
@@ -587,7 +557,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="cmu_fpll_out_freq">
    <type>java.lang.String</type>
-   <value>000000101100101101000001011110000000</value>
+   <value>000010110010110100000101111000000000</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>
@@ -675,7 +645,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="cmu_fpll_datarate">
    <type>java.lang.String</type>
-   <value>1500000000 bps</value>
+   <value>6000000000 bps</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>
@@ -1251,7 +1221,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="cmu_fpll_pll_vco_ph2_en">
    <type>java.lang.String</type>
-   <value>false</value>
+   <value>true</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -1339,7 +1309,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="cmu_fpll_pll_l_counter">
    <type>int</type>
-   <value>4</value>
+   <value>1</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>
@@ -1667,7 +1637,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="cmu_fpll_hssi_output_clock_frequency">
    <type>java.lang.String</type>
-   <value>750.0 MHz</value>
+   <value>3000.0 MHz</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>
@@ -2550,7 +2520,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="device">
    <type>java.lang.String</type>
-   <value>10AS016C3U19E2LG</value>
+   <value>10AX016C3U19I2SG</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -2577,7 +2547,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="device_speed_grade">
    <type>java.lang.String</type>
-   <value>e3</value>
+   <value>i3</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -2985,7 +2955,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="gui_hssi_output_clock_frequency">
    <type>double</type>
-   <value>750.0</value>
+   <value>3000.0</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -2993,7 +2963,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="hssi_output_clock_frequency">
    <type>java.lang.String</type>
-   <value>750.0 MHz</value>
+   <value>3000.0 MHz</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -3001,7 +2971,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="gui_pll_datarate">
    <type>double</type>
-   <value>1500.0</value>
+   <value>6000.0</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -3009,7 +2979,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="pll_datarate">
    <type>java.lang.String</type>
-   <value>1500000000 bps</value>
+   <value>6000000000 bps</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>
@@ -3729,7 +3699,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="hssi_l_counter">
    <type>int</type>
-   <value>4</value>
+   <value>1</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>
@@ -3753,7 +3723,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="hssi_l_counter_bypass">
    <type>java.lang.String</type>
-   <value>0</value>
+   <value>1</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>
@@ -4073,7 +4043,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="pll_l_counter">
    <type>int</type>
-   <value>4</value>
+   <value>1</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>
@@ -4249,7 +4219,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="output_freq_bitvec">
    <type>java.lang.String</type>
-   <value>000000101100101101000001011110000000</value>
+   <value>000010110010110100000101111000000000</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -4289,7 +4259,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="l_counter_bitvec">
    <type>int</type>
-   <value>4</value>
+   <value>1</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -4449,7 +4419,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="cmu_fpll_reconfig_en">
    <type>java.lang.String</type>
-   <value>1</value>
+   <value>0</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>
@@ -4537,7 +4507,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="mcgb_in_clk_freq">
    <type>double</type>
-   <value>750.0</value>
+   <value>3000.0</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -4545,7 +4515,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="mcgb_out_datarate">
    <type>double</type>
-   <value>1500.0</value>
+   <value>6000.0</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -4617,7 +4587,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="mapped_output_clock_frequency">
    <type>java.lang.String</type>
-   <value>750.0 MHz</value>
+   <value>3000.0 MHz</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -4681,7 +4651,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="hssi_pma_cgb_master_datarate">
    <type>java.lang.String</type>
-   <value>1500000000 bps</value>
+   <value>6000000000 bps</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>
@@ -4753,7 +4723,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="gui_parameter_values">
    <type>[Ljava.lang.String;</type>
-   <value>1,1,1,1,4,20,1,6000.0 MHz,1</value>
+   <value>1,1,1,1,1,20,1,6000.0 MHz,1</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -4948,7 +4918,7 @@ parameters are a RESULT of the module parameters. -->
    </assignment>
    <parameter name="clockRate">
     <type>long</type>
-    <value>750000000</value>
+    <value>3000000000</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -4977,471 +4947,6 @@ parameters are a RESULT of the module parameters. -->
     <direction>Output</direction>
     <width>1</width>
     <role>clk</role>
-   </port>
-  </interface>
-  <interface name="reconfig_clk0" kind="clock_sink" version="17.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <assignment>
-    <name>ui.blockdiagram.direction</name>
-    <value>input</value>
-   </assignment>
-   <parameter name="externallyDriven">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="ptfSchematicName">
-    <type>java.lang.String</type>
-    <value></value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>clock</type>
-   <isStart>false</isStart>
-   <port>
-    <name>reconfig_clk0</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>clk</role>
-   </port>
-  </interface>
-  <interface name="reconfig_reset0" kind="reset_sink" version="17.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <assignment>
-    <name>ui.blockdiagram.direction</name>
-    <value>input</value>
-   </assignment>
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>reconfig_clk0</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="synchronousEdges">
-    <type>com.altera.sopcmodel.reset.Reset$Edges</type>
-    <value>DEASSERT</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>reset</type>
-   <isStart>false</isStart>
-   <port>
-    <name>reconfig_reset0</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>reset</role>
-   </port>
-  </interface>
-  <interface name="reconfig_avmm0" kind="avalon_slave" version="17.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <assignment>
-    <name>debug.param.device_revision</name>
-    <value>20nm1</value>
-   </assignment>
-   <assignment>
-    <name>debug.typeName</name>
-    <value>altera_xcvr_fpll_a10.slave</value>
-   </assignment>
-   <assignment>
-    <name>ui.blockdiagram.direction</name>
-    <value>output</value>
-   </assignment>
-   <parameter name="addressAlignment">
-    <type>com.altera.sopcmodel.avalon.AvalonConnectionPoint$AddressAlignment</type>
-    <value>DYNAMIC</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="addressGroup">
-    <type>int</type>
-    <value>0</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="addressSpan">
-    <type>java.math.BigInteger</type>
-    <value>4096</value>
-    <derived>true</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="addressUnits">
-    <type>com.altera.sopcmodel.avalon.EAddrBurstUnits</type>
-    <value>WORDS</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="alwaysBurstMaxBurst">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>reconfig_clk0</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedReset">
-    <type>java.lang.String</type>
-    <value>reconfig_reset0</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="bitsPerSymbol">
-    <type>int</type>
-    <value>8</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="bridgedAddressOffset">
-    <type>java.math.BigInteger</type>
-    <value></value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="bridgesToMaster">
-    <type>com.altera.entityinterfaces.IConnectionPoint</type>
-    <value></value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="burstOnBurstBoundariesOnly">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="burstcountUnits">
-    <type>com.altera.sopcmodel.avalon.EAddrBurstUnits</type>
-    <value>WORDS</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="constantBurstBehavior">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="explicitAddressSpan">
-    <type>java.math.BigInteger</type>
-    <value>0</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="holdTime">
-    <type>int</type>
-    <value>0</value>
-    <derived>false</derived>
-    <enabled>false</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="interleaveBursts">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="isBigEndian">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="isFlash">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="isMemoryDevice">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="isNonVolatileStorage">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="linewrapBursts">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="maximumPendingReadTransactions">
-    <type>int</type>
-    <value>0</value>
-    <derived>false</derived>
-    <enabled>false</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="maximumPendingWriteTransactions">
-    <type>int</type>
-    <value>0</value>
-    <derived>false</derived>
-    <enabled>false</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="minimumUninterruptedRunLength">
-    <type>int</type>
-    <value>1</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="printableDevice">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="readLatency">
-    <type>int</type>
-    <value>0</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="readWaitStates">
-    <type>int</type>
-    <value>1</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="readWaitTime">
-    <type>int</type>
-    <value>1</value>
-    <derived>false</derived>
-    <enabled>false</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="registerIncomingSignals">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="registerOutgoingSignals">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="setupTime">
-    <type>int</type>
-    <value>0</value>
-    <derived>false</derived>
-    <enabled>false</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="timingUnits">
-    <type>com.altera.sopcmodel.avalon.TimingUnits</type>
-    <value>Cycles</value>
-    <derived>false</derived>
-    <enabled>false</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="transparentBridge">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="wellBehavedWaitrequest">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="writeLatency">
-    <type>int</type>
-    <value>0</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="writeWaitStates">
-    <type>int</type>
-    <value>0</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="writeWaitTime">
-    <type>int</type>
-    <value>0</value>
-    <derived>false</derived>
-    <enabled>false</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>avalon</type>
-   <isStart>false</isStart>
-   <port>
-    <name>reconfig_write0</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>write</role>
-   </port>
-   <port>
-    <name>reconfig_read0</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>read</role>
-   </port>
-   <port>
-    <name>reconfig_address0</name>
-    <direction>Input</direction>
-    <width>10</width>
-    <role>address</role>
-   </port>
-   <port>
-    <name>reconfig_writedata0</name>
-    <direction>Input</direction>
-    <width>32</width>
-    <role>writedata</role>
-   </port>
-   <port>
-    <name>reconfig_readdata0</name>
-    <direction>Output</direction>
-    <width>32</width>
-    <role>readdata</role>
-   </port>
-   <port>
-    <name>reconfig_waitrequest0</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>waitrequest</role>
    </port>
   </interface>
   <interface name="pll_cal_busy" kind="conduit_end" version="17.1">
@@ -5503,7 +5008,7 @@ parameters are a RESULT of the module parameters. -->
   <version>17.1</version>
  </plugin>
  <plugin>
-  <instanceCount>2</instanceCount>
+  <instanceCount>1</instanceCount>
   <name>clock_sink</name>
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IMutableConnectionPoint</subtype>
@@ -5524,22 +5029,6 @@ parameters are a RESULT of the module parameters. -->
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IMutableConnectionPoint</subtype>
   <displayName>HSSI Serial Clock Output</displayName>
-  <version>17.1</version>
- </plugin>
- <plugin>
-  <instanceCount>1</instanceCount>
-  <name>reset_sink</name>
-  <type>com.altera.entityinterfaces.IElementClass</type>
-  <subtype>com.altera.entityinterfaces.IMutableConnectionPoint</subtype>
-  <displayName>Reset Input</displayName>
-  <version>17.1</version>
- </plugin>
- <plugin>
-  <instanceCount>1</instanceCount>
-  <name>avalon_slave</name>
-  <type>com.altera.entityinterfaces.IElementClass</type>
-  <subtype>com.altera.entityinterfaces.IMutableConnectionPoint</subtype>
-  <displayName>Avalon Memory Mapped Slave</displayName>
   <version>17.1</version>
  </plugin>
  <reportVersion>17.1 590</reportVersion>

@@ -1,18 +1,10 @@
 	component a10_sata_xcvr_fpll_core is
 		port (
-			pll_cal_busy          : out std_logic;                                        -- pll_cal_busy
-			pll_locked            : out std_logic;                                        -- pll_locked
-			pll_powerdown         : in  std_logic                     := 'X';             -- pll_powerdown
-			pll_refclk0           : in  std_logic                     := 'X';             -- clk
-			reconfig_write0       : in  std_logic                     := 'X';             -- write
-			reconfig_read0        : in  std_logic                     := 'X';             -- read
-			reconfig_address0     : in  std_logic_vector(9 downto 0)  := (others => 'X'); -- address
-			reconfig_writedata0   : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
-			reconfig_readdata0    : out std_logic_vector(31 downto 0);                    -- readdata
-			reconfig_waitrequest0 : out std_logic;                                        -- waitrequest
-			reconfig_clk0         : in  std_logic                     := 'X';             -- clk
-			reconfig_reset0       : in  std_logic                     := 'X';             -- reset
-			tx_serial_clk         : out std_logic                                         -- clk
+			pll_cal_busy  : out std_logic;        -- pll_cal_busy
+			pll_locked    : out std_logic;        -- pll_locked
+			pll_powerdown : in  std_logic := 'X'; -- pll_powerdown
+			pll_refclk0   : in  std_logic := 'X'; -- clk
+			tx_serial_clk : out std_logic         -- clk
 		);
 	end component a10_sata_xcvr_fpll_core;
 

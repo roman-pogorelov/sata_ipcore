@@ -1,5 +1,5 @@
 Info: Starting: Create HDL design files for synthesis
-Info: qsys-generate C:\qprojects\ipcores\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_fpll_core\a10_sata_xcvr_fpll_core.qsys --synthesis=VERILOG --output-directory=C:\qprojects\ipcores\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_fpll_core\a10_sata_xcvr_fpll_core --family="Arria 10" --part=10AX016C3U19I2SG
+Info: qsys-generate C:\qprojects\ipcores\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_fpll_core\a10_sata_xcvr_fpll_core.qsys --synthesis=VERILOG --output-directory=C:\qprojects\ipcores\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_fpll_core\a10_sata_xcvr_fpll_core --family="Arria 10" --part=10AS016C3U19E2LG
 Progress: Loading a10_sata_xcvr_fpll_core/a10_sata_xcvr_fpll_core.qsys
 Progress: Reading input file
 Progress: Adding xcvr_fpll_a10_0 [altera_xcvr_fpll_a10 17.1]
@@ -10,14 +10,14 @@ Progress: Parameterizing connections
 Progress: Validating
 Progress: Done reading input file
 Info: a10_sata_xcvr_fpll_core.xcvr_fpll_a10_0: The output frequencies are not exact when the PLL is in fractional mode. You must be cautious with applications that require frequencies to be exact to within less than 0.5 Hz.
-Info: a10_sata_xcvr_fpll_core.xcvr_fpll_a10_0: For the selected device(10AX016C3U19I2SG), PLL speed grade is 3.
+Info: a10_sata_xcvr_fpll_core.xcvr_fpll_a10_0: For the selected device(10AS016C3U19E2LG), PLL speed grade is 3.
 Info: a10_sata_xcvr_fpll_core: "Transforming system: a10_sata_xcvr_fpll_core"
 Info: a10_sata_xcvr_fpll_core: Running transform generation_view_transform
 Info: a10_sata_xcvr_fpll_core: Running transform generation_view_transform took 0.000s
 Info: xcvr_fpll_a10_0: Running transform generation_view_transform
 Info: xcvr_fpll_a10_0: Running transform generation_view_transform took 0.000s
 Info: a10_sata_xcvr_fpll_core: Running transform merlin_avalon_transform
-Info: a10_sata_xcvr_fpll_core: Running transform merlin_avalon_transform took 0.049s
+Info: a10_sata_xcvr_fpll_core: Running transform merlin_avalon_transform took 0.048s
 Info: a10_sata_xcvr_fpll_core: "Naming system components in system: a10_sata_xcvr_fpll_core"
 Info: a10_sata_xcvr_fpll_core: "Processing generation queue"
 Info: a10_sata_xcvr_fpll_core: "Generating: a10_sata_xcvr_fpll_core"
