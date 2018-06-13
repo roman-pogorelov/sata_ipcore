@@ -2,9 +2,6 @@
     //------------------------------------------------------------------------------------
     //      Декодер OOB-последовательностей Serial ATA
     sata_oob_decoder
-    #(
-        .CLKFREQ        ()  // Частота тактирования clk, кГц
-    )
     the_sata_oob_decoder
     (
         // Сброс и тактирование
@@ -24,9 +21,6 @@
 */
 
 module sata_oob_decoder
-#(
-    parameter int unsigned      CLKFREQ = 100_000   // Частота тактирования clk, кГц
-)
 (
     // Сброс и тактирование
     input  logic                reset,
@@ -44,35 +38,32 @@ module sata_oob_decoder
 );
     //------------------------------------------------------------------------------------
     //      Описание констант
-    localparam int unsigned     REFFREQ      = 1_500_000;
-    localparam int unsigned     BURST_MIN    = (152 * CLKFREQ) / REFFREQ;
-    localparam int unsigned     BURST_MAX    = (168 * CLKFREQ + (REFFREQ - 1)) / REFFREQ;
-    localparam int unsigned     GAPINIT_MIN  = (456 * CLKFREQ) / REFFREQ;
-    localparam int unsigned     GAPINIT_MAX  = (504 * CLKFREQ + (REFFREQ - 1)) / REFFREQ;
-    localparam int unsigned     GAPWAKE_MIN  = (152 * CLKFREQ) / REFFREQ;
-    localparam int unsigned     GAPWAKE_MAX  = (168 * CLKFREQ + (REFFREQ - 1)) / REFFREQ;
-    localparam int unsigned     OOBFIN       = BURST_MAX * 5;
-    localparam int unsigned     BURSTWIDTH   = $clog2(BURST_MAX + 2);
-    localparam int unsigned     GAPINITWIDTH = $clog2(GAPINIT_MAX + 2);
-    localparam int unsigned     GAPWAKEWIDTH = $clog2(GAPWAKE_MAX + 2);
-    localparam int unsigned     OOBFINWIDTH  = $clog2(OOBFIN + 1);
-    localparam int unsigned     AMOUNT       = 6;
+    localparam int unsigned                 BURST_MIN   = 10;
+    localparam int unsigned                 BURST_MAX   = 22;
+    localparam int unsigned                 GAPINIT_MIN = 42;
+    localparam int unsigned                 GAPINIT_MAX = 54;
+    localparam int unsigned                 GAPWAKE_MIN = 10;
+    localparam int unsigned                 GAPWAKE_MAX = 22;
+    localparam int unsigned                 MAXCOUNT    = 80;
+    localparam int unsigned                 AMOUNT      = 6;
     
     //------------------------------------------------------------------------------------
     //      Объявление сигналов
-    logic                           sigdet;
-    logic                           sigdet_rise;
-    logic                           sigdet_fall;
-    logic [BURSTWIDTH - 1 : 0]      burst_len_cnt;
-    logic [GAPINITWIDTH - 1 : 0]    gapinit_len_cnt;
-    logic [GAPWAKEWIDTH - 1 : 0]    gapwake_len_cnt;
-    logic [OOBFINWIDTH - 1 : 0]     oobfin_len_cnt;
-    logic [$clog2(AMOUNT) - 1 : 0]  burst_cnt;
-    logic [$clog2(AMOUNT) - 1 : 0]  gapinit_cnt;
-    logic [$clog2(AMOUNT) - 1 : 0]  gapwake_cnt;
-    logic                           cominit_reg;
-    logic                           comwake_reg;
-    logic                           oobfin_reg;
+    logic                                   sigdet;
+    logic                                   sigdet_rise;
+    logic                                   sigdet_fall;
+    logic                                   sigdet_change;
+    logic [$clog2(MAXCOUNT + 1) - 1 : 0]    cont_cnt;
+    logic                                   burst_det_reg;
+    logic                                   gapinit_det_reg;
+    logic                                   gapwake_det_reg;
+    logic                                   high_cont_reg;
+    logic                                   low_cont_reg;
+    logic [$clog2(AMOUNT) - 1 : 0]          burst_cnt;
+    logic [$clog2(AMOUNT) - 1 : 0]          gapinit_cnt;
+    logic [$clog2(AMOUNT) - 1 : 0]          gapwake_cnt;
+    logic                                   cominit_reg;
+    logic                                   comwake_reg;
     
     //------------------------------------------------------------------------------------
     //      Модуль синхронизации сигнала на последовательной триггерной цепочке
@@ -113,74 +104,73 @@ module sata_oob_decoder
         // Выходные импульсы индикаторы фронтов
         .o_rise         (sigdet_rise),
         .o_fall         (sigdet_fall),
-        .o_either       (  )
+        .o_either       (sigdet_change)
     ); // sigdet_edgedetector
     
     //------------------------------------------------------------------------------------
-    //      Счетчик длительности пачки ALIGN символов
+    //      Счетчик длительности непрерывного уровня сигнала
     always @(posedge reset, posedge clk)
         if (reset)
-            burst_len_cnt <= '0;
-        else if (sigdet)
-            if (burst_len_cnt == (BURST_MAX + 1))
-                burst_len_cnt <= burst_len_cnt;
-            else
-                burst_len_cnt <= burst_len_cnt + 1'b1;
+            cont_cnt <= '0;
+        else if (sigdet_change)
+            cont_cnt <= {{$size(cont_cnt) - 1{1'b0}}, 1'b1};
+        else if (cont_cnt < MAXCOUNT)
+            cont_cnt <= cont_cnt + 1'b1;
         else
-            burst_len_cnt <= '0;
+            cont_cnt <= cont_cnt;
     
     //------------------------------------------------------------------------------------
-    //      Счетчик длительности паузы последовательности COMINIT
+    //      Регистр признака обнаружения пачки ALIGN символов
     always @(posedge reset, posedge clk)
         if (reset)
-            gapinit_len_cnt <= '0;
-        else if (~sigdet)
-            if (gapinit_len_cnt == (GAPINIT_MAX + 1))
-                gapinit_len_cnt <= gapinit_len_cnt;
-            else
-                gapinit_len_cnt <= gapinit_len_cnt + 1'b1;
+            burst_det_reg <= '0;
         else
-            gapinit_len_cnt <= '0;
+            burst_det_reg <= sigdet_fall & (cont_cnt >= BURST_MIN) & (cont_cnt <= BURST_MAX);
     
     //------------------------------------------------------------------------------------
-    //      Счетчик длительности паузы последовательности COMWAKE
+    //      Регистр признака обнаружения паузы последовательности COMINIT
     always @(posedge reset, posedge clk)
         if (reset)
-            gapwake_len_cnt <= '0;
-        else if (~sigdet)
-            if (gapwake_len_cnt == (GAPWAKE_MAX + 1))
-                gapwake_len_cnt <= gapwake_len_cnt;
-            else
-                gapwake_len_cnt <= gapwake_len_cnt + 1'b1;
+            gapinit_det_reg <= '0;
         else
-            gapwake_len_cnt <= '0;
+            gapinit_det_reg <= sigdet_rise & (cont_cnt >= GAPINIT_MIN) & (cont_cnt <= GAPINIT_MAX);
     
     //------------------------------------------------------------------------------------
-    //      Счетчик тактов обнаружения окончания OOB-последовательностей
+    //      Регистр признака обнаружения паузы последовательности COMWAKE
     always @(posedge reset, posedge clk)
         if (reset)
-            oobfin_len_cnt <= '0;
-        else if (sigdet)
-            if (oobfin_len_cnt == OOBFIN)
-                oobfin_len_cnt <= oobfin_len_cnt;
-            else
-                oobfin_len_cnt <= oobfin_len_cnt + 1'b1;
+            gapwake_det_reg <= '0;
         else
-            oobfin_len_cnt <= '0;
+            gapwake_det_reg <= sigdet_rise & (cont_cnt >= GAPWAKE_MIN) & (cont_cnt <= GAPWAKE_MAX);
+    
+    //------------------------------------------------------------------------------------
+    //      Регистр признака продолжительного высокого уровня
+    always @(posedge reset, posedge clk)
+        if (reset)
+            high_cont_reg <='0;
+        else
+            high_cont_reg <= (cont_cnt == MAXCOUNT) & sigdet & ~sigdet_change;
+    
+    //------------------------------------------------------------------------------------
+    //      Регистр признака продолжительного низкого уровня
+    always @(posedge reset, posedge clk)
+        if (reset)
+            low_cont_reg <='0;
+        else
+            low_cont_reg <= (cont_cnt == MAXCOUNT) & ~sigdet & ~sigdet_change;
     
     //------------------------------------------------------------------------------------
     //      Счетчик количества пачек ALIGN символов
     always @(posedge reset, posedge clk)
         if (reset)
             burst_cnt <= '0;
-        else if (sigdet_fall)
-            if ((burst_len_cnt >= BURST_MIN) & (burst_len_cnt <= BURST_MAX))
-                if (burst_cnt == (AMOUNT - 1))
-                    burst_cnt <= '0;
-                else
-                    burst_cnt <= burst_cnt + 1'b1;
-            else
+        else if (high_cont_reg | low_cont_reg)
+            burst_cnt <= '0;
+        else if (burst_det_reg)
+            if (burst_cnt == (AMOUNT - 1))
                 burst_cnt <= '0;
+            else
+                burst_cnt <= burst_cnt + 1'b1;
         else
             burst_cnt <= burst_cnt;
     
@@ -189,14 +179,13 @@ module sata_oob_decoder
     always @(posedge reset, posedge clk)
         if (reset)
             gapinit_cnt <= '0;
-        else if (sigdet_rise)
-            if ((gapinit_len_cnt >= GAPINIT_MIN) & (gapinit_len_cnt <= GAPINIT_MAX))
-                if (gapinit_cnt == (AMOUNT - 1))
-                    gapinit_cnt <= '0;
-                else
-                    gapinit_cnt <= gapinit_cnt + 1'b1;
-            else
+        else if (high_cont_reg | low_cont_reg)
+            gapinit_cnt <= '0;
+        else if (gapinit_det_reg)
+            if (gapinit_cnt == (AMOUNT - 1))
                 gapinit_cnt <= '0;
+            else
+                gapinit_cnt <= gapinit_cnt + 1'b1;
         else
             gapinit_cnt <= gapinit_cnt;
     
@@ -205,14 +194,13 @@ module sata_oob_decoder
     always @(posedge reset, posedge clk)
         if (reset)
             gapwake_cnt <= '0;
-        else if (sigdet_rise)
-            if ((gapwake_len_cnt >= GAPWAKE_MIN) & (gapwake_len_cnt <= GAPWAKE_MAX))
-                if (gapwake_cnt == (AMOUNT - 1))
-                    gapwake_cnt <= '0;
-                else
-                    gapwake_cnt <= gapwake_cnt + 1'b1;
-            else
+        else if (high_cont_reg | low_cont_reg)
+            gapwake_cnt <= '0;
+        else if (gapwake_det_reg)
+            if (gapwake_cnt == (AMOUNT - 1))
                 gapwake_cnt <= '0;
+            else
+                gapwake_cnt <= gapwake_cnt + 1'b1;
         else
             gapwake_cnt <= gapwake_cnt;
     
@@ -222,7 +210,7 @@ module sata_oob_decoder
         if (reset)
             cominit_reg <= '0;
         else
-            cominit_reg <= sigdet_fall & (burst_cnt == (AMOUNT - 1)) & (gapinit_cnt == (AMOUNT - 1));
+            cominit_reg <= burst_det_reg & (burst_cnt == (AMOUNT - 1)) & (gapinit_cnt == (AMOUNT - 1));
     assign cominit = cominit_reg;
     
     //------------------------------------------------------------------------------------
@@ -231,16 +219,11 @@ module sata_oob_decoder
         if (reset)
             comwake_reg <= '0;
         else
-            comwake_reg <= sigdet_fall & (burst_cnt == (AMOUNT - 1)) & (gapwake_cnt == (AMOUNT - 1));
+            comwake_reg <= burst_det_reg & (burst_cnt == (AMOUNT - 1)) & (gapwake_cnt == (AMOUNT - 1));
     assign comwake = comwake_reg;
     
     //------------------------------------------------------------------------------------
-    //      Регистр индикатор обнаружения окончания OOB-последовательностей
-    always @(posedge reset, posedge clk)
-        if (reset)
-            oobfin_reg <= '0;
-        else
-            oobfin_reg <= (oobfin_len_cnt == OOBFIN);
-    assign oobfinish = oobfin_reg;
+    //      Индикатор обнаружения окончания OOB-последовательностей
+    assign oobfinish = high_cont_reg;
     
 endmodule: sata_oob_decoder

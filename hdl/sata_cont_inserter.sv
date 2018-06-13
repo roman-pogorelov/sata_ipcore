@@ -43,9 +43,16 @@ module sata_cont_inserter
     //      Объявление сигналов
     logic [47 : 0]              lfsrval;
     logic [31 : 0]              randval;
-    logic [1 : 0][31 : 0]       data_reg;
-    logic [1 : 0]               datak_reg;
-    logic [2 : 0]               repeat_reg;
+    //
+    logic [31 : 0]              prev_data_reg;
+    logic                       prev_datak_reg;
+    logic [31 : 0]              curr_data_reg;
+    logic                       curr_datak_reg;
+    logic [31 : 0]              data_reg;
+    logic                       datak_reg;
+    //
+    logic                       cont_cond_reg;
+    logic                       rand_cond_reg;
     
     //------------------------------------------------------------------------------------
     //      Сквозная трансляция признака готовности
@@ -94,60 +101,94 @@ module sata_cont_inserter
     ); // lfsr_reverser
     
     //------------------------------------------------------------------------------------
-    //      Регистровая линия задержки данных
-    initial data_reg = {2{`SYNC_PRIM}};
+    //      Регистры предыдущего слова потока
     always @(posedge reset, posedge clk)
-        if (reset)
-            data_reg <= {2{`SYNC_PRIM}};
-        else if (i_ready)
-            data_reg <= {data_reg[0], i_data};
-        else
+        if (reset) begin
+            prev_data_reg = '0;
+            prev_datak_reg = `DWORD_IS_DATA;
+        end
+        else if (i_ready) begin
+            prev_data_reg <= curr_data_reg;
+            prev_datak_reg <= curr_datak_reg;
+        end
+        else begin
+            prev_data_reg = '0;
+            prev_datak_reg = `DWORD_IS_DATA;
+        end
+    
+    //------------------------------------------------------------------------------------
+    //      Регистры текущего слова входного потока
+    always @(posedge reset, posedge clk)
+        if (reset) begin
+            curr_data_reg <= '0;
+            curr_datak_reg <= `DWORD_IS_DATA;
+        end
+        else if (i_ready) begin
+            curr_data_reg <= i_data;
+            curr_datak_reg <= i_datak;
+        end
+        else begin
+            curr_data_reg <= curr_data_reg;
+            curr_datak_reg <= curr_datak_reg;
+        end
+    
+    //------------------------------------------------------------------------------------
+    //      Регистры слова выходного потока
+    always @(posedge reset, posedge clk)
+        if (reset) begin
+            data_reg <= '0;
+            datak_reg <= `DWORD_IS_DATA;
+        end
+        else if (i_ready) begin
+            data_reg <= curr_data_reg;
+            datak_reg <= curr_datak_reg;
+        end
+        else begin
             data_reg <= data_reg;
-    
-    //------------------------------------------------------------------------------------
-    //      Регистровая линия задержки признака примитива
-    initial datak_reg = {2{`DWORD_IS_PRIM}};
-    always @(posedge reset, posedge clk)
-        if (reset)
-            datak_reg <= {2{`DWORD_IS_PRIM}};
-        else if (i_ready)
-            datak_reg <= {datak_reg[0], i_datak};
-        else
             datak_reg <= datak_reg;
+        end
     
     //------------------------------------------------------------------------------------
-    //      Регистровая линия признака повторения примитива
+    //      Регистр индикатор необходимости вставки примитива CONT
     always @(posedge reset, posedge clk)
         if (reset)
-            repeat_reg <= '0;
+            cont_cond_reg <= '0;
         else if (i_ready)
-            repeat_reg <= {
-                repeat_reg[1],
-                datak_reg[0] & datak_reg[1] & (data_reg[0] == data_reg[1]) & repeat_reg[0],
-                datak_reg[0] & datak_reg[1] & (data_reg[0] == data_reg[1])
+            cont_cond_reg <= {
+                (curr_data_reg == i_data) &
+                (curr_data_reg == prev_data_reg) &
+                (i_datak == `DWORD_IS_PRIM) &
+                (curr_datak_reg == `DWORD_IS_PRIM) &
+                (prev_datak_reg == `DWORD_IS_PRIM)
             };
         else
-            repeat_reg <= '0;
+            cont_cond_reg <= '0;
+    
+    //------------------------------------------------------------------------------------
+    //      Регист индикатор необходимости вставки случайного значения
+    always @(posedge reset, posedge clk)
+        if (reset)
+            rand_cond_reg <= '0;
+        else
+            rand_cond_reg <= cont_cond_reg;
     
     //------------------------------------------------------------------------------------
     //      Логика формирования выходного потока
     always_comb begin
-        case (repeat_reg[2 : 1])
-            2'b01: begin
-                o_data  = `CONT_PRIM;
-                o_datak = `DWORD_IS_PRIM;
-            end
-            
-            2'b11: begin
-                o_data  = randval;
+        if (cont_cond_reg) begin
+            if (rand_cond_reg) begin
+                o_data = randval;
                 o_datak = `DWORD_IS_DATA;
             end
-            
-            default: begin
-                o_data  = data_reg[1];
-                o_datak = datak_reg[1];
+            else begin
+                o_data = `CONT_PRIM;
+                o_datak = `DWORD_IS_PRIM;
             end
-        endcase
+        end
+        else begin
+            o_data = data_reg;
+            o_datak = datak_reg;
+        end
     end
     
 endmodule: sata_cont_inserter

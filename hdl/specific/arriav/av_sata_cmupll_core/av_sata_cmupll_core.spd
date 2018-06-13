@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simPackage>
+ <file
+   path="av_sata_cmupll_core_sim/altera_xcvr_pll_av/altera_xcvr_functions.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_cmupll_core" />
+ <file
+   path="av_sata_cmupll_core_sim/altera_xcvr_pll_av/mentor/altera_xcvr_functions.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_cmupll_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_cmupll_core_sim/altera_xcvr_pll_av/av_xcvr_h.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_cmupll_core" />
+ <file
+   path="av_sata_cmupll_core_sim/altera_xcvr_pll_av/av_xcvr_plls.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_cmupll_core" />
+ <file
+   path="av_sata_cmupll_core_sim/altera_xcvr_pll_av/av_reconfig_bundle_to_xcvr.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_cmupll_core" />
+ <file
+   path="av_sata_cmupll_core_sim/altera_xcvr_pll_av/av_xcvr_avmm_csr.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_cmupll_core" />
+ <file
+   path="av_sata_cmupll_core_sim/altera_xcvr_pll_av/mentor/av_xcvr_h.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_cmupll_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_cmupll_core_sim/altera_xcvr_pll_av/mentor/av_xcvr_plls.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_cmupll_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_cmupll_core_sim/altera_xcvr_pll_av/mentor/av_reconfig_bundle_to_xcvr.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_cmupll_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_cmupll_core_sim/altera_xcvr_pll_av/mentor/av_xcvr_avmm_csr.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_cmupll_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_cmupll_core_sim/altera_xcvr_pll_av/alt_xcvr_resync.sv"
+   type="SYSTEM_VERILOG"
+   library="av_sata_cmupll_core" />
+ <file
+   path="av_sata_cmupll_core_sim/altera_xcvr_pll_av/mentor/alt_xcvr_resync.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="av_sata_cmupll_core"
+   simulator="modelsim" />
+ <file
+   path="av_sata_cmupll_core_sim/altera_xcvr_pll_av/plain_files.txt"
+   type="OTHER"
+   library="av_sata_cmupll_core" />
+ <file
+   path="av_sata_cmupll_core_sim/altera_xcvr_pll_av/mentor_files.txt"
+   type="OTHER"
+   library="av_sata_cmupll_core" />
+ <file
+   path="av_sata_cmupll_core_sim/altera_xcvr_pll_av/cadence_files.txt"
+   type="OTHER"
+   library="av_sata_cmupll_core" />
+ <file
+   path="av_sata_cmupll_core_sim/altera_xcvr_pll_av/synopsys_files.txt"
+   type="OTHER"
+   library="av_sata_cmupll_core" />
+ <file
+   path="av_sata_cmupll_core_sim/altera_xcvr_pll_av/aldec_files.txt"
+   type="OTHER"
+   library="av_sata_cmupll_core" />
+ <file path="av_sata_cmupll_core_sim/av_sata_cmupll_core.v" type="VERILOG" />
+ <topLevel name="av_sata_cmupll_core" />
+ <deviceFamily name="arriav" />
+</simPackage>

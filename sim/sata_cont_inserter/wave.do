@@ -13,12 +13,17 @@ add wave -noupdate /sata_cont_inserter/o_ready
 add wave -noupdate -divider <NULL>
 add wave -noupdate -radix hexadecimal /sata_cont_inserter/lfsrval
 add wave -noupdate -radix hexadecimal /sata_cont_inserter/randval
-add wave -noupdate -radix hexadecimal -expand /sata_cont_inserter/data_reg
-add wave -noupdate -radix hexadecimal /sata_cont_inserter/datak_reg
-add wave -noupdate -radix hexadecimal /sata_cont_inserter/repeat_reg
+add wave -noupdate -radix hexadecimal /sata_cont_inserter/prev_data_reg
+add wave -noupdate /sata_cont_inserter/prev_datak_reg
+add wave -noupdate -radix hexadecimal /sata_cont_inserter/curr_data_reg
+add wave -noupdate /sata_cont_inserter/curr_datak_reg
+add wave -noupdate -radix hexadecimal /sata_cont_inserter/data_reg
+add wave -noupdate /sata_cont_inserter/datak_reg
+add wave -noupdate /sata_cont_inserter/cont_cond_reg
+add wave -noupdate /sata_cont_inserter/rand_cond_reg
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {0 ns} 0}
-quietly wave cursor active 0
+WaveRestoreCursors {{Cursor 1} {83 ns} 0}
+quietly wave cursor active 1
 configure wave -namecolwidth 150
 configure wave -valuecolwidth 100
 configure wave -justifyvalue left

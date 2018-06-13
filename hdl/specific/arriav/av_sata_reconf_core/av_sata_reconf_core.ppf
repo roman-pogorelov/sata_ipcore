@@ -20,6 +20,16 @@
      name="reconfig_mgmt_writedata[31..0]"
      direction="input"
      scope="external" />
+  <pin
+     name="reconfig_mif_address[31..0]"
+     direction="output"
+     scope="external" />
+  <pin name="reconfig_mif_read" direction="output" scope="external" />
+  <pin
+     name="reconfig_mif_readdata[15..0]"
+     direction="input"
+     scope="external" />
+  <pin name="reconfig_mif_waitrequest" direction="input" scope="external" />
   <pin name="reconfig_to_xcvr[139..0]" direction="output" scope="external" />
   <pin name="reconfig_from_xcvr[91..0]" direction="input" scope="external" />
  </global>

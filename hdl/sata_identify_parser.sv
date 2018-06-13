@@ -13,6 +13,7 @@
         .i_val              (), // i
         .i_eop              (), // i
         .i_err              (), // i
+        .i_rdy              (), // o
         
         // Выходной параллельный интерфейс идентификационной информации
         .identify_done      (), // o
@@ -37,6 +38,7 @@ module sata_identify_parser
     input  logic                i_val,
     input  logic                i_eop,
     input  logic                i_err,
+    output logic                i_rdy,
     
     // Выходной параллельный интерфейс идентификационной информации
     output logic                identify_done,
@@ -48,7 +50,7 @@ module sata_identify_parser
 );
     //------------------------------------------------------------------------------------
     //      Объявление констант
-    localparam int unsigned     FIS_LEN         = 129;
+    localparam int unsigned     FIS_LEN         = 128;
     localparam int unsigned     SATA_CAP_OFFSET = 38;
     localparam int unsigned     MAX_LBA_OFFSET  = 50;
     
@@ -61,6 +63,10 @@ module sata_identify_parser
     logic [31 : 0]                      max_lba_low_reg;
     logic [15 : 0]                      max_lba_high_reg;
     logic                               bad_crc_reg;
+    
+    //------------------------------------------------------------------------------------
+    //      Постоянная готовность к приему
+    assign i_rdy = 1'b1;
     
     //------------------------------------------------------------------------------------
     //      Регистр признака начала пакета
@@ -82,7 +88,7 @@ module sata_identify_parser
             if (i_eop)
                 len_cnt <= '0;
             else if (len_cnt == 0)
-                len_cnt <= {len_cnt[$high(len_cnt) : 1], sop_reg & (i_dat[7 : 0] == `DATA_FIS)};
+                len_cnt <= {len_cnt[$high(len_cnt) : 1], sop_reg};
             else
                 len_cnt <= len_cnt + (len_cnt != FIS_LEN);
         else
@@ -94,7 +100,7 @@ module sata_identify_parser
         if (reset)
             done_reg <= '0;
         else if (done_reg)
-            done_reg <= ~(i_val & sop_reg & ~i_eop & (i_dat[7 : 0] == `DATA_FIS));
+            done_reg <= ~(i_val & sop_reg & ~i_eop);
         else
             done_reg <= i_val & i_eop & (len_cnt == (FIS_LEN - 1));
     assign identify_done = done_reg;
