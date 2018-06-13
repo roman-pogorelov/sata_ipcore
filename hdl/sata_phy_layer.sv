@@ -78,9 +78,9 @@ module sata_phy_layer
 );
     //------------------------------------------------------------------------------------
     //      Описание констант
-    localparam int unsigned         CLKFREQ = 150_000;
-    localparam int unsigned         TIMEOUT = (880 * CLKFREQ) / 1000;
-    localparam int unsigned         TCWIDTH = $clog2(TIMEOUT + 1);
+    localparam int unsigned         TIMEOUT = (880 * 150);
+    localparam int unsigned         TCWIDTH = $clog2(TIMEOUT);
+    //
     localparam int unsigned         FIFOLEN = 10;
     localparam int unsigned         MAXUSED = 7;
     localparam int unsigned         MINUSED = 3;
@@ -92,7 +92,14 @@ module sata_phy_layer
     logic                           tx_reset;
     logic                           tx_clk;
     //
+    logic                           rxtx_reset;
+    logic                           rxtx_reset_reg;
+    //
+    logic                           gxb_rx_ready;
+    logic                           gxb_tx_ready;
+    //
     logic                           rx_is_lockedtodata;
+    logic                           rx_is_lockedtodata_resync;
     logic                           rx_is_lockedtoref;
     logic                           rx_is_lockedtoref_resync;
     logic [3 : 0]                   rx_patterndetect;
@@ -112,17 +119,29 @@ module sata_phy_layer
     logic                           tx_comwake;
     logic                           tx_oobfinish;
     logic                           tx_select;
+    logic                           tx_select_reg;
     logic                           tx_select_resync;
-    logic                           tx_obb_ready;
+    logic                           tx_oob_ready;
     //
     logic                           rx_cominit;
     logic                           rx_comwake;
     logic                           rx_oobfinish;
     //
+    logic                           xcvr_set_max_rate;
+    logic                           xcvr_change_rate;
+    logic                           xcvr_reset;
+    logic                           xcvr_reset_reg;
+    //
+    logic                           align_det_reg;
+    logic                           sync_det_reg;
+    logic                           link_fault_reg;
+    //
     logic                           link_ready;
+    logic                           link_ready_reg;
     logic                           link_ready_resync;
     logic                           timeout_inc;
     logic [TCWIDTH - 1 : 0]         timeout_cnt;
+    logic                           timeout_reg;
     logic [7 : 0]                   align_cnt;
     logic                           align_reg;
     //
@@ -140,179 +159,277 @@ module sata_phy_layer
     logic                           recfg_ready_resync;
     logic [1 : 0]                   recfg_sata_gen_reg;
     logic [1 : 0]                   recfg_sata_gen_resync;
-    logic [1 : 0]                   sata_gen_reg;
+    //
+    logic                           gxb_recfg_state_reg;
+    logic                           gxb_recfg_request;
+    logic                           gxb_recfg_ready;
     
     //------------------------------------------------------------------------------------
     //      Кодирование состояний конечного автомата
-    enum logic [8 : 0] {
-        st_idle             = 9'b00_0_0_0_0_0_0_0,
-        st_send_comreset    = 9'b00_0_0_0_0_0_1_0,
-        st_suspend_comreset = 9'b01_0_0_0_0_0_0_0,
-        st_wait_cominit     = 9'b00_0_1_0_0_0_0_0,
-        st_send_comwake     = 9'b00_0_0_0_0_1_0_0,
-        st_suspend_comwake  = 9'b10_0_0_0_0_0_0_0,
-        st_wait_comwake     = 9'b01_0_1_0_0_0_0_0,
-        st_wait_oobfinish   = 9'b10_0_1_0_0_0_0_0,
-        st_send_dial        = 9'b11_0_1_1_1_0_0_0,
-        st_request_recfg    = 9'b11_1_0_0_0_0_0_0,
-        st_wait_recfg       = 9'b11_0_1_0_0_0_0_0,
-        st_send_align       = 9'b11_0_1_0_1_0_0_0,
-        st_link_ready       = 9'b11_0_0_0_1_0_0_1
-    } state;
-    wire [8 : 0] st;
-    assign st = state;
+    (* syn_encoding = "gray" *) enum int unsigned {
+        st_wait_for_xcvr,
+        st_set_max_xcvr_rate,
+        st_recfg_xcvr_rate,
+        st_wait_for_set_xcvr_rate,
+        st_reset_xcvr,
+        st_wait_for_xcvr_after_reset,
+        st_wait_for_lockedtodata,
+        st_send_comreset,
+        st_wait_for_comreset_finish,
+        st_wait_for_cominit,
+        st_send_comwake,
+        st_wait_for_comwake_finish,
+        st_wait_for_comwake,
+        st_wait_for_align,
+        st_change_xcvr_rate,
+        st_wait_for_sync,
+        st_link_ready
+    } cstate, nstate;
     
     //------------------------------------------------------------------------------------
-    //      Управляющие сигналы конечного автомата
-    assign link_ready    = st[0];
-    assign tx_cominit    = st[1];
-    assign tx_comwake    = st[2];
-    assign tx_oobfinish  = st[3];
-    assign tx_select     = st[4];
-    assign timeout_inc   = st[5];
-    assign recfg_request = st[6];
-    
-    //------------------------------------------------------------------------------------
-    //      Логика переходов конечного автомата
+    //      Регистр текущего состояния конечного автомата и его регистровые выходы
+    initial cstate = st_wait_for_xcvr;
+    initial rxtx_reset_reg = '1;
+    initial xcvr_reset_reg = '1;
     always @(posedge gxb_reset, posedge gxb_refclk)
-        if (gxb_reset)
-            state <= st_idle;
-        else case (state)
-            st_idle:
-                if (rx_is_lockedtoref_resync)
-                    state <= st_send_comreset;
+        if (gxb_reset) begin
+            cstate <= st_wait_for_xcvr;
+            link_ready_reg <= '0;
+            tx_select_reg <= '0;
+            rxtx_reset_reg <= '1;
+            xcvr_reset_reg <= '1;
+        end
+        else begin
+            cstate <= nstate;
+            link_ready_reg <= link_ready;
+            tx_select_reg <= tx_select;
+            rxtx_reset_reg <= rxtx_reset;
+            xcvr_reset_reg <= xcvr_reset;
+        end
+    
+    //------------------------------------------------------------------------------------
+    //      Логика формирования следующего состояния конечного автомата и его выходов
+    always_comb begin
+        // Значения по умолчанию для выходов конечного автомата
+        link_ready          = 1'b0;
+        tx_select           = 1'b0;
+        rxtx_reset          = 1'b0;
+        xcvr_reset          = 1'b0;
+        xcvr_set_max_rate   = 1'b0;
+        xcvr_change_rate    = 1'b0;
+        tx_cominit          = 1'b0;
+        tx_comwake          = 1'b0;
+        tx_oobfinish        = 1'b0;
+        timeout_inc         = 1'b0;
+        recfg_request       = 1'b0;
+        
+        // Выбор в зависимости от текущего состояния
+        case (cstate)
+            st_wait_for_xcvr: begin
+                rxtx_reset = 1'b1;
+                if (gxb_tx_ready & rx_is_lockedtoref_resync)
+                    nstate = st_set_max_xcvr_rate;
                 else
-                    state <= st_idle;
-                
-            st_send_comreset:
-                state <= st_suspend_comreset;
-                
-            st_suspend_comreset:
-                if (tx_obb_ready)
-                    state <= st_wait_cominit;
-                else
-                    state <= st_suspend_comreset;
-                
-            st_wait_cominit:
-                if (rx_cominit)
-                    state <= st_send_comwake;
-                else if (timeout_cnt == TIMEOUT)
-                    state <= st_idle;
-                else
-                    state <= st_wait_cominit;
-                
-            st_send_comwake:
-                state <= st_suspend_comwake;
-                
-            st_suspend_comwake:
-                if (tx_obb_ready)
-                    state <= st_wait_comwake;
-                else
-                    state <= st_suspend_comwake;
-                
-            st_wait_comwake:
-                if (rx_comwake)
-                    state <= st_wait_oobfinish;
-                else if (timeout_cnt == TIMEOUT)
-                    state <= st_idle;
-                else
-                    state <= st_wait_comwake;
-                
-            st_wait_oobfinish:
-                if (rx_oobfinish)
-                    state <= st_send_dial;
-                else if (timeout_cnt == TIMEOUT)
-                    state <= st_idle;
-                else
-                    state <= st_wait_oobfinish;
+                    nstate = st_wait_for_xcvr;
+            end
             
-            st_send_dial:
-                if ((rx_data_resync == `ALIGN_PRIM) & (rx_datak_resync == {{3{1'b0}}, `DWORD_IS_PRIM}) & (&rx_syncstatus_resync))
-                    state <= st_send_align;
-                else if (timeout_cnt == TIMEOUT)
-                    state <= st_request_recfg;
-                else
-                    state <= st_send_dial;
+            st_set_max_xcvr_rate: begin
+                xcvr_set_max_rate = 1'b1;
+                nstate = st_recfg_xcvr_rate;
+            end
             
-            st_request_recfg:
+            st_recfg_xcvr_rate: begin
+                rxtx_reset = 1'b1;
+                recfg_request = 1'b1;
                 if (recfg_ready)
-                    state <= st_wait_recfg;
+                    nstate = st_wait_for_set_xcvr_rate;
                 else
-                    state <= st_request_recfg;
-                
-            st_wait_recfg:
-                if (timeout_cnt == TIMEOUT)
-                    state <= st_idle;
-                else
-                    state <= st_wait_recfg;
+                    nstate = st_recfg_xcvr_rate;
+            end
             
-            st_send_align:
-                if ((rx_data_resync == `SYNC_PRIM) & (rx_datak_resync == {{3{1'b0}}, `DWORD_IS_PRIM}))
-                    state <= st_link_ready;
-                else if (timeout_cnt == TIMEOUT)
-                    state <= st_idle;
+            st_wait_for_set_xcvr_rate: begin
+                rxtx_reset = 1'b1;
+                if (recfg_ready) begin
+                    xcvr_reset = 1'b1;
+                    nstate = st_reset_xcvr;
+                end
                 else
-                    state <= st_send_align;
+                    nstate = st_wait_for_set_xcvr_rate;
+            end
             
-            st_link_ready:
-                if (rx_signaldetect_resync & (&rx_syncstatus_resync))
-                    state <= st_link_ready;
+            st_reset_xcvr: begin
+                rxtx_reset = 1'b1;
+                nstate = st_wait_for_xcvr_after_reset;
+            end
+            
+            st_wait_for_xcvr_after_reset: begin
+                if (gxb_tx_ready & rx_is_lockedtoref_resync)
+                    nstate = st_wait_for_lockedtodata;
+                else begin
+                    rxtx_reset = 1'b1;
+                    nstate = st_wait_for_xcvr_after_reset;
+                end
+            end
+            
+            st_wait_for_lockedtodata: begin
+                if (rx_is_lockedtodata_resync)
+                    nstate = st_send_comreset;
                 else
-                    state <= st_idle;
+                    nstate = st_wait_for_lockedtodata;
+            end
             
-            default:
-                state <= st_idle;
+            st_send_comreset: begin
+                tx_cominit = 1'b1;
+                if (tx_oob_ready)
+                    nstate = st_wait_for_comreset_finish;
+                else
+                    nstate = st_send_comreset;
+            end
+            
+            st_wait_for_comreset_finish: begin
+                if (tx_oob_ready)
+                    nstate = st_wait_for_cominit;
+                else
+                    nstate = st_wait_for_comreset_finish;
+            end
+            
+            st_wait_for_cominit: begin
+                if (rx_cominit)
+                    nstate = st_send_comwake;
+                else if (timeout_reg)
+                    nstate = st_send_comreset;
+                else begin
+                    timeout_inc = 1'b1;
+                    nstate = st_wait_for_cominit;
+                end
+            end
+            
+            st_send_comwake: begin
+                tx_comwake = 1'b1;
+                if (tx_oob_ready)
+                    nstate = st_wait_for_comwake_finish;
+                else
+                    nstate = st_send_comwake;
+            end
+            
+            st_wait_for_comwake_finish: begin
+                if (tx_oob_ready)
+                    nstate = st_wait_for_comwake;
+                else
+                    nstate = st_wait_for_comwake_finish;
+            end
+            
+            st_wait_for_comwake: begin
+                if (rx_comwake) begin
+                    tx_select = 1'b1;
+                    nstate = st_wait_for_align;
+                end
+                else if (timeout_reg)
+                    nstate = st_send_comreset;
+                else begin
+                    timeout_inc = 1'b1;
+                    nstate = st_wait_for_comwake;
+                end
+            end
+            
+            st_wait_for_align: begin
+                tx_oobfinish = 1'b1;
+                if (align_det_reg)
+                    nstate = st_wait_for_sync;
+                else if (timeout_reg)
+                    nstate = st_change_xcvr_rate;
+                else begin
+                    tx_select = 1'b1;
+                    timeout_inc = 1'b1;
+                    nstate = st_wait_for_align;
+                end
+            end
+            
+            st_change_xcvr_rate: begin
+                xcvr_change_rate = 1'b1;
+                nstate = st_recfg_xcvr_rate;
+            end
+            
+            st_wait_for_sync: begin
+                tx_oobfinish = 1'b1;
+                if (sync_det_reg) begin
+                    link_ready = 1'b1;
+                    nstate = st_link_ready;
+                end
+                else if (timeout_reg)
+                    nstate = st_send_comreset;
+                else begin
+                    timeout_inc = 1'b1;
+                    nstate = st_wait_for_sync;
+                end
+            end
+            
+            st_link_ready: begin
+                tx_oobfinish = 1'b1;
+                if (link_fault_reg) begin
+                    nstate = st_set_max_xcvr_rate;
+                end
+                else begin
+                    link_ready = 1'b1;
+                    nstate = st_link_ready;
+                end
+            end
+            
+            default: begin
+                nstate = st_send_comreset;
+            end
         endcase
+    end
     
     //------------------------------------------------------------------------------------
     //      Модуль синхронизации сигналов асинхронного сброса (предустановки)
     areset_synchronizer
     #(
-        .EXTRA_STAGES   (1),            // Количество дополнительных ступеней цепи синхронизации
-        .ACTIVE_LEVEL   (1'b1)          // Активный уровень сигнала сброса
+        .EXTRA_STAGES   (1),                // Количество дополнительных ступеней цепи синхронизации
+        .ACTIVE_LEVEL   (1'b1)              // Активный уровень сигнала сброса
     )
     rx_reset_synchronizer
     (
         // Сигнал тактирования
-        .clk            (rx_clk),       // i
+        .clk            (rx_clk),           // i
         
         // Входной сброс (асинхронный 
         // относительно сигнала тактирования)
-        .areset         (gxb_reset),    // i
+        .areset         (rxtx_reset_reg),   // i
         
         // Выходной сброс (синхронный 
         // относительно сигнала тактирования)
-        .sreset         (rx_reset)      // o
+        .sreset         (rx_reset)          // o
     ); // rx_reset_synchronizer
     
     //------------------------------------------------------------------------------------
     //      Модуль синхронизации сигналов асинхронного сброса (предустановки)
     areset_synchronizer
     #(
-        .EXTRA_STAGES   (1),            // Количество дополнительных ступеней цепи синхронизации
-        .ACTIVE_LEVEL   (1'b1)          // Активный уровень сигнала сброса
+        .EXTRA_STAGES   (1),                // Количество дополнительных ступеней цепи синхронизации
+        .ACTIVE_LEVEL   (1'b1)              // Активный уровень сигнала сброса
     )
     tx_reset_synchronizer
     (
         // Сигнал тактирования
-        .clk            (tx_clk),       // i
+        .clk            (tx_clk),           // i
         
         // Входной сброс (асинхронный 
         // относительно сигнала тактирования)
-        .areset         (gxb_reset),    // i
+        .areset         (rxtx_reset_reg),   // i
         
         // Выходной сброс (синхронный 
         // относительно сигнала тактирования)
-        .sreset         (tx_reset)      // o
+        .sreset         (tx_reset)          // o
     ); // tx_reset_synchronizer
     
     //------------------------------------------------------------------------------------
     //      Модуль синхронизации сигнала на последовательной триггерной цепочке
     ff_synchronizer
     #(
-        .WIDTH          (42),           // Разрядность синхронизируемой шины
+        .WIDTH          (43),           // Разрядность синхронизируемой шины
         .EXTRA_STAGES   (1),            // Количество дополнительных ступеней цепи синхронизации
-        .RESET_VALUE    ({42{1'b0}})    // Значение по умолчанию для ступеней цепи синхронизации
+        .RESET_VALUE    ({43{1'b0}})    // Значение по умолчанию для ступеней цепи синхронизации
     )
     rx2ref_ff_synchronizer
     (
@@ -324,6 +441,7 @@ module sata_phy_layer
         .async_data     ({              // i  [WIDTH - 1 : 0]
                             rx_signaldetect,
                             rx_is_lockedtoref,
+                            rx_is_lockedtodata,
                             rx_syncstatus,
                             rx_datak_align,
                             rx_data_align
@@ -333,6 +451,7 @@ module sata_phy_layer
         .sync_data      ({              // o  [WIDTH - 1 : 0]
                             rx_signaldetect_resync,
                             rx_is_lockedtoref_resync,
+                            rx_is_lockedtodata_resync,
                             rx_syncstatus_resync,
                             rx_datak_resync,
                             rx_data_resync
@@ -355,9 +474,9 @@ module sata_phy_layer
         
         // Асинхронный входной сигнал
         .async_data     ({              // i  [WIDTH - 1 : 0]
-                            tx_select,
-                            link_ready,
-                            sata_gen_reg & {2{link_ready}}
+                            tx_select_reg,
+                            link_ready_reg,
+                            recfg_sata_gen_reg
                         }),
         
         // Синхронный выходной сигнал
@@ -408,7 +527,7 @@ module sata_phy_layer
         .clk            (gxb_refclk),           // i
         
         // Индикатор готовности к приему команды
-        .ready          (tx_obb_ready),         // o
+        .ready          (tx_oob_ready),         // o
         
         // Окончание фазы генерации последовательностей
         .oobfinish      (tx_oobfinish),         // i
@@ -554,19 +673,20 @@ module sata_phy_layer
             av_sata_xcvr
             the_av_sata_xcvr
             (
-                // Сброс и тактирование интерфейса реконфигурации
-                .reconfig_reset     (reconfig_reset),               // i
+                // Общий сброс
+                .reset              (xcvr_reset_reg),               // i
+                
+                // Тактирование интерфейса реконфигурации
                 .reconfig_clk       (reconfig_clk),                 // i
                 
-                // Сброс и тактирование высокоскоростных приемопередатчиков
-                .gxb_reset          (gxb_reset),                    // i
+                // Тактирование высокоскоростных приемопередатчиков
                 .gxb_refclk         (gxb_refclk),                   // i
                 
                 // Интерфейс реконфигурации между поколениями SATA
                 // (домен reconfig_clk)
-                .recfg_request      (recfg_request_resync),         // i
+                .recfg_request      (gxb_recfg_request),            // i
                 .recfg_sata_gen     (recfg_sata_gen_resync),        // i  [1 : 0]
-                .recfg_ready        (recfg_ready_resync),           // o
+                .recfg_ready        (gxb_recfg_ready),              // o
                 
                 // Интерфейсные сигналы приемника
                 .rx_clock           (rx_clk),                       // o
@@ -584,12 +704,53 @@ module sata_phy_layer
                 .tx_datak           ({{3{1'b0}}, tx_datak_reg}),    // i  [3 : 0]
                 .tx_elecidle        (tx_elecidle),                  // i
                 
+                // Статусные сигналы готовности
+                // (домен gxb_refclk)
+                .rx_ready           (gxb_rx_ready),                 // o
+                .tx_ready           (gxb_tx_ready),                 // o
+                
                 // Высокоскоростные линии
                 .gxb_rx             (gxb_rx),                       // i
                 .gxb_tx             (gxb_tx)                        // o
             ); // the_av_sata_xcvr
         end
     endgenerate
+    
+    //------------------------------------------------------------------------------------
+    //      Регист признака обнаружения примитива ALIGN
+    always @(posedge gxb_reset, posedge gxb_refclk)
+        if (gxb_reset)
+            align_det_reg <= '0;
+        else
+            align_det_reg <= (
+                (rx_data_resync == `ALIGN_PRIM) &
+                (rx_datak_resync == {{3{1'b0}}, `DWORD_IS_PRIM}) &
+                (&rx_syncstatus_resync)
+            );
+    
+    //------------------------------------------------------------------------------------
+    //      Регист признака обнаружения примитива SYNC
+    always @(posedge gxb_reset, posedge gxb_refclk)
+        if (gxb_reset)
+            sync_det_reg <= '0;
+        else
+            sync_det_reg <= (
+                (rx_data_resync == `SYNC_PRIM) &
+                (rx_datak_resync == {{3{1'b0}}, `DWORD_IS_PRIM}) &
+                (&rx_syncstatus_resync)
+            );
+    
+    //------------------------------------------------------------------------------------
+    //      Регистр признака обрыва соединения
+    initial link_fault_reg = 1'b1;
+    always @(posedge gxb_reset, posedge gxb_refclk)
+        if (gxb_reset)
+            link_fault_reg <= 1'b1;
+        else
+            link_fault_reg <= ~(
+                rx_signaldetect_resync &
+                (&rx_syncstatus_resync)
+            );
     
     //------------------------------------------------------------------------------------
     //      Счетчик тактов таймаута для прерывания операции
@@ -600,6 +761,14 @@ module sata_phy_layer
             timeout_cnt <= timeout_cnt + 1'b1;
         else
             timeout_cnt <= '0;
+    
+    //------------------------------------------------------------------------------------
+    //      Регистр индикатор прерывания ожидания по таймауту
+    always @(posedge gxb_reset, posedge gxb_refclk)
+        if (gxb_reset)
+            timeout_reg <= '0;
+        else
+            timeout_reg <= timeout_inc & (timeout_cnt == (TIMEOUT - 1));
     
     //------------------------------------------------------------------------------------
     //      Счетчик тактов между примитивами выравнивания
@@ -620,7 +789,7 @@ module sata_phy_layer
             align_reg <= link_ready_resync & ((align_cnt == 0) | (align_cnt == 1));
     
     //------------------------------------------------------------------------------------
-    //      Регист данных для передачи
+    //      Регистр данных для передачи
     always @(posedge tx_reset, posedge tx_clk)
         if (tx_reset)
             tx_data_reg <= '0;
@@ -672,31 +841,31 @@ module sata_phy_layer
     
     //------------------------------------------------------------------------------------
     //      Регист текущей конфигурации SATA
-    initial sata_gen_reg = `SATA_GEN3;
+    initial recfg_sata_gen_reg = `SATA_GEN3;
     always @(posedge gxb_reset, posedge gxb_refclk)
         if (gxb_reset)
-            sata_gen_reg <= `SATA_GEN3;
-        else if (recfg_request & recfg_ready)
-            if (sata_gen_reg == `SATA_GEN1)
-                sata_gen_reg <= `SATA_GEN3;
-            else
-                sata_gen_reg <= sata_gen_reg - 1'b1;
-        else
-            sata_gen_reg <= sata_gen_reg;
-    
-    //------------------------------------------------------------------------------------
-    //      Регистр следующей конфигурации SATA
-    initial recfg_sata_gen_reg = `SATA_GEN2;
-    always @(posedge gxb_reset, posedge gxb_refclk)
-        if (gxb_reset)
-            recfg_sata_gen_reg <= `SATA_GEN2;
-        else if (recfg_request & recfg_ready)
-            if (recfg_sata_gen_reg == `SATA_GEN1)
-                recfg_sata_gen_reg <= `SATA_GEN3;
-            else
-                recfg_sata_gen_reg <= recfg_sata_gen_reg - 1'b1;
+            recfg_sata_gen_reg <= `SATA_GEN3;
+        else if (xcvr_set_max_rate)
+            recfg_sata_gen_reg <= `SATA_GEN3;
+        else if (xcvr_change_rate)
+            recfg_sata_gen_reg <= recfg_sata_gen_reg - (recfg_sata_gen_reg != `SATA_GEN1);
         else
             recfg_sata_gen_reg <= recfg_sata_gen_reg;
+    
+    //------------------------------------------------------------------------------------
+    //      Регистр состояния интерфейса реконфигурации между поколениями SATA
+    always @(posedge reconfig_reset, posedge reconfig_clk)
+        if (reconfig_reset)
+            gxb_recfg_state_reg <= '0;
+        else if (gxb_recfg_state_reg)
+            gxb_recfg_state_reg <= ~gxb_recfg_ready;
+        else
+            gxb_recfg_state_reg <= recfg_request_resync & gxb_recfg_ready;
+    
+    //------------------------------------------------------------------------------------
+    //      Дополнительная логика в интерфейсе реконфигурации между поколениями SATA
+    assign gxb_recfg_request  = ~gxb_recfg_state_reg & recfg_request_resync;
+    assign recfg_ready_resync =  gxb_recfg_state_reg & gxb_recfg_ready;
     
     //------------------------------------------------------------------------------------
     //      Признак готовности интерфейса передатчика (не готов во время передачи
