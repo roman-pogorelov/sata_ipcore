@@ -5,12 +5,13 @@
     av_sata_xcvr
     the_av_sata_xcvr
     (
-        // Сброс и тактирование интерфейса реконфигурации
-        .reconfig_reset     (), // i
+        // Общий сброс
+        .reset              (), // i
+        
+        // Тактирование интерфейса реконфигурации
         .reconfig_clk       (), // i
         
-        // Сброс и тактирование высокоскоростных приемопередатчиков
-        .gxb_reset          (), // i
+        // Тактирование высокоскоростных приемопередатчиков
         .gxb_refclk         (), // i
         
         // Интерфейс реконфигурации между поколениями SATA
@@ -35,6 +36,11 @@
         .tx_datak           (), // i  [3 : 0]
         .tx_elecidle        (), // i
         
+        // Статусные сигналы готовности
+        // (домен gxb_refclk)
+        .rx_ready           (), // o
+        .tx_ready           (), // o
+        
         // Высокоскоростные линии
         .gxb_rx             (), // i
         .gxb_tx             ()  // o
@@ -43,12 +49,13 @@
 
 module av_sata_xcvr
 (
-    // Сброс и тактирование интерфейса реконфигурации
-    input  logic            reconfig_reset,
+    // Общий сброс
+    input logic             reset,
+    
+    // Тактирование интерфейса реконфигурации
     input  logic            reconfig_clk,
     
-    // Сброс и тактирование высокоскоростных приемопередатчиков
-    input  logic            gxb_reset,
+    // Тактирование высокоскоростных приемопередатчиков
     input  logic            gxb_refclk,
     
     // Интерфейс реконфигурации между поколениями SATA
@@ -73,12 +80,20 @@ module av_sata_xcvr
     input  logic [3 : 0]    tx_datak,
     input  logic            tx_elecidle,
     
+    // Статусные сигналы готовности
+    // (домен gxb_refclk)
+    output logic            rx_ready,
+    output logic            tx_ready,
+    
     // Высокоскоростные линии
     input  logic            gxb_rx,
     output logic            gxb_tx
 );
     //------------------------------------------------------------------------------------
     //      Объявление сигналов
+    logic                   reconfig_reset;
+    logic                   gxb_reset;
+    //
     logic [139 : 0]         reconfig_to_xcvr;
     logic [91 : 0]          reconfig_from_xcvr;
     //
@@ -99,6 +114,48 @@ module av_sata_xcvr
     logic                   recfg_rreq;
     logic [31 : 0]          recfg_rdat;
     logic                   recfg_busy;
+    
+    //------------------------------------------------------------------------------------
+    //      Модуль синхронизации сигналов асинхронного сброса (предустановки)
+    areset_synchronizer
+    #(
+        .EXTRA_STAGES   (1),                // Количество дополнительных ступеней цепи синхронизации
+        .ACTIVE_LEVEL   (1'b1)              // Активный уровень сигнала сброса
+    )
+    reconfig_reset_synchronizer
+    (
+        // Сигнал тактирования
+        .clk            (reconfig_clk),     // i
+        
+        // Входной сброс (асинхронный 
+        // относительно сигнала тактирования)
+        .areset         (reset),            // i
+        
+        // Выходной сброс (синхронный 
+        // относительно сигнала тактирования)
+        .sreset         (reconfig_reset)    // o
+    ); // reconfig_reset_synchronizer
+    
+    //------------------------------------------------------------------------------------
+    //      Модуль синхронизации сигналов асинхронного сброса (предустановки)
+    areset_synchronizer
+    #(
+        .EXTRA_STAGES   (1),                // Количество дополнительных ступеней цепи синхронизации
+        .ACTIVE_LEVEL   (1'b1)              // Активный уровень сигнала сброса
+    )
+    gxb_reset_synchronizer
+    (
+        // Сигнал тактирования
+        .clk            (gxb_refclk),       // i
+        
+        // Входной сброс (асинхронный 
+        // относительно сигнала тактирования)
+        .areset         (reset),            // i
+        
+        // Выходной сброс (синхронный 
+        // относительно сигнала тактирования)
+        .sreset         (gxb_reset)         // o
+    ); // gxb_reset_synchronizer
     
     //------------------------------------------------------------------------------------
     //      Ядро высокоскоростного приемопередатчика Serial ATA
@@ -165,13 +222,13 @@ module av_sata_xcvr
         .pll_powerdown              (pll_powerdown),                // o  [0:0]      pll_powerdown.pll_powerdown
         .tx_analogreset             (tx_analogreset),               // o  [0:0]     tx_analogreset.tx_analogreset
         .tx_digitalreset            (tx_digitalreset),              // o  [0:0]    tx_digitalreset.tx_digitalreset
-        .tx_ready                   (  ),                           // o  [0:0]           tx_ready.tx_ready
+        .tx_ready                   (tx_ready),                     // o  [0:0]           tx_ready.tx_ready
         .pll_locked                 (pll_locked),                   // i  [0:0]         pll_locked.pll_locked
         .pll_select                 (1'b0),                         // i  [0:0]         pll_select.pll_select
         .tx_cal_busy                (tx_cal_busy),                  // i  [0:0]        tx_cal_busy.tx_cal_busy
         .rx_analogreset             (rx_analogreset),               // o  [0:0]     rx_analogreset.rx_analogreset
         .rx_digitalreset            (rx_digitalreset),              // o  [0:0]    rx_digitalreset.rx_digitalreset
-        .rx_ready                   (  ),                           // o  [0:0]           rx_ready.rx_ready
+        .rx_ready                   (rx_ready),                     // o  [0:0]           rx_ready.rx_ready
         .rx_is_lockedtodata         (rx_is_lockedtodata),           // i  [0:0] rx_is_lockedtodata.rx_is_lockedtodata
         .rx_cal_busy                (rx_cal_busy)                   // i  [0:0]        rx_cal_busy.rx_cal_busy
     ); // the_av_sata_xcvr_rst_core
