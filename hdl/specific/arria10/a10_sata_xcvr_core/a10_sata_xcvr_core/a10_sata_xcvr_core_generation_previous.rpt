@@ -10,7 +10,6 @@ Progress: Validating
 Progress: Done reading input file
 Info: a10_sata_xcvr_core.xcvr_native_a10_0: Simplified data interface has been enabled. The Native PHY will present the data/control interface for the current configuration only. Dynamic reconfiguration of the data interface cannot be supported. The unused_tx_parallel_data and unused_tx_control ports should be connected to 0.
 Info: a10_sata_xcvr_core.xcvr_native_a10_0: Note - When dynamic reconfiguration is enabled, users are recommended to enable multiple reconfiguration profiles for Quartus to perform robust timing closure
-Info: a10_sata_xcvr_core.xcvr_native_a10_0: Current IP configuration matches reconfiguration profile 2
 Info: a10_sata_xcvr_core.xcvr_native_a10_0: For the selected device(10AX016C3U19I2SG), transceiver speed grade is 3 and core speed grade is 2.
 Info: a10_sata_xcvr_core.xcvr_native_a10_0: Note - The external TX PLL IP must be configured with an output clock frequency of 3000.0 MHz.
 Info: a10_sata_xcvr_core: "Transforming system: a10_sata_xcvr_core"
@@ -19,11 +18,11 @@ Info: a10_sata_xcvr_core: Running transform generation_view_transform took 0.000
 Info: xcvr_native_a10_0: Running transform generation_view_transform
 Info: xcvr_native_a10_0: Running transform generation_view_transform took 0.000s
 Info: a10_sata_xcvr_core: Running transform merlin_avalon_transform
-Info: a10_sata_xcvr_core: Running transform merlin_avalon_transform took 0.031s
+Info: a10_sata_xcvr_core: Running transform merlin_avalon_transform took 0.007s
 Info: a10_sata_xcvr_core: "Naming system components in system: a10_sata_xcvr_core"
 Info: a10_sata_xcvr_core: "Processing generation queue"
 Info: a10_sata_xcvr_core: "Generating: a10_sata_xcvr_core"
-Info: a10_sata_xcvr_core: "Generating: a10_sata_xcvr_core_altera_xcvr_native_a10_171_qvaveni"
+Info: a10_sata_xcvr_core: "Generating: a10_sata_xcvr_core_altera_xcvr_native_a10_171_wwkncsa"
 Info: xcvr_native_a10_0: add_fileset_file ./alt_xcvr_resync.sv SYSTEM_VERILOG PATH ../../../../altera_xcvr_generic/ctrl/alt_xcvr_resync.sv
 Info: xcvr_native_a10_0: add_fileset_file ./alt_xcvr_arbiter.sv SYSTEM_VERILOG PATH ../../../../altera_xcvr_generic/ctrl/alt_xcvr_arbiter.sv
 Info: xcvr_native_a10_0: add_fileset_file ./twentynm_pcs.sv SYSTEM_VERILOG PATH ../../../alt_xcvr_core/nf/twentynm_pcs.sv
@@ -46,31 +45,8 @@ Info: xcvr_native_a10_0: add_fileset_file ./pcie_mgmt_cpu.sv SYSTEM_VERILOG PATH
 Info: xcvr_native_a10_0: add_fileset_file ./pcie_mgmt_master.sv SYSTEM_VERILOG PATH ../pcie_dfe_ip/pcie_mgmt_master.sv
 Info: xcvr_native_a10_0: add_fileset_file ./altera_xcvr_native_pcie_dfe_ip.sv SYSTEM_VERILOG PATH ../pcie_dfe_ip/altera_xcvr_native_pcie_dfe_ip.sv
 Info: xcvr_native_a10_0: Building configuration data for reconfiguration profile 0
-Info: xcvr_native_a10_0: Validating reconfiguration profile 0
-Info: xcvr_native_a10_0: Simplified data interface has been enabled. The Native PHY will present the data/control interface for the current configuration only. Dynamic reconfiguration of the data interface cannot be supported. The unused_tx_parallel_data and unused_tx_control ports should be connected to 0.
-Info: xcvr_native_a10_0: Note - When dynamic reconfiguration is enabled, users are recommended to enable multiple reconfiguration profiles for Quartus to perform robust timing closure
-Info: xcvr_native_a10_0: Current IP configuration matches reconfiguration profile 0
-Info: xcvr_native_a10_0: For the selected device(10AX016C3U19I2SG), transceiver speed grade is 3 and core speed grade is 2.
-Info: xcvr_native_a10_0: Building configuration data for reconfiguration profile 1
-Info: xcvr_native_a10_0: Validating reconfiguration profile 1
-Info: xcvr_native_a10_0: Simplified data interface has been enabled. The Native PHY will present the data/control interface for the current configuration only. Dynamic reconfiguration of the data interface cannot be supported. The unused_tx_parallel_data and unused_tx_control ports should be connected to 0.
-Info: xcvr_native_a10_0: Note - When dynamic reconfiguration is enabled, users are recommended to enable multiple reconfiguration profiles for Quartus to perform robust timing closure
-Info: xcvr_native_a10_0: Current IP configuration matches reconfiguration profile 1
-Info: xcvr_native_a10_0: For the selected device(10AX016C3U19I2SG), transceiver speed grade is 3 and core speed grade is 2.
-Info: xcvr_native_a10_0: Building configuration data for reconfiguration profile 2
-Info: xcvr_native_a10_0: Validating reconfiguration profile 2
-Info: xcvr_native_a10_0: Simplified data interface has been enabled. The Native PHY will present the data/control interface for the current configuration only. Dynamic reconfiguration of the data interface cannot be supported. The unused_tx_parallel_data and unused_tx_control ports should be connected to 0.
-Info: xcvr_native_a10_0: Note - When dynamic reconfiguration is enabled, users are recommended to enable multiple reconfiguration profiles for Quartus to perform robust timing closure
-Info: xcvr_native_a10_0: Current IP configuration matches reconfiguration profile 2
-Info: xcvr_native_a10_0: For the selected device(10AX016C3U19I2SG), transceiver speed grade is 3 and core speed grade is 2.
 Info: xcvr_native_a10_0: Generating configuration files for reconfiguration profile 0
 Info: xcvr_native_a10_0: Generating C header configuration file for reconfiguration profile 0
-Info: xcvr_native_a10_0: Generating configuration files for reconfiguration profile 1
-Info: xcvr_native_a10_0: Generating C header configuration file for reconfiguration profile 1
-Info: xcvr_native_a10_0: Generating configuration files for reconfiguration profile 2
-Info: xcvr_native_a10_0: Generating C header configuration file for reconfiguration profile 2
-Info: xcvr_native_a10_0: Generating SystemVerilog package file with embedded reconfiguration parameters
-Info: xcvr_native_a10_0: Generating embedded reconfiguration modules
-Info: a10_sata_xcvr_core: Done "a10_sata_xcvr_core" with 2 modules, 47 files
+Info: a10_sata_xcvr_core: Done "a10_sata_xcvr_core" with 2 modules, 27 files
 Info: qsys-generate succeeded.
 Info: Finished: Create HDL design files for synthesis

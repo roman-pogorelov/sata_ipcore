@@ -13,7 +13,7 @@
 
 `timescale 1 ps/1 ps
 
-module alt_xcvr_native_rcfg_opt_logic_6e552hq #(
+module alt_xcvr_native_rcfg_opt_logic_qvaveni #(
   // Parameters for the embedded reconfiguration logic
   parameter                                 dbg_user_identifier           = 0,
   parameter                                 duplex_mode                   = "duplex",
@@ -415,7 +415,7 @@ endgenerate
 /**********************************************************************/
 generate if(RCFG_EMB_STRM_ENABLED) begin : g_rcfg_strm_enable //TODO check to see if there is parameter redundancy
 
-      alt_xcvr_native_rcfg_strm_top_6e552hq #(
+      alt_xcvr_native_rcfg_strm_top_qvaveni #(
         .xcvr_rcfg_interfaces                  ( CHANNELS                        ),
         .xcvr_rcfg_addr_width                  ( ADDR_BITS                       ),
         .xcvr_rcfg_data_width                  ( DATA_WIDTH                      ),

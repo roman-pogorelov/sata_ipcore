@@ -6,7 +6,7 @@
    version="1.0"
    description=""
    tags="INTERNAL_COMPONENT=true"
-   categories="" />
+   categories="System" />
  <parameter name="bonusData"><![CDATA[bonusData 
 {
    element xcvr_native_a10_0
@@ -20,7 +20,7 @@
 }
 ]]></parameter>
  <parameter name="clockCrossingAdapter" value="HANDSHAKE" />
- <parameter name="device" value="10AS016C3U19E2LG" />
+ <parameter name="device" value="10AX016C3U19I2SG" />
  <parameter name="deviceFamily" value="Arria 10" />
  <parameter name="deviceSpeedGrade" value="2" />
  <parameter name="fabricMode" value="QSYS" />
@@ -38,6 +38,32 @@
  <parameter name="timeStamp" value="0" />
  <parameter name="useTestBenchNamingPattern" value="false" />
  <instanceScript></instanceScript>
+ <interface
+   name="reconfig_avmm"
+   internal="xcvr_native_a10_0.reconfig_avmm"
+   type="conduit"
+   dir="end">
+  <port name="reconfig_write" internal="reconfig_write" />
+  <port name="reconfig_read" internal="reconfig_read" />
+  <port name="reconfig_address" internal="reconfig_address" />
+  <port name="reconfig_writedata" internal="reconfig_writedata" />
+  <port name="reconfig_readdata" internal="reconfig_readdata" />
+  <port name="reconfig_waitrequest" internal="reconfig_waitrequest" />
+ </interface>
+ <interface
+   name="reconfig_clk"
+   internal="xcvr_native_a10_0.reconfig_clk"
+   type="conduit"
+   dir="end">
+  <port name="reconfig_clk" internal="reconfig_clk" />
+ </interface>
+ <interface
+   name="reconfig_reset"
+   internal="xcvr_native_a10_0.reconfig_reset"
+   type="conduit"
+   dir="end">
+  <port name="reconfig_reset" internal="reconfig_reset" />
+ </interface>
  <interface
    name="rx_analogreset"
    internal="xcvr_native_a10_0.rx_analogreset"
@@ -228,6 +254,9 @@
    dir="end">
   <port name="tx_serial_clk0" internal="tx_serial_clk0" />
  </interface>
+ <interface name="tx_serial_clk1" internal="xcvr_native_a10_0.tx_serial_clk1" />
+ <interface name="tx_serial_clk2" internal="xcvr_native_a10_0.tx_serial_clk2" />
+ <interface name="tx_serial_clk3" internal="xcvr_native_a10_0.tx_serial_clk3" />
  <interface
    name="tx_serial_data"
    internal="xcvr_native_a10_0.tx_serial_data"
@@ -295,7 +324,7 @@
   <parameter name="cdr_refclk_select" value="0" />
   <parameter name="channels" value="1" />
   <parameter name="design_environment" value="NATIVE" />
-  <parameter name="device" value="10AS016C3U19E2LG" />
+  <parameter name="device" value="10AX016C3U19I2SG" />
   <parameter name="device_family" value="Arria 10" />
   <parameter name="disable_continuous_dfe" value="false" />
   <parameter name="duplex_mode" value="duplex" />
@@ -434,25 +463,25 @@
   <parameter name="plls" value="1" />
   <parameter name="pma_mode" value="SATA" />
   <parameter name="protocol_mode" value="basic_std" />
-  <parameter name="rcfg_enable" value="0" />
+  <parameter name="rcfg_enable" value="1" />
   <parameter name="rcfg_enable_avmm_busy_port" value="0" />
-  <parameter name="rcfg_file_prefix">altera_xcvr_native_a10</parameter>
-  <parameter name="rcfg_h_file_enable" value="0" />
+  <parameter name="rcfg_file_prefix" value="a10_sata_xcvr_core" />
+  <parameter name="rcfg_h_file_enable" value="1" />
   <parameter name="rcfg_iface_enable" value="0" />
   <parameter name="rcfg_jtag_enable" value="0" />
   <parameter name="rcfg_mif_file_enable" value="0" />
-  <parameter name="rcfg_multi_enable" value="0" />
-  <parameter name="rcfg_profile_cnt" value="2" />
-  <parameter name="rcfg_profile_data0" value="" />
-  <parameter name="rcfg_profile_data1" value="" />
-  <parameter name="rcfg_profile_data2" value="" />
+  <parameter name="rcfg_multi_enable" value="1" />
+  <parameter name="rcfg_profile_cnt" value="3" />
+  <parameter name="rcfg_profile_data0">anlg_voltage 1_0V anlg_link lr support_mode user_mode protocol_mode basic_std pma_mode SATA duplex_mode duplex channels 1 set_data_rate 1500 rcfg_iface_enable 0 enable_simple_interface 1 enable_split_interface 0 set_enable_calibration 1 enable_parallel_loopback 0 bonded_mode not_bonded set_pcs_bonding_master Auto tx_pma_clk_div 4 plls 1 pll_select 0 enable_port_tx_analog_reset_ack 0 enable_port_tx_pma_clkout 0 enable_port_tx_pma_div_clkout 0 tx_pma_div_clkout_divider 0 enable_port_tx_pma_iqtxrx_clkout 0 enable_port_tx_pma_elecidle 1 enable_port_tx_pma_qpipullup 0 enable_port_tx_pma_qpipulldn 0 enable_port_tx_pma_txdetectrx 0 enable_port_tx_pma_rxfound 0 enable_port_rx_seriallpbken_tx 0 number_physical_bonding_clocks 1 cdr_refclk_cnt 1 cdr_refclk_select 0 set_cdr_refclk_freq 150.000000 rx_ppm_detect_threshold 1000 rx_pma_ctle_adaptation_mode manual rx_pma_dfe_adaptation_mode disabled rx_pma_dfe_fixed_taps 3 enable_ports_adaptation 0 enable_port_rx_analog_reset_ack 0 enable_port_rx_pma_clkout 0 enable_port_rx_pma_div_clkout 0 rx_pma_div_clkout_divider 0 enable_port_rx_pma_iqtxrx_clkout 0 enable_port_rx_pma_clkslip 0 enable_port_rx_pma_qpipulldn 0 enable_port_rx_is_lockedtodata 1 enable_port_rx_is_lockedtoref 1 enable_ports_rx_manual_cdr_mode 0 enable_ports_rx_manual_ppm 0 enable_port_rx_signaldetect 0 enable_port_rx_seriallpbken 0 enable_ports_rx_prbs 0 std_pcs_pma_width 20 std_low_latency_bypass_enable 0 enable_hip 0 enable_hard_reset 0 set_hip_cal_en 0 std_tx_pcfifo_mode low_latency std_rx_pcfifo_mode low_latency enable_port_tx_std_pcfifo_full 0 enable_port_tx_std_pcfifo_empty 0 enable_port_rx_std_pcfifo_full 0 enable_port_rx_std_pcfifo_empty 0 std_tx_byte_ser_mode {Serialize x2} std_rx_byte_deser_mode {Deserialize x2} std_tx_8b10b_enable 1 std_tx_8b10b_disp_ctrl_enable 0 std_rx_8b10b_enable 1 std_rx_rmfifo_mode disabled std_rx_rmfifo_pattern_n 0 std_rx_rmfifo_pattern_p 0 enable_port_rx_std_rmfifo_full 0 enable_port_rx_std_rmfifo_empty 0 pcie_rate_match Bypass std_tx_bitslip_enable 0 enable_port_tx_std_bitslipboundarysel 0 std_rx_word_aligner_mode {manual (PLD controlled)} std_rx_word_aligner_pattern_len 10 std_rx_word_aligner_pattern 380 std_rx_word_aligner_rknumber 3 std_rx_word_aligner_renumber 3 std_rx_word_aligner_rgnumber 3 std_rx_word_aligner_fast_sync_status_enable 0 enable_port_rx_std_wa_patternalign 1 enable_port_rx_std_wa_a1a2size 0 enable_port_rx_std_bitslipboundarysel 0 enable_port_rx_std_bitslip 0 std_tx_bitrev_enable 0 std_tx_byterev_enable 0 std_tx_polinv_enable 0 enable_port_tx_polinv 0 std_rx_bitrev_enable 0 enable_port_rx_std_bitrev_ena 0 std_rx_byterev_enable 0 enable_port_rx_std_byterev_ena 0 std_rx_polinv_enable 0 enable_port_rx_polinv 0 enable_port_rx_std_signaldetect 1 enable_ports_pipe_sw 0 enable_ports_pipe_hclk 0 enable_ports_pipe_g3_analog 0 enable_ports_pipe_rx_elecidle 0 enable_port_pipe_rx_polarity 0 enh_pcs_pma_width 40 enh_pld_pcs_width 40 enh_low_latency_enable 0 enh_rxtxfifo_double_width 0 enh_txfifo_mode {Phase compensation} enh_txfifo_pfull 11 enh_txfifo_pempty 2 enable_port_tx_enh_fifo_full 0 enable_port_tx_enh_fifo_pfull 0 enable_port_tx_enh_fifo_empty 0 enable_port_tx_enh_fifo_pempty 0 enable_port_tx_enh_fifo_cnt 0 enh_rxfifo_mode {Phase compensation} enh_rxfifo_pfull 23 enh_rxfifo_pempty 2 enh_rxfifo_align_del 0 enh_rxfifo_control_del 0 enable_port_rx_enh_data_valid 0 enable_port_rx_enh_fifo_full 0 enable_port_rx_enh_fifo_pfull 0 enable_port_rx_enh_fifo_empty 0 enable_port_rx_enh_fifo_pempty 0 enable_port_rx_enh_fifo_cnt 0 enable_port_rx_enh_fifo_del 0 enable_port_rx_enh_fifo_insert 0 enable_port_rx_enh_fifo_rd_en 0 enable_port_rx_enh_fifo_align_val 0 enable_port_rx_enh_fifo_align_clr 0 enh_tx_frmgen_enable 0 enh_tx_frmgen_mfrm_length 2048 enh_tx_frmgen_burst_enable 0 enable_port_tx_enh_frame 0 enable_port_tx_enh_frame_diag_status 0 enable_port_tx_enh_frame_burst_en 0 enh_rx_frmsync_enable 0 enh_rx_frmsync_mfrm_length 2048 enable_port_rx_enh_frame 0 enable_port_rx_enh_frame_lock 0 enable_port_rx_enh_frame_diag_status 0 enh_tx_crcgen_enable 0 enh_tx_crcerr_enable 0 enh_rx_crcchk_enable 0 enable_port_rx_enh_crc32_err 0 enable_port_rx_enh_highber 0 enable_port_rx_enh_highber_clr_cnt 0 enable_port_rx_enh_clr_errblk_count 0 enh_tx_64b66b_enable 0 enh_rx_64b66b_enable 0 enh_tx_sh_err 0 enh_tx_scram_enable 0 enh_tx_scram_seed 0 enh_rx_descram_enable 0 enh_tx_dispgen_enable 0 enh_rx_dispchk_enable 0 enh_tx_randomdispbit_enable 0 enh_rx_blksync_enable 0 enable_port_rx_enh_blk_lock 0 enh_tx_bitslip_enable 0 enh_tx_polinv_enable 0 enh_rx_bitslip_enable 0 enh_rx_polinv_enable 0 enable_port_tx_enh_bitslip 0 enable_port_rx_enh_bitslip 0 enh_rx_krfec_err_mark_enable 0 enh_rx_krfec_err_mark_type 10G enh_tx_krfec_burst_err_enable 0 enh_tx_krfec_burst_err_len 1 enable_port_krfec_tx_enh_frame 0 enable_port_krfec_rx_enh_frame 0 enable_port_krfec_rx_enh_frame_diag_status 0 pcs_direct_width 8 enable_analog_settings 0 anlg_tx_analog_mode user_custom anlg_enable_tx_default_ovr 0 anlg_tx_vod_output_swing_ctrl 0 anlg_tx_pre_emp_sign_pre_tap_1t fir_pre_1t_neg anlg_tx_pre_emp_switching_ctrl_pre_tap_1t 0 anlg_tx_pre_emp_sign_pre_tap_2t fir_pre_2t_neg anlg_tx_pre_emp_switching_ctrl_pre_tap_2t 0 anlg_tx_pre_emp_sign_1st_post_tap fir_post_1t_neg anlg_tx_pre_emp_switching_ctrl_1st_post_tap 0 anlg_tx_pre_emp_sign_2nd_post_tap fir_post_2t_neg anlg_tx_pre_emp_switching_ctrl_2nd_post_tap 0 anlg_tx_slew_rate_ctrl slew_r7 anlg_tx_compensation_en enable anlg_tx_term_sel r_r1 anlg_enable_rx_default_ovr 0 anlg_rx_one_stage_enable s1_mode anlg_rx_eq_dc_gain_trim stg2_gain7 anlg_rx_adp_ctle_acgain_4s radp_ctle_acgain_4s_1 anlg_rx_adp_ctle_eqz_1s_sel radp_ctle_eqz_1s_sel_3 anlg_rx_adp_vga_sel radp_vga_sel_2 anlg_rx_adp_dfe_fxtap1 radp_dfe_fxtap1_0 anlg_rx_adp_dfe_fxtap2 radp_dfe_fxtap2_0 anlg_rx_adp_dfe_fxtap3 radp_dfe_fxtap3_0 anlg_rx_adp_dfe_fxtap4 radp_dfe_fxtap4_0 anlg_rx_adp_dfe_fxtap5 radp_dfe_fxtap5_0 anlg_rx_adp_dfe_fxtap6 radp_dfe_fxtap6_0 anlg_rx_adp_dfe_fxtap7 radp_dfe_fxtap7_0 anlg_rx_adp_dfe_fxtap8 radp_dfe_fxtap8_0 anlg_rx_adp_dfe_fxtap9 radp_dfe_fxtap9_0 anlg_rx_adp_dfe_fxtap10 radp_dfe_fxtap10_0 anlg_rx_adp_dfe_fxtap11 radp_dfe_fxtap11_0 anlg_rx_term_sel r_r1</parameter>
+  <parameter name="rcfg_profile_data1">anlg_voltage 1_0V anlg_link lr support_mode user_mode protocol_mode basic_std pma_mode SATA duplex_mode duplex channels 1 set_data_rate 3000 rcfg_iface_enable 0 enable_simple_interface 1 enable_split_interface 0 set_enable_calibration 1 enable_parallel_loopback 0 bonded_mode not_bonded set_pcs_bonding_master Auto tx_pma_clk_div 2 plls 1 pll_select 0 enable_port_tx_analog_reset_ack 0 enable_port_tx_pma_clkout 0 enable_port_tx_pma_div_clkout 0 tx_pma_div_clkout_divider 0 enable_port_tx_pma_iqtxrx_clkout 0 enable_port_tx_pma_elecidle 1 enable_port_tx_pma_qpipullup 0 enable_port_tx_pma_qpipulldn 0 enable_port_tx_pma_txdetectrx 0 enable_port_tx_pma_rxfound 0 enable_port_rx_seriallpbken_tx 0 number_physical_bonding_clocks 1 cdr_refclk_cnt 1 cdr_refclk_select 0 set_cdr_refclk_freq 150.000000 rx_ppm_detect_threshold 1000 rx_pma_ctle_adaptation_mode manual rx_pma_dfe_adaptation_mode disabled rx_pma_dfe_fixed_taps 3 enable_ports_adaptation 0 enable_port_rx_analog_reset_ack 0 enable_port_rx_pma_clkout 0 enable_port_rx_pma_div_clkout 0 rx_pma_div_clkout_divider 0 enable_port_rx_pma_iqtxrx_clkout 0 enable_port_rx_pma_clkslip 0 enable_port_rx_pma_qpipulldn 0 enable_port_rx_is_lockedtodata 1 enable_port_rx_is_lockedtoref 1 enable_ports_rx_manual_cdr_mode 0 enable_ports_rx_manual_ppm 0 enable_port_rx_signaldetect 0 enable_port_rx_seriallpbken 0 enable_ports_rx_prbs 0 std_pcs_pma_width 20 std_low_latency_bypass_enable 0 enable_hip 0 enable_hard_reset 0 set_hip_cal_en 0 std_tx_pcfifo_mode low_latency std_rx_pcfifo_mode low_latency enable_port_tx_std_pcfifo_full 0 enable_port_tx_std_pcfifo_empty 0 enable_port_rx_std_pcfifo_full 0 enable_port_rx_std_pcfifo_empty 0 std_tx_byte_ser_mode {Serialize x2} std_rx_byte_deser_mode {Deserialize x2} std_tx_8b10b_enable 1 std_tx_8b10b_disp_ctrl_enable 0 std_rx_8b10b_enable 1 std_rx_rmfifo_mode disabled std_rx_rmfifo_pattern_n 0 std_rx_rmfifo_pattern_p 0 enable_port_rx_std_rmfifo_full 0 enable_port_rx_std_rmfifo_empty 0 pcie_rate_match Bypass std_tx_bitslip_enable 0 enable_port_tx_std_bitslipboundarysel 0 std_rx_word_aligner_mode {manual (PLD controlled)} std_rx_word_aligner_pattern_len 10 std_rx_word_aligner_pattern 380 std_rx_word_aligner_rknumber 3 std_rx_word_aligner_renumber 3 std_rx_word_aligner_rgnumber 3 std_rx_word_aligner_fast_sync_status_enable 0 enable_port_rx_std_wa_patternalign 1 enable_port_rx_std_wa_a1a2size 0 enable_port_rx_std_bitslipboundarysel 0 enable_port_rx_std_bitslip 0 std_tx_bitrev_enable 0 std_tx_byterev_enable 0 std_tx_polinv_enable 0 enable_port_tx_polinv 0 std_rx_bitrev_enable 0 enable_port_rx_std_bitrev_ena 0 std_rx_byterev_enable 0 enable_port_rx_std_byterev_ena 0 std_rx_polinv_enable 0 enable_port_rx_polinv 0 enable_port_rx_std_signaldetect 1 enable_ports_pipe_sw 0 enable_ports_pipe_hclk 0 enable_ports_pipe_g3_analog 0 enable_ports_pipe_rx_elecidle 0 enable_port_pipe_rx_polarity 0 enh_pcs_pma_width 40 enh_pld_pcs_width 40 enh_low_latency_enable 0 enh_rxtxfifo_double_width 0 enh_txfifo_mode {Phase compensation} enh_txfifo_pfull 11 enh_txfifo_pempty 2 enable_port_tx_enh_fifo_full 0 enable_port_tx_enh_fifo_pfull 0 enable_port_tx_enh_fifo_empty 0 enable_port_tx_enh_fifo_pempty 0 enable_port_tx_enh_fifo_cnt 0 enh_rxfifo_mode {Phase compensation} enh_rxfifo_pfull 23 enh_rxfifo_pempty 2 enh_rxfifo_align_del 0 enh_rxfifo_control_del 0 enable_port_rx_enh_data_valid 0 enable_port_rx_enh_fifo_full 0 enable_port_rx_enh_fifo_pfull 0 enable_port_rx_enh_fifo_empty 0 enable_port_rx_enh_fifo_pempty 0 enable_port_rx_enh_fifo_cnt 0 enable_port_rx_enh_fifo_del 0 enable_port_rx_enh_fifo_insert 0 enable_port_rx_enh_fifo_rd_en 0 enable_port_rx_enh_fifo_align_val 0 enable_port_rx_enh_fifo_align_clr 0 enh_tx_frmgen_enable 0 enh_tx_frmgen_mfrm_length 2048 enh_tx_frmgen_burst_enable 0 enable_port_tx_enh_frame 0 enable_port_tx_enh_frame_diag_status 0 enable_port_tx_enh_frame_burst_en 0 enh_rx_frmsync_enable 0 enh_rx_frmsync_mfrm_length 2048 enable_port_rx_enh_frame 0 enable_port_rx_enh_frame_lock 0 enable_port_rx_enh_frame_diag_status 0 enh_tx_crcgen_enable 0 enh_tx_crcerr_enable 0 enh_rx_crcchk_enable 0 enable_port_rx_enh_crc32_err 0 enable_port_rx_enh_highber 0 enable_port_rx_enh_highber_clr_cnt 0 enable_port_rx_enh_clr_errblk_count 0 enh_tx_64b66b_enable 0 enh_rx_64b66b_enable 0 enh_tx_sh_err 0 enh_tx_scram_enable 0 enh_tx_scram_seed 0 enh_rx_descram_enable 0 enh_tx_dispgen_enable 0 enh_rx_dispchk_enable 0 enh_tx_randomdispbit_enable 0 enh_rx_blksync_enable 0 enable_port_rx_enh_blk_lock 0 enh_tx_bitslip_enable 0 enh_tx_polinv_enable 0 enh_rx_bitslip_enable 0 enh_rx_polinv_enable 0 enable_port_tx_enh_bitslip 0 enable_port_rx_enh_bitslip 0 enh_rx_krfec_err_mark_enable 0 enh_rx_krfec_err_mark_type 10G enh_tx_krfec_burst_err_enable 0 enh_tx_krfec_burst_err_len 1 enable_port_krfec_tx_enh_frame 0 enable_port_krfec_rx_enh_frame 0 enable_port_krfec_rx_enh_frame_diag_status 0 pcs_direct_width 8 enable_analog_settings 0 anlg_tx_analog_mode user_custom anlg_enable_tx_default_ovr 0 anlg_tx_vod_output_swing_ctrl 0 anlg_tx_pre_emp_sign_pre_tap_1t fir_pre_1t_neg anlg_tx_pre_emp_switching_ctrl_pre_tap_1t 0 anlg_tx_pre_emp_sign_pre_tap_2t fir_pre_2t_neg anlg_tx_pre_emp_switching_ctrl_pre_tap_2t 0 anlg_tx_pre_emp_sign_1st_post_tap fir_post_1t_neg anlg_tx_pre_emp_switching_ctrl_1st_post_tap 0 anlg_tx_pre_emp_sign_2nd_post_tap fir_post_2t_neg anlg_tx_pre_emp_switching_ctrl_2nd_post_tap 0 anlg_tx_slew_rate_ctrl slew_r7 anlg_tx_compensation_en enable anlg_tx_term_sel r_r1 anlg_enable_rx_default_ovr 0 anlg_rx_one_stage_enable s1_mode anlg_rx_eq_dc_gain_trim stg2_gain7 anlg_rx_adp_ctle_acgain_4s radp_ctle_acgain_4s_1 anlg_rx_adp_ctle_eqz_1s_sel radp_ctle_eqz_1s_sel_3 anlg_rx_adp_vga_sel radp_vga_sel_2 anlg_rx_adp_dfe_fxtap1 radp_dfe_fxtap1_0 anlg_rx_adp_dfe_fxtap2 radp_dfe_fxtap2_0 anlg_rx_adp_dfe_fxtap3 radp_dfe_fxtap3_0 anlg_rx_adp_dfe_fxtap4 radp_dfe_fxtap4_0 anlg_rx_adp_dfe_fxtap5 radp_dfe_fxtap5_0 anlg_rx_adp_dfe_fxtap6 radp_dfe_fxtap6_0 anlg_rx_adp_dfe_fxtap7 radp_dfe_fxtap7_0 anlg_rx_adp_dfe_fxtap8 radp_dfe_fxtap8_0 anlg_rx_adp_dfe_fxtap9 radp_dfe_fxtap9_0 anlg_rx_adp_dfe_fxtap10 radp_dfe_fxtap10_0 anlg_rx_adp_dfe_fxtap11 radp_dfe_fxtap11_0 anlg_rx_term_sel r_r1</parameter>
+  <parameter name="rcfg_profile_data2">anlg_voltage 1_0V anlg_link lr support_mode user_mode protocol_mode basic_std pma_mode SATA duplex_mode duplex channels 1 set_data_rate 6000 rcfg_iface_enable 0 enable_simple_interface 1 enable_split_interface 0 set_enable_calibration 1 enable_parallel_loopback 0 bonded_mode not_bonded set_pcs_bonding_master Auto tx_pma_clk_div 1 plls 1 pll_select 0 enable_port_tx_analog_reset_ack 0 enable_port_tx_pma_clkout 0 enable_port_tx_pma_div_clkout 0 tx_pma_div_clkout_divider 0 enable_port_tx_pma_iqtxrx_clkout 0 enable_port_tx_pma_elecidle 1 enable_port_tx_pma_qpipullup 0 enable_port_tx_pma_qpipulldn 0 enable_port_tx_pma_txdetectrx 0 enable_port_tx_pma_rxfound 0 enable_port_rx_seriallpbken_tx 0 number_physical_bonding_clocks 1 cdr_refclk_cnt 1 cdr_refclk_select 0 set_cdr_refclk_freq 150.000000 rx_ppm_detect_threshold 1000 rx_pma_ctle_adaptation_mode manual rx_pma_dfe_adaptation_mode disabled rx_pma_dfe_fixed_taps 3 enable_ports_adaptation 0 enable_port_rx_analog_reset_ack 0 enable_port_rx_pma_clkout 0 enable_port_rx_pma_div_clkout 0 rx_pma_div_clkout_divider 0 enable_port_rx_pma_iqtxrx_clkout 0 enable_port_rx_pma_clkslip 0 enable_port_rx_pma_qpipulldn 0 enable_port_rx_is_lockedtodata 1 enable_port_rx_is_lockedtoref 1 enable_ports_rx_manual_cdr_mode 0 enable_ports_rx_manual_ppm 0 enable_port_rx_signaldetect 0 enable_port_rx_seriallpbken 0 enable_ports_rx_prbs 0 std_pcs_pma_width 20 std_low_latency_bypass_enable 0 enable_hip 0 enable_hard_reset 0 set_hip_cal_en 0 std_tx_pcfifo_mode low_latency std_rx_pcfifo_mode low_latency enable_port_tx_std_pcfifo_full 0 enable_port_tx_std_pcfifo_empty 0 enable_port_rx_std_pcfifo_full 0 enable_port_rx_std_pcfifo_empty 0 std_tx_byte_ser_mode {Serialize x2} std_rx_byte_deser_mode {Deserialize x2} std_tx_8b10b_enable 1 std_tx_8b10b_disp_ctrl_enable 0 std_rx_8b10b_enable 1 std_rx_rmfifo_mode disabled std_rx_rmfifo_pattern_n 0 std_rx_rmfifo_pattern_p 0 enable_port_rx_std_rmfifo_full 0 enable_port_rx_std_rmfifo_empty 0 pcie_rate_match Bypass std_tx_bitslip_enable 0 enable_port_tx_std_bitslipboundarysel 0 std_rx_word_aligner_mode {manual (PLD controlled)} std_rx_word_aligner_pattern_len 10 std_rx_word_aligner_pattern 380 std_rx_word_aligner_rknumber 3 std_rx_word_aligner_renumber 3 std_rx_word_aligner_rgnumber 3 std_rx_word_aligner_fast_sync_status_enable 0 enable_port_rx_std_wa_patternalign 1 enable_port_rx_std_wa_a1a2size 0 enable_port_rx_std_bitslipboundarysel 0 enable_port_rx_std_bitslip 0 std_tx_bitrev_enable 0 std_tx_byterev_enable 0 std_tx_polinv_enable 0 enable_port_tx_polinv 0 std_rx_bitrev_enable 0 enable_port_rx_std_bitrev_ena 0 std_rx_byterev_enable 0 enable_port_rx_std_byterev_ena 0 std_rx_polinv_enable 0 enable_port_rx_polinv 0 enable_port_rx_std_signaldetect 1 enable_ports_pipe_sw 0 enable_ports_pipe_hclk 0 enable_ports_pipe_g3_analog 0 enable_ports_pipe_rx_elecidle 0 enable_port_pipe_rx_polarity 0 enh_pcs_pma_width 40 enh_pld_pcs_width 40 enh_low_latency_enable 0 enh_rxtxfifo_double_width 0 enh_txfifo_mode {Phase compensation} enh_txfifo_pfull 11 enh_txfifo_pempty 2 enable_port_tx_enh_fifo_full 0 enable_port_tx_enh_fifo_pfull 0 enable_port_tx_enh_fifo_empty 0 enable_port_tx_enh_fifo_pempty 0 enable_port_tx_enh_fifo_cnt 0 enh_rxfifo_mode {Phase compensation} enh_rxfifo_pfull 23 enh_rxfifo_pempty 2 enh_rxfifo_align_del 0 enh_rxfifo_control_del 0 enable_port_rx_enh_data_valid 0 enable_port_rx_enh_fifo_full 0 enable_port_rx_enh_fifo_pfull 0 enable_port_rx_enh_fifo_empty 0 enable_port_rx_enh_fifo_pempty 0 enable_port_rx_enh_fifo_cnt 0 enable_port_rx_enh_fifo_del 0 enable_port_rx_enh_fifo_insert 0 enable_port_rx_enh_fifo_rd_en 0 enable_port_rx_enh_fifo_align_val 0 enable_port_rx_enh_fifo_align_clr 0 enh_tx_frmgen_enable 0 enh_tx_frmgen_mfrm_length 2048 enh_tx_frmgen_burst_enable 0 enable_port_tx_enh_frame 0 enable_port_tx_enh_frame_diag_status 0 enable_port_tx_enh_frame_burst_en 0 enh_rx_frmsync_enable 0 enh_rx_frmsync_mfrm_length 2048 enable_port_rx_enh_frame 0 enable_port_rx_enh_frame_lock 0 enable_port_rx_enh_frame_diag_status 0 enh_tx_crcgen_enable 0 enh_tx_crcerr_enable 0 enh_rx_crcchk_enable 0 enable_port_rx_enh_crc32_err 0 enable_port_rx_enh_highber 0 enable_port_rx_enh_highber_clr_cnt 0 enable_port_rx_enh_clr_errblk_count 0 enh_tx_64b66b_enable 0 enh_rx_64b66b_enable 0 enh_tx_sh_err 0 enh_tx_scram_enable 0 enh_tx_scram_seed 0 enh_rx_descram_enable 0 enh_tx_dispgen_enable 0 enh_rx_dispchk_enable 0 enh_tx_randomdispbit_enable 0 enh_rx_blksync_enable 0 enable_port_rx_enh_blk_lock 0 enh_tx_bitslip_enable 0 enh_tx_polinv_enable 0 enh_rx_bitslip_enable 0 enh_rx_polinv_enable 0 enable_port_tx_enh_bitslip 0 enable_port_rx_enh_bitslip 0 enh_rx_krfec_err_mark_enable 0 enh_rx_krfec_err_mark_type 10G enh_tx_krfec_burst_err_enable 0 enh_tx_krfec_burst_err_len 1 enable_port_krfec_tx_enh_frame 0 enable_port_krfec_rx_enh_frame 0 enable_port_krfec_rx_enh_frame_diag_status 0 pcs_direct_width 8 enable_analog_settings 0 anlg_tx_analog_mode user_custom anlg_enable_tx_default_ovr 0 anlg_tx_vod_output_swing_ctrl 0 anlg_tx_pre_emp_sign_pre_tap_1t fir_pre_1t_neg anlg_tx_pre_emp_switching_ctrl_pre_tap_1t 0 anlg_tx_pre_emp_sign_pre_tap_2t fir_pre_2t_neg anlg_tx_pre_emp_switching_ctrl_pre_tap_2t 0 anlg_tx_pre_emp_sign_1st_post_tap fir_post_1t_neg anlg_tx_pre_emp_switching_ctrl_1st_post_tap 0 anlg_tx_pre_emp_sign_2nd_post_tap fir_post_2t_neg anlg_tx_pre_emp_switching_ctrl_2nd_post_tap 0 anlg_tx_slew_rate_ctrl slew_r7 anlg_tx_compensation_en enable anlg_tx_term_sel r_r1 anlg_enable_rx_default_ovr 0 anlg_rx_one_stage_enable s1_mode anlg_rx_eq_dc_gain_trim stg2_gain7 anlg_rx_adp_ctle_acgain_4s radp_ctle_acgain_4s_1 anlg_rx_adp_ctle_eqz_1s_sel radp_ctle_eqz_1s_sel_3 anlg_rx_adp_vga_sel radp_vga_sel_2 anlg_rx_adp_dfe_fxtap1 radp_dfe_fxtap1_0 anlg_rx_adp_dfe_fxtap2 radp_dfe_fxtap2_0 anlg_rx_adp_dfe_fxtap3 radp_dfe_fxtap3_0 anlg_rx_adp_dfe_fxtap4 radp_dfe_fxtap4_0 anlg_rx_adp_dfe_fxtap5 radp_dfe_fxtap5_0 anlg_rx_adp_dfe_fxtap6 radp_dfe_fxtap6_0 anlg_rx_adp_dfe_fxtap7 radp_dfe_fxtap7_0 anlg_rx_adp_dfe_fxtap8 radp_dfe_fxtap8_0 anlg_rx_adp_dfe_fxtap9 radp_dfe_fxtap9_0 anlg_rx_adp_dfe_fxtap10 radp_dfe_fxtap10_0 anlg_rx_adp_dfe_fxtap11 radp_dfe_fxtap11_0 anlg_rx_term_sel r_r1</parameter>
   <parameter name="rcfg_profile_data3" value="" />
   <parameter name="rcfg_profile_data4" value="" />
   <parameter name="rcfg_profile_data5" value="" />
   <parameter name="rcfg_profile_data6" value="" />
   <parameter name="rcfg_profile_data7" value="" />
-  <parameter name="rcfg_profile_select" value="1" />
-  <parameter name="rcfg_reduced_files_enable" value="0" />
+  <parameter name="rcfg_profile_select" value="2" />
+  <parameter name="rcfg_reduced_files_enable" value="1" />
   <parameter name="rcfg_separate_avmm_busy" value="0" />
   <parameter name="rcfg_shared" value="0" />
   <parameter name="rcfg_sv_file_enable" value="0" />
@@ -464,7 +493,7 @@
   <parameter name="set_capability_reg_enable" value="0" />
   <parameter name="set_cdr_refclk_freq" value="150.000000" />
   <parameter name="set_csr_soft_logic_enable" value="0" />
-  <parameter name="set_data_rate" value="1500" />
+  <parameter name="set_data_rate" value="6000" />
   <parameter name="set_disconnect_analog_resets" value="0" />
   <parameter name="set_embedded_debug_enable" value="0" />
   <parameter name="set_enable_calibration" value="1" />
@@ -472,7 +501,7 @@
   <parameter name="set_odi_soft_logic_enable" value="0" />
   <parameter name="set_pcs_bonding_master" value="Auto" />
   <parameter name="set_prbs_soft_logic_enable" value="0" />
-  <parameter name="set_rcfg_emb_strm_enable" value="0" />
+  <parameter name="set_rcfg_emb_strm_enable" value="1" />
   <parameter name="set_user_identifier" value="0" />
   <parameter name="sim_reduced_counters" value="false" />
   <parameter name="std_data_mask_count_multi" value="0" />

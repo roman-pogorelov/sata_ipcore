@@ -15,7 +15,7 @@
 
 
 
-module a10_sata_xcvr_core_altera_xcvr_native_a10_171_6e552hq
+module a10_sata_xcvr_core_altera_xcvr_native_a10_171_qvaveni
   #(
     //---------------------
     // Common parameters
@@ -1148,7 +1148,7 @@ assign  int_pcie_rate_sw = (enable_hip) ? pcie_rate : pipe_rate;
 
 //***************************************************************************
 //************* Embedded JTAG, AVMM and Embedded Streamer Expansion *********
-alt_xcvr_native_rcfg_opt_logic_6e552hq #(
+alt_xcvr_native_rcfg_opt_logic_qvaveni #(
   .dbg_user_identifier                            ( dbg_user_identifier                 ),
   .duplex_mode                                    ( duplex_mode                         ),
   .dbg_embedded_debug_enable                      ( dbg_embedded_debug_enable           ),
@@ -1816,6 +1816,20 @@ generate
     // parameters for twentynm_hssi_pma_tx_ser
         .pma_tx_ser_ser_clk_divtx_user_sel (pma_tx_ser_ser_clk_divtx_user_sel),
     
+    // reconfig_settings
+        .hssi_10g_rx_pcs_reconfig_settings("./a10_sata_xcvr_core/altera_xcvr_native_a10_171/synth/rcfg_timing_db/a10_sata_xcvr_core_hssi_10g_rx_pcs_rcfg_settings_qvaveni.json"),
+        .hssi_10g_tx_pcs_reconfig_settings("./a10_sata_xcvr_core/altera_xcvr_native_a10_171/synth/rcfg_timing_db/a10_sata_xcvr_core_hssi_10g_tx_pcs_rcfg_settings_qvaveni.json"),
+        .hssi_8g_rx_pcs_reconfig_settings("./a10_sata_xcvr_core/altera_xcvr_native_a10_171/synth/rcfg_timing_db/a10_sata_xcvr_core_hssi_8g_rx_pcs_rcfg_settings_qvaveni.json"),
+        .hssi_8g_tx_pcs_reconfig_settings("./a10_sata_xcvr_core/altera_xcvr_native_a10_171/synth/rcfg_timing_db/a10_sata_xcvr_core_hssi_8g_tx_pcs_rcfg_settings_qvaveni.json"),
+        .hssi_common_pcs_pma_interface_reconfig_settings("./a10_sata_xcvr_core/altera_xcvr_native_a10_171/synth/rcfg_timing_db/a10_sata_xcvr_core_hssi_common_pcs_pma_interface_rcfg_settings_qvaveni.json"),
+        .hssi_common_pld_pcs_interface_reconfig_settings("./a10_sata_xcvr_core/altera_xcvr_native_a10_171/synth/rcfg_timing_db/a10_sata_xcvr_core_hssi_common_pld_pcs_interface_rcfg_settings_qvaveni.json"),
+        .hssi_gen3_rx_pcs_reconfig_settings("./a10_sata_xcvr_core/altera_xcvr_native_a10_171/synth/rcfg_timing_db/a10_sata_xcvr_core_hssi_gen3_rx_pcs_rcfg_settings_qvaveni.json"),
+        .hssi_krfec_rx_pcs_reconfig_settings("./a10_sata_xcvr_core/altera_xcvr_native_a10_171/synth/rcfg_timing_db/a10_sata_xcvr_core_hssi_krfec_rx_pcs_rcfg_settings_qvaveni.json"),
+        .hssi_pipe_gen1_2_reconfig_settings("./a10_sata_xcvr_core/altera_xcvr_native_a10_171/synth/rcfg_timing_db/a10_sata_xcvr_core_hssi_pipe_gen1_2_rcfg_settings_qvaveni.json"),
+        .hssi_rx_pcs_pma_interface_reconfig_settings("./a10_sata_xcvr_core/altera_xcvr_native_a10_171/synth/rcfg_timing_db/a10_sata_xcvr_core_hssi_rx_pcs_pma_interface_rcfg_settings_qvaveni.json"),
+        .hssi_rx_pld_pcs_interface_reconfig_settings("./a10_sata_xcvr_core/altera_xcvr_native_a10_171/synth/rcfg_timing_db/a10_sata_xcvr_core_hssi_rx_pld_pcs_interface_rcfg_settings_qvaveni.json"),
+        .hssi_tx_pcs_pma_interface_reconfig_settings("./a10_sata_xcvr_core/altera_xcvr_native_a10_171/synth/rcfg_timing_db/a10_sata_xcvr_core_hssi_tx_pcs_pma_interface_rcfg_settings_qvaveni.json"),
+        .hssi_tx_pld_pcs_interface_reconfig_settings("./a10_sata_xcvr_core/altera_xcvr_native_a10_171/synth/rcfg_timing_db/a10_sata_xcvr_core_hssi_tx_pld_pcs_interface_rcfg_settings_qvaveni.json"),
     // twentynm_pcs parameters
     // parameters for twentynm_hssi_10g_rx_pcs
         .hssi_10g_rx_pcs_advanced_user_mode (hssi_10g_rx_pcs_advanced_user_mode),

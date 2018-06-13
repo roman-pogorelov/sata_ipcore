@@ -1,5 +1,13 @@
 	component a10_sata_xcvr_core is
 		port (
+			reconfig_write          : in  std_logic_vector(0 downto 0)  := (others => 'X'); -- write
+			reconfig_read           : in  std_logic_vector(0 downto 0)  := (others => 'X'); -- read
+			reconfig_address        : in  std_logic_vector(9 downto 0)  := (others => 'X'); -- address
+			reconfig_writedata      : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
+			reconfig_readdata       : out std_logic_vector(31 downto 0);                    -- readdata
+			reconfig_waitrequest    : out std_logic_vector(0 downto 0);                     -- waitrequest
+			reconfig_clk            : in  std_logic_vector(0 downto 0)  := (others => 'X'); -- clk
+			reconfig_reset          : in  std_logic_vector(0 downto 0)  := (others => 'X'); -- reset
 			rx_analogreset          : in  std_logic_vector(0 downto 0)  := (others => 'X'); -- rx_analogreset
 			rx_cal_busy             : out std_logic_vector(0 downto 0);                     -- rx_cal_busy
 			rx_cdr_refclk0          : in  std_logic                     := 'X';             -- clk

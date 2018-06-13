@@ -41,5 +41,13 @@
      scope="external" />
   <pin name="rx_std_wa_patternalign" direction="input" scope="external" />
   <pin name="rx_std_signaldetect" direction="output" scope="external" />
+  <pin name="reconfig_clk" direction="input" scope="external" />
+  <pin name="reconfig_reset" direction="input" scope="external" />
+  <pin name="reconfig_write" direction="input" scope="external" />
+  <pin name="reconfig_read" direction="input" scope="external" />
+  <pin name="reconfig_address[9..0]" direction="input" scope="external" />
+  <pin name="reconfig_writedata[31..0]" direction="input" scope="external" />
+  <pin name="reconfig_readdata[31..0]" direction="output" scope="external" />
+  <pin name="reconfig_waitrequest" direction="output" scope="external" />
  </global>
 </pinplan>
