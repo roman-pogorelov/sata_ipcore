@@ -7,12 +7,14 @@
  <global>
   <pin name="clock" direction="input" scope="external" />
   <pin name="reset" direction="input" scope="external" />
+  <pin name="pll_powerdown" direction="output" scope="external" />
   <pin name="tx_analogreset" direction="output" scope="external" />
   <pin name="tx_digitalreset" direction="output" scope="external" />
   <pin name="tx_ready" direction="output" scope="external" />
   <pin name="pll_locked" direction="input" scope="external" />
   <pin name="pll_select" direction="input" scope="external" />
   <pin name="tx_cal_busy" direction="input" scope="external" />
+  <pin name="pll_cal_busy" direction="input" scope="external" />
   <pin name="rx_analogreset" direction="output" scope="external" />
   <pin name="rx_digitalreset" direction="output" scope="external" />
   <pin name="rx_ready" direction="output" scope="external" />

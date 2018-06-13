@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deploy
- date="2018.02.17.12:37:36"
+ date="2018.06.13.12:50:17"
  outputDirectory="C:/qprojects/ipcores/sata_ipcore/hdl/specific/arria10/a10_sata_xcvr_rst_core/a10_sata_xcvr_rst_core/">
  <perimeter>
   <parameter
@@ -24,7 +24,7 @@
   <parameter
      name="AUTO_DEVICE"
      type="String"
-     defaultValue="10AS016C3U19E2LG"
+     defaultValue="10AX016C3U19I2SG"
      onHdl="0"
      affectsHdl="1" />
   <parameter
@@ -57,10 +57,24 @@
    <property name="ptfSchematicName" value="" />
    <port name="clock" direction="input" role="clk" width="1" />
   </interface>
+  <interface name="pll_cal_busy" kind="conduit" start="0">
+   <property name="associatedClock" value="" />
+   <property name="associatedReset" value="" />
+   <port name="pll_cal_busy" direction="input" role="pll_cal_busy" width="1" />
+  </interface>
   <interface name="pll_locked" kind="conduit" start="0">
    <property name="associatedClock" value="" />
    <property name="associatedReset" value="" />
    <port name="pll_locked" direction="input" role="pll_locked" width="1" />
+  </interface>
+  <interface name="pll_powerdown" kind="conduit" start="0">
+   <property name="associatedClock" value="" />
+   <property name="associatedReset" value="" />
+   <port
+       name="pll_powerdown"
+       direction="output"
+       role="pll_powerdown"
+       width="1" />
   </interface>
   <interface name="pll_select" kind="conduit" start="0">
    <property name="associatedClock" value="" />
@@ -145,8 +159,8 @@
   <parameter name="AUTO_CLOCK_CLOCK_RATE" value="-1" />
   <parameter name="AUTO_CLOCK_CLOCK_DOMAIN" value="-1" />
   <parameter name="AUTO_CLOCK_RESET_DOMAIN" value="-1" />
-  <parameter name="AUTO_GENERATION_ID" value="1518860256" />
-  <parameter name="AUTO_DEVICE" value="10AS016C3U19E2LG" />
+  <parameter name="AUTO_GENERATION_ID" value="1528883417" />
+  <parameter name="AUTO_DEVICE" value="10AX016C3U19I2SG" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Arria 10" />
   <parameter name="AUTO_UNIQUE_ID" value="" />
   <parameter name="AUTO_DEVICE_SPEEDGRADE" value="2" />
@@ -192,14 +206,14 @@
   <parameter name="device_family" value="Arria 10" />
   <parameter name="T_TX_DIGITALRESET" value="70000" />
   <parameter name="l_pll_select_width" value="1" />
-  <parameter name="T_PLL_POWERDOWN" value="1000" />
+  <parameter name="T_PLL_POWERDOWN" value="10000" />
   <parameter name="gui_tx_auto_reset" value="0" />
-  <parameter name="TX_PLL_ENABLE" value="0" />
+  <parameter name="TX_PLL_ENABLE" value="1" />
   <parameter name="l_pll_select_split" value="0" />
   <parameter name="l_pll_select_base" value="1" />
-  <parameter name="l_terminate_pll" value="1" />
-  <parameter name="SYS_CLK_IN_MHZ" value="125" />
-  <parameter name="gui_pll_cal_busy" value="0" />
+  <parameter name="l_terminate_pll" value="0" />
+  <parameter name="SYS_CLK_IN_MHZ" value="150" />
+  <parameter name="gui_pll_cal_busy" value="1" />
   <parameter name="REDUCED_SIM_TIME" value="1" />
   <parameter name="CHANNELS" value="1" />
   <parameter name="T_RX_DIGITALRESET" value="1000" />
@@ -209,14 +223,14 @@
   <parameter name="gui_split_interfaces" value="0" />
   <parameter name="l_terminate_rx_manual" value="1" />
   <parameter name="TX_ENABLE" value="1" />
-  <parameter name="EN_PLL_CAL_BUSY" value="0" />
+  <parameter name="EN_PLL_CAL_BUSY" value="1" />
   <parameter name="l_rx_manual_term" value="0" />
   <parameter name="TX_PER_CHANNEL" value="0" />
   <parameter name="l_terminate_rx" value="0" />
   <parameter name="RX_ENABLE" value="1" />
   <parameter name="l_terminate_tx" value="0" />
   <parameter name="l_tx_manual_term" value="0" />
-  <parameter name="SYNCHRONIZE_PLL_RESET" value="0" />
+  <parameter name="SYNCHRONIZE_PLL_RESET" value="1" />
   <parameter name="RX_PER_CHANNEL" value="0" />
   <parameter name="l_terminate_tx_manual" value="1" />
   <parameter name="SYNCHRONIZE_RESET" value="1" />

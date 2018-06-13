@@ -5,7 +5,9 @@
 `timescale 1 ps / 1 ps
 module a10_sata_xcvr_rst_core (
 		input  wire       clock,              //              clock.clk
+		input  wire [0:0] pll_cal_busy,       //       pll_cal_busy.pll_cal_busy
 		input  wire [0:0] pll_locked,         //         pll_locked.pll_locked
+		output wire [0:0] pll_powerdown,      //      pll_powerdown.pll_powerdown
 		input  wire [0:0] pll_select,         //         pll_select.pll_select
 		input  wire       reset,              //              reset.reset
 		output wire [0:0] rx_analogreset,     //     rx_analogreset.rx_analogreset
@@ -22,18 +24,18 @@ module a10_sata_xcvr_rst_core (
 	altera_xcvr_reset_control #(
 		.CHANNELS              (1),
 		.PLLS                  (1),
-		.SYS_CLK_IN_MHZ        (125),
+		.SYS_CLK_IN_MHZ        (150),
 		.SYNCHRONIZE_RESET     (1),
 		.REDUCED_SIM_TIME      (1),
-		.TX_PLL_ENABLE         (0),
-		.T_PLL_POWERDOWN       (1000),
-		.SYNCHRONIZE_PLL_RESET (0),
+		.TX_PLL_ENABLE         (1),
+		.T_PLL_POWERDOWN       (10000),
+		.SYNCHRONIZE_PLL_RESET (1),
 		.TX_ENABLE             (1),
 		.TX_PER_CHANNEL        (0),
 		.T_TX_ANALOGRESET      (70000),
 		.T_TX_DIGITALRESET     (70000),
 		.T_PLL_LOCK_HYST       (100),
-		.EN_PLL_CAL_BUSY       (0),
+		.EN_PLL_CAL_BUSY       (1),
 		.RX_ENABLE             (1),
 		.RX_PER_CHANNEL        (0),
 		.T_RX_ANALOGRESET      (70000),
@@ -41,19 +43,19 @@ module a10_sata_xcvr_rst_core (
 	) xcvr_reset_control_0 (
 		.clock              (clock),              //              clock.clk
 		.reset              (reset),              //              reset.reset
+		.pll_powerdown      (pll_powerdown),      //      pll_powerdown.pll_powerdown
 		.tx_analogreset     (tx_analogreset),     //     tx_analogreset.tx_analogreset
 		.tx_digitalreset    (tx_digitalreset),    //    tx_digitalreset.tx_digitalreset
 		.tx_ready           (tx_ready),           //           tx_ready.tx_ready
 		.pll_locked         (pll_locked),         //         pll_locked.pll_locked
 		.pll_select         (pll_select),         //         pll_select.pll_select
 		.tx_cal_busy        (tx_cal_busy),        //        tx_cal_busy.tx_cal_busy
+		.pll_cal_busy       (pll_cal_busy),       //       pll_cal_busy.pll_cal_busy
 		.rx_analogreset     (rx_analogreset),     //     rx_analogreset.rx_analogreset
 		.rx_digitalreset    (rx_digitalreset),    //    rx_digitalreset.rx_digitalreset
 		.rx_ready           (rx_ready),           //           rx_ready.rx_ready
 		.rx_is_lockedtodata (rx_is_lockedtodata), // rx_is_lockedtodata.rx_is_lockedtodata
 		.rx_cal_busy        (rx_cal_busy),        //        rx_cal_busy.rx_cal_busy
-		.pll_powerdown      (),                   //        (terminated)
-		.pll_cal_busy       (1'b0),               //        (terminated)
 		.tx_manual          (1'b0),               //        (terminated)
 		.rx_manual          (1'b0),               //        (terminated)
 		.tx_digitalreset_or (1'b0),               //        (terminated)

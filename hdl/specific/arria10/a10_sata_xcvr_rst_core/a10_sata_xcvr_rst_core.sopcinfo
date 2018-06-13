@@ -5,11 +5,11 @@
  version="1.0"
  fabric="QSYS">
  <!-- Format version 17.1 590 (Future versions may contain additional information.) -->
- <!-- 2018.02.17.12:37:36 -->
+ <!-- 2018.06.13.12:50:17 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1518860256</value>
+  <value>1528883417</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -36,7 +36,7 @@
  </parameter>
  <parameter name="AUTO_DEVICE">
   <type>java.lang.String</type>
-  <value>10AS016C3U19E2LG</value>
+  <value>10AX016C3U19I2SG</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -133,7 +133,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="SYS_CLK_IN_MHZ">
    <type>int</type>
-   <value>125</value>
+   <value>150</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -165,7 +165,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="TX_PLL_ENABLE">
    <type>int</type>
-   <value>0</value>
+   <value>1</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -173,17 +173,17 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="T_PLL_POWERDOWN">
    <type>int</type>
-   <value>1000</value>
+   <value>10000</value>
    <derived>false</derived>
-   <enabled>false</enabled>
+   <enabled>true</enabled>
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
   <parameter name="SYNCHRONIZE_PLL_RESET">
    <type>int</type>
-   <value>0</value>
+   <value>1</value>
    <derived>false</derived>
-   <enabled>false</enabled>
+   <enabled>true</enabled>
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
@@ -237,7 +237,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="gui_pll_cal_busy">
    <type>int</type>
-   <value>0</value>
+   <value>1</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -245,7 +245,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="EN_PLL_CAL_BUSY">
    <type>int</type>
-   <value>0</value>
+   <value>1</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -293,7 +293,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="l_terminate_pll">
    <type>int</type>
-   <value>1</value>
+   <value>0</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -475,6 +475,55 @@ parameters are a RESULT of the module parameters. -->
     <direction>Input</direction>
     <width>1</width>
     <role>reset</role>
+   </port>
+  </interface>
+  <interface name="pll_powerdown" kind="conduit_end" version="17.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <assignment>
+    <name>ui.blockdiagram.direction</name>
+    <value>output</value>
+   </assignment>
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>pll_powerdown</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>pll_powerdown</role>
    </port>
   </interface>
   <interface name="tx_analogreset" kind="conduit_end" version="17.1">
@@ -771,6 +820,55 @@ parameters are a RESULT of the module parameters. -->
     <role>tx_cal_busy</role>
    </port>
   </interface>
+  <interface name="pll_cal_busy" kind="conduit_end" version="17.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <assignment>
+    <name>ui.blockdiagram.direction</name>
+    <value>input</value>
+   </assignment>
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>pll_cal_busy</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>pll_cal_busy</role>
+   </port>
+  </interface>
   <interface name="rx_analogreset" kind="conduit_end" version="17.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
@@ -1042,7 +1140,7 @@ parameters are a RESULT of the module parameters. -->
   <version>17.1</version>
  </plugin>
  <plugin>
-  <instanceCount>11</instanceCount>
+  <instanceCount>13</instanceCount>
   <name>conduit_end</name>
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IMutableConnectionPoint</subtype>

@@ -1,5 +1,5 @@
 Info: Starting: Create HDL design files for synthesis
-Info: qsys-generate C:\qprojects\ipcores\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_rst_core\a10_sata_xcvr_rst_core.qsys --synthesis=VERILOG --output-directory=C:\qprojects\ipcores\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_rst_core\a10_sata_xcvr_rst_core --family="Arria 10" --part=10AX016C3U19I2SG
+Info: qsys-generate C:\qprojects\ipcores\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_rst_core\a10_sata_xcvr_rst_core.qsys --synthesis=VERILOG --output-directory=C:\qprojects\ipcores\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_rst_core\a10_sata_xcvr_rst_core --family="Arria 10" --part=10AS016C3U19E2LG
 Progress: Loading a10_sata_xcvr_rst_core/a10_sata_xcvr_rst_core.qsys
 Progress: Reading input file
 Progress: Adding xcvr_reset_control_0 [altera_xcvr_reset_control 17.1]
@@ -14,7 +14,7 @@ Info: a10_sata_xcvr_rst_core: Running transform generation_view_transform took 0
 Info: xcvr_reset_control_0: Running transform generation_view_transform
 Info: xcvr_reset_control_0: Running transform generation_view_transform took 0.000s
 Info: a10_sata_xcvr_rst_core: Running transform merlin_avalon_transform
-Info: a10_sata_xcvr_rst_core: Running transform merlin_avalon_transform took 0.035s
+Info: a10_sata_xcvr_rst_core: Running transform merlin_avalon_transform took 0.037s
 Info: a10_sata_xcvr_rst_core: "Naming system components in system: a10_sata_xcvr_rst_core"
 Info: a10_sata_xcvr_rst_core: "Processing generation queue"
 Info: a10_sata_xcvr_rst_core: "Generating: a10_sata_xcvr_rst_core"

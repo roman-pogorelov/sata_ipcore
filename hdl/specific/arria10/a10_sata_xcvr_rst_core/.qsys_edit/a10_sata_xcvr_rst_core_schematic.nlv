@@ -1,20 +1,19 @@
 # # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
 # 
-preplace inst unsaved.xcvr_reset_control_0 -pg 1 -lvl 1 -y 30
-preplace inst unsaved -pg 1 -lvl 1 -y 40 -regy -20
-preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)unsaved.rx_cal_busy,(SLAVE)xcvr_reset_control_0.rx_cal_busy) 1 0 1 NJ
-preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)xcvr_reset_control_0.rx_digitalreset,(SLAVE)unsaved.rx_digitalreset) 1 0 1 NJ
-preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)unsaved.rx_analogreset,(SLAVE)xcvr_reset_control_0.rx_analogreset) 1 0 1 NJ
-preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)unsaved.tx_analogreset,(SLAVE)xcvr_reset_control_0.tx_analogreset) 1 0 1 NJ
-preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)xcvr_reset_control_0.tx_digitalreset,(SLAVE)unsaved.tx_digitalreset) 1 0 1 NJ
-preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)unsaved.pll_powerdown,(SLAVE)xcvr_reset_control_0.pll_powerdown) 1 0 1 NJ
-preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)xcvr_reset_control_0.clock,(SLAVE)unsaved.clock) 1 0 1 NJ
-preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)unsaved.pll_select,(SLAVE)xcvr_reset_control_0.pll_select) 1 0 1 NJ
-preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)unsaved.tx_cal_busy,(SLAVE)xcvr_reset_control_0.tx_cal_busy) 1 0 1 NJ
-preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)xcvr_reset_control_0.rx_is_lockedtodata,(SLAVE)unsaved.rx_is_lockedtodata) 1 0 1 NJ
-preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)unsaved.reset,(SLAVE)xcvr_reset_control_0.reset) 1 0 1 NJ
-preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)xcvr_reset_control_0.rx_ready,(SLAVE)unsaved.rx_ready) 1 0 1 NJ
-preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)unsaved.tx_ready,(SLAVE)xcvr_reset_control_0.tx_ready) 1 0 1 NJ
-preplace netloc EXPORT<net_container>unsaved</net_container>(SLAVE)unsaved.pll_locked,(SLAVE)xcvr_reset_control_0.pll_locked) 1 0 1 NJ
+preplace inst a10_sata_xcvr_rst_core -pg 1 -lvl 1 -y 40 -regy -20
+preplace inst a10_sata_xcvr_rst_core.xcvr_reset_control_0 -pg 1 -lvl 1 -y 30
+preplace netloc EXPORT<net_container>a10_sata_xcvr_rst_core</net_container>(SLAVE)a10_sata_xcvr_rst_core.clock,(SLAVE)xcvr_reset_control_0.clock) 1 0 1 NJ
+preplace netloc EXPORT<net_container>a10_sata_xcvr_rst_core</net_container>(SLAVE)xcvr_reset_control_0.tx_analogreset,(SLAVE)a10_sata_xcvr_rst_core.tx_analogreset) 1 0 1 NJ
+preplace netloc EXPORT<net_container>a10_sata_xcvr_rst_core</net_container>(SLAVE)a10_sata_xcvr_rst_core.tx_ready,(SLAVE)xcvr_reset_control_0.tx_ready) 1 0 1 NJ
+preplace netloc EXPORT<net_container>a10_sata_xcvr_rst_core</net_container>(SLAVE)a10_sata_xcvr_rst_core.tx_digitalreset,(SLAVE)xcvr_reset_control_0.tx_digitalreset) 1 0 1 NJ
+preplace netloc EXPORT<net_container>a10_sata_xcvr_rst_core</net_container>(SLAVE)xcvr_reset_control_0.rx_ready,(SLAVE)a10_sata_xcvr_rst_core.rx_ready) 1 0 1 NJ
+preplace netloc EXPORT<net_container>a10_sata_xcvr_rst_core</net_container>(SLAVE)a10_sata_xcvr_rst_core.rx_is_lockedtodata,(SLAVE)xcvr_reset_control_0.rx_is_lockedtodata) 1 0 1 NJ
+preplace netloc EXPORT<net_container>a10_sata_xcvr_rst_core</net_container>(SLAVE)a10_sata_xcvr_rst_core.tx_cal_busy,(SLAVE)xcvr_reset_control_0.tx_cal_busy) 1 0 1 NJ
+preplace netloc EXPORT<net_container>a10_sata_xcvr_rst_core</net_container>(SLAVE)a10_sata_xcvr_rst_core.pll_select,(SLAVE)xcvr_reset_control_0.pll_select) 1 0 1 NJ
+preplace netloc EXPORT<net_container>a10_sata_xcvr_rst_core</net_container>(SLAVE)xcvr_reset_control_0.rx_digitalreset,(SLAVE)a10_sata_xcvr_rst_core.rx_digitalreset) 1 0 1 NJ
+preplace netloc EXPORT<net_container>a10_sata_xcvr_rst_core</net_container>(SLAVE)xcvr_reset_control_0.rx_analogreset,(SLAVE)a10_sata_xcvr_rst_core.rx_analogreset) 1 0 1 NJ
+preplace netloc EXPORT<net_container>a10_sata_xcvr_rst_core</net_container>(SLAVE)xcvr_reset_control_0.pll_locked,(SLAVE)a10_sata_xcvr_rst_core.pll_locked) 1 0 1 NJ
+preplace netloc EXPORT<net_container>a10_sata_xcvr_rst_core</net_container>(SLAVE)a10_sata_xcvr_rst_core.rx_cal_busy,(SLAVE)xcvr_reset_control_0.rx_cal_busy) 1 0 1 NJ
+preplace netloc EXPORT<net_container>a10_sata_xcvr_rst_core</net_container>(SLAVE)a10_sata_xcvr_rst_core.reset,(SLAVE)xcvr_reset_control_0.reset) 1 0 1 NJ
 levelinfo -pg 1 0 120 330
-levelinfo -hier unsaved 130 160 320
+levelinfo -hier a10_sata_xcvr_rst_core 130 160 320

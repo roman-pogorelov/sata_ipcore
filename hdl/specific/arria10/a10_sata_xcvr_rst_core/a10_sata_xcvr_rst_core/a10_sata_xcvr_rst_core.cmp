@@ -1,7 +1,9 @@
 	component a10_sata_xcvr_rst_core is
 		port (
 			clock              : in  std_logic                    := 'X';             -- clk
+			pll_cal_busy       : in  std_logic_vector(0 downto 0) := (others => 'X'); -- pll_cal_busy
 			pll_locked         : in  std_logic_vector(0 downto 0) := (others => 'X'); -- pll_locked
+			pll_powerdown      : out std_logic_vector(0 downto 0);                    -- pll_powerdown
 			pll_select         : in  std_logic_vector(0 downto 0) := (others => 'X'); -- pll_select
 			reset              : in  std_logic                    := 'X';             -- reset
 			rx_analogreset     : out std_logic_vector(0 downto 0);                    -- rx_analogreset
