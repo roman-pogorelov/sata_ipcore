@@ -16,6 +16,12 @@
         .gxb_reset          (), // i
         .gxb_refclk         (), // i
         
+        // Интерфейс реконфигурации между поколениями SATA
+        // (домен reconfig_clk)
+        .recfg_request      (), // i
+        .recfg_sata_gen     (), // i  [1 : 0]
+        .recfg_ready        (), // o
+        
         // Интерфейсные сигналы приемника
         .rx_clock           (), // o
         .rx_data            (), // o  [31 : 0]
@@ -31,6 +37,11 @@
         .tx_data            (), // i  [31 : 0]
         .tx_datak           (), // i  [3 : 0]
         .tx_elecidle        (), // i
+        
+        // Статусные сигналы готовности
+        // (домен gxb_refclk)
+        .rx_ready           (), // o
+        .tx_ready           (), // o
         
         // Высокоскоростные линии
         .gxb_rx             (), // i
@@ -51,6 +62,12 @@ module a10_sata_xcvr
     input  logic            gxb_reset,
     input  logic            gxb_refclk,
     
+    // Интерфейс реконфигурации между поколениями SATA
+    // (домен reconfig_clk)
+    input  logic            recfg_request,
+    input  logic [1 : 0]    recfg_sata_gen,
+    output logic            recfg_ready,
+    
     // Интерфейсные сигналы приемника
     output logic            rx_clock,
     output logic [31 : 0]   rx_data,
@@ -66,6 +83,11 @@ module a10_sata_xcvr
     input  logic [31 : 0]   tx_data,
     input  logic [3 : 0]    tx_datak,
     input  logic            tx_elecidle,
+    
+    // Статусные сигналы готовности
+    // (домен gxb_refclk)
+    output logic            rx_ready,
+    output logic            tx_ready,
     
     // Высокоскоростные линии
     input  logic            gxb_rx,
@@ -84,18 +106,27 @@ module a10_sata_xcvr
     logic                   pll_cal_busy;
     logic                   pll_locked;
     logic                   pll_powerdown;
-    logic                   pll_recfg_write;
-    logic                   pll_recfg_read;
-    logic [9 : 0]           pll_recfg_address;
-    logic [31 : 0]          pll_recfg_writedata;
-    logic [31 : 0]          pll_recfg_readdata;
-    logic                   pll_recfg_waitrequest;
+    //
+    logic [9 : 0]           recfg_addr;
+    logic                   recfg_wreq;
+    logic [31 : 0]          recfg_wdat;
+    logic                   recfg_rreq;
+    logic [31 : 0]          recfg_rdat;
+    logic                   recfg_busy;
     
     //------------------------------------------------------------------------------------
     //      Ядро высокоскоростного приемопередатчика Serial ATA
     a10_sata_xcvr_core
     sata_a10_sata_xcvr_core
     (
+        .reconfig_write             (recfg_wreq),           // input  wire [0:0]             reconfig_avmm.write
+        .reconfig_read              (recfg_rreq),           // input  wire [0:0]                          .read
+        .reconfig_address           (recfg_addr),           // input  wire [9:0]                          .address
+        .reconfig_writedata         (recfg_wdat),           // input  wire [31:0]                         .writedata
+        .reconfig_readdata          (recfg_rdat),           // output wire [31:0]                         .readdata
+        .reconfig_waitrequest       (recfg_busy),           // output wire [0:0]                          .waitrequest
+        .reconfig_clk               (reconfig_clk),         // input  wire [0:0]              reconfig_clk.clk
+        .reconfig_reset             (reconfig_reset),       // input  wire [0:0]            reconfig_reset.reset
         .rx_analogreset             (rx_analogreset),       // input  wire [0:0]            rx_analogreset.rx_analogreset
         .rx_cal_busy                (rx_cal_busy),          // output wire [0:0]               rx_cal_busy.rx_cal_busy
         .rx_cdr_refclk0             (gxb_refclk),           // input  wire                  rx_cdr_refclk0.clk
@@ -125,7 +156,7 @@ module a10_sata_xcvr
         .tx_serial_clk0             (tx_serial_clk),        // input  wire [0:0]            tx_serial_clk0.clk
         .tx_serial_data             (gxb_tx),               // output wire [0:0]            tx_serial_data.tx_serial_data
         .unused_rx_parallel_data    (  ),                   // output wire [71:0]  unused_rx_parallel_data.unused_rx_parallel_data
-        .unused_tx_parallel_data    (  )                    // input  wire [91:0]  unused_tx_parallel_data.unused_tx_parallel_data
+        .unused_tx_parallel_data    ({92{1'b0}})            // input  wire [91:0]  unused_tx_parallel_data.unused_tx_parallel_data
     ); // sata_a10_sata_xcvr_core
     
     //------------------------------------------------------------------------------------
@@ -133,46 +164,22 @@ module a10_sata_xcvr
     a10_sata_xcvr_rst_core
     the_a10_sata_xcvr_rst_core
     (
-        .clock                  (reconfig_clk),                 // i                     clock.clk
-        .pll_locked             (pll_locked),                   // i  [0:0]         pll_locked.pll_locked
-        .pll_select             (1'b0),                         // i  [0:0]         pll_select.pll_select
-        .reset                  (gxb_reset),                    // i                     reset.reset
-        .rx_analogreset         (rx_analogreset),               // o  [0:0]     rx_analogreset.rx_analogreset
-        .rx_cal_busy            (rx_cal_busy),                  // i  [0:0]        rx_cal_busy.rx_cal_busy
-        .rx_digitalreset        (rx_digitalreset),              // o  [0:0]    rx_digitalreset.rx_digitalreset
-        .rx_is_lockedtodata     (rx_is_lockedtodata),           // i  [0:0] rx_is_lockedtodata.rx_is_lockedtodata
-        .rx_ready               (  ),                           // o  [0:0]           rx_ready.rx_ready
-        .tx_analogreset         (tx_analogreset),               // o  [0:0]     tx_analogreset.tx_analogreset
-        .tx_cal_busy            (tx_cal_busy | pll_cal_busy),   // i  [0:0]        tx_cal_busy.tx_cal_busy
-        .tx_digitalreset        (tx_digitalreset),              // o  [0:0]    tx_digitalreset.tx_digitalreset
-        .tx_ready               (  )                            // o  [0:0]           tx_ready.tx_ready
+        .clock                  (gxb_refclk),           // i                     clock.clk
+        .pll_cal_busy           (pll_cal_busy),         // i  [0:0]       pll_cal_busy.pll_cal_busy
+        .pll_locked             (pll_locked),           // i  [0:0]         pll_locked.pll_locked
+        .pll_powerdown          (pll_powerdown),        // o  [0:0]      pll_powerdown.pll_powerdown
+        .pll_select             (1'b0),                 // i  [0:0]         pll_select.pll_select
+        .reset                  (gxb_reset),            // i                     reset.reset
+        .rx_analogreset         (rx_analogreset),       // o  [0:0]     rx_analogreset.rx_analogreset
+        .rx_cal_busy            (rx_cal_busy),          // i  [0:0]        rx_cal_busy.rx_cal_busy
+        .rx_digitalreset        (rx_digitalreset),      // o  [0:0]    rx_digitalreset.rx_digitalreset
+        .rx_is_lockedtodata     (rx_is_lockedtodata),   // i  [0:0] rx_is_lockedtodata.rx_is_lockedtodata
+        .rx_ready               (rx_ready),             // o  [0:0]           rx_ready.rx_ready
+        .tx_analogreset         (tx_analogreset),       // o  [0:0]     tx_analogreset.tx_analogreset
+        .tx_cal_busy            (tx_cal_busy),          // i  [0:0]        tx_cal_busy.tx_cal_busy
+        .tx_digitalreset        (tx_digitalreset),      // o  [0:0]    tx_digitalreset.tx_digitalreset
+        .tx_ready               (tx_ready)              // o  [0:0]           tx_ready.tx_ready
     ); // the_a10_sata_xcvr_rst_core
-    
-    //------------------------------------------------------------------------------------
-    //      Модуль калибровки и сброса PLL тактирования высокоскоростных трансиверов
-    a10_xcvr_pll_resetter
-    #(
-        .PLL_TYPE               ("fPLL"),                   // Тип PLL ("fPLL" | "CMUPLL" | "ATXPLL")
-        .RST_DELAY              (200)                       // Длительность сброса PLL (в тактах clk)
-    )
-    the_a10_xcvr_pll_resetter
-    (
-        // Сброс и тактирование
-        .reset                  (gxb_reset),                // i
-        .clk                    (reconfig_clk),             // i
-        
-        // Интерфейс калибровки PLL
-        .reconfig_address       (pll_recfg_address),        // o  [9 : 0]
-        .reconfig_write         (pll_recfg_write),          // o
-        .reconfig_writedata     (pll_recfg_writedata),      // o  [31 : 0]
-        .reconfig_read          (pll_recfg_read),           // o
-        .reconfig_readdata      (pll_recfg_readdata),       // i  [31 : 0]
-        .reconfig_waitrequest   (pll_recfg_waitrequest),    // i
-        
-        // Интерфейс управления PLL
-        .pll_powerdown          (pll_powerdown),            // o
-        .pll_cal_busy           (pll_cal_busy)              // i
-    ); // the_a10_xcvr_pll_resetter
     
     //------------------------------------------------------------------------------------
     //      Генерация необходимой PLL
@@ -183,14 +190,6 @@ module a10_sata_xcvr
             a10_sata_xcvr_atxpll_core
             the_a10_sata_xcvr_atxpll_core
             (
-                .reconfig_write0        (pll_recfg_write),          // i          reconfig_avmm0.write
-                .reconfig_read0         (pll_recfg_read),           // i                        .read
-                .reconfig_address0      (pll_recfg_address),        // i  [9:0]                 .address
-                .reconfig_writedata0    (pll_recfg_writedata),      // i  [31:0]                .writedata
-                .reconfig_readdata0     (pll_recfg_readdata),       // o  [31:0]                .readdata
-                .reconfig_waitrequest0  (pll_recfg_waitrequest),    // o                        .waitrequest
-                .reconfig_clk0          (reconfig_clk),             // i           reconfig_clk0.clk
-                .reconfig_reset0        (reconfig_reset),           // i         reconfig_reset0.reset
                 .pll_cal_busy           (pll_cal_busy),             // o            pll_cal_busy.pll_cal_busy
                 .pll_locked             (pll_locked),               // o              pll_locked.pll_locked
                 .pll_powerdown          (pll_powerdown),            // i           pll_powerdown.pll_powerdown
@@ -204,14 +203,6 @@ module a10_sata_xcvr
             a10_sata_xcvr_fpll_core
             the_a10_sata_xcvr_fpll_core
             (
-                .reconfig_write0        (pll_recfg_write),          // i          reconfig_avmm0.write
-                .reconfig_read0         (pll_recfg_read),           // i                        .read
-                .reconfig_address0      (pll_recfg_address),        // i  [9:0]                 .address
-                .reconfig_writedata0    (pll_recfg_writedata),      // i  [31:0]                .writedata
-                .reconfig_readdata0     (pll_recfg_readdata),       // o  [31:0]                .readdata
-                .reconfig_waitrequest0  (pll_recfg_waitrequest),    // o                        .waitrequest
-                .reconfig_clk0          (reconfig_clk),             // i           reconfig_clk0.clk
-                .reconfig_reset0        (reconfig_reset),           // i         reconfig_reset0.reset
                 .pll_cal_busy           (pll_cal_busy),             // o            pll_cal_busy.pll_cal_busy
                 .pll_locked             (pll_locked),               // o              pll_locked.pll_locked
                 .pll_powerdown          (pll_powerdown),            // i           pll_powerdown.pll_powerdown
@@ -225,14 +216,6 @@ module a10_sata_xcvr
             a10_sata_xcvr_cmupll_core
             the_a10_sata_xcvr_cmupll_core
             (
-                .reconfig_write0        (pll_recfg_write),          // i          reconfig_avmm0.write
-                .reconfig_read0         (pll_recfg_read),           // i                        .read
-                .reconfig_address0      (pll_recfg_address),        // i  [9:0]                 .address
-                .reconfig_writedata0    (pll_recfg_writedata),      // i  [31:0]                .writedata
-                .reconfig_readdata0     (pll_recfg_readdata),       // o  [31:0]                .readdata
-                .reconfig_waitrequest0  (pll_recfg_waitrequest),    // o                        .waitrequest
-                .reconfig_clk0          (reconfig_clk),             // i           reconfig_clk0.clk
-                .reconfig_reset0        (reconfig_reset),           // i         reconfig_reset0.reset
                 .pll_cal_busy           (pll_cal_busy),             // o            pll_cal_busy.pll_cal_busy
                 .pll_locked             (pll_locked),               // o              pll_locked.pll_locked
                 .pll_powerdown          (pll_powerdown),            // i           pll_powerdown.pll_powerdown
@@ -241,4 +224,30 @@ module a10_sata_xcvr
             ); // the_a10_sata_xcvr_cmupll_core
         end
     endgenerate
+    
+    //------------------------------------------------------------------------------------
+    //      Модуль реконфигурации высокоскоростного приемопередатчика Arria 10 на
+    //      режимы работы стандартов SATA1, SATA2, SATA3
+    a10_sata_xcvr_reconf
+    the_a10_sata_xcvr_reconf
+    (
+        // Сброс и тактирование
+        .reset          (reconfig_reset),   // i
+        .clk            (reconfig_clk),     // i
+        
+        // Интерфейс команд на ре-конфигурацию
+        .cmd_reconfig   (recfg_request),    // i
+        .cmd_sata_gen   (recfg_sata_gen),   // i  [1 : 0]
+        .cmd_ready      (recfg_ready),      // o
+        
+        // Интерфейс доступа к адресному пространству
+        // IP-ядра реконфигурации
+        .recfg_addr     (recfg_addr),       // o  [9 : 0]
+        .recfg_wreq     (recfg_wreq),       // o
+        .recfg_wdat     (recfg_wdat),       // o  [31 : 0]
+        .recfg_rreq     (recfg_rreq),       // o
+        .recfg_rdat     (recfg_rdat),       // i  [31 : 0]
+        .recfg_busy     (recfg_busy)        // i
+    ); // the_a10_sata_xcvr_reconf
+    
 endmodule: a10_sata_xcvr

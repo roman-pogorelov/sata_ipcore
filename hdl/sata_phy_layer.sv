@@ -642,8 +642,14 @@ module sata_phy_layer
                 .reconfig_clk       (reconfig_clk),                 // i
                 
                 // Сброс и тактирование высокоскоростных приемопередатчиков
-                .gxb_reset          (gxb_reset),                    // i
+                .gxb_reset          (xcvr_reset_reg),               // i
                 .gxb_refclk         (gxb_refclk),                   // i
+                
+                // Интерфейс реконфигурации между поколениями SATA
+                // (домен reconfig_clk)
+                .recfg_request      (gxb_recfg_request),            // i
+                .recfg_sata_gen     (recfg_sata_gen_resync),        // i  [1 : 0]
+                .recfg_ready        (gxb_recfg_ready),              // o
                 
                 // Интерфейсные сигналы приемника
                 .rx_clock           (rx_clk),                       // o
@@ -660,6 +666,11 @@ module sata_phy_layer
                 .tx_data            (tx_data_reg),                  // i  [31 : 0]
                 .tx_datak           ({{3{1'b0}}, tx_datak_reg}),    // i  [3 : 0]
                 .tx_elecidle        (tx_elecidle),                  // i
+                
+                // Статусные сигналы готовности
+                // (домен gxb_refclk)
+                .rx_ready           (gxb_rx_ready),                 // o
+                .tx_ready           (gxb_tx_ready),                 // o
                 
                 // Высокоскоростные линии
                 .gxb_rx             (gxb_rx),                       // i
