@@ -1,0 +1,1301 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>datasheet for a10_sata_xcvr_atxpll_core</title>
+  <style type="text/css">
+body { font-family:arial ;}
+a { text-decoration:underline ; color:#003000 ;}
+a:hover { text-decoration:underline ; color:0030f0 ;}
+td { padding : 5px ;}
+table.topTitle { width:100% ;}
+table.topTitle td.l { text-align:left ; font-weight: bold ; font-size:30px ;}
+table.topTitle td.r { text-align:right ; font-weight: bold ; font-size:16px ;}
+table.blueBar { width : 100% ; border-spacing : 0px ;}
+table.blueBar td { background:#0036ff ; font-size:12px ; color : white ; text-align : left ; font-weight : bold ;}
+table.blueBar td.l { text-align : left ;}
+table.blueBar td.r { text-align : right ;}
+table.items { width:100% ; border-collapse:collapse ;}
+table.items td.label { font-weight:bold ; font-size:16px ; vertical-align:top ;}
+table.items td.mono { font-family:courier ; font-size:12px ; white-space:pre ;}
+div.label { font-weight:bold ; font-size:16px ; vertical-align:top ; text-align:center ;}
+table.grid { border-collapse:collapse ;}
+table.grid td { border:1px solid #bbb ; font-size:12px ;}
+body { font-family:arial ;}
+table.x { font-family:courier ; border-collapse:collapse ; padding:2px ;}
+table.x td { border:1px solid #bbb ;}
+td.tableTitle { font-weight:bold ; text-align:center ;}
+table.grid { border-collapse:collapse ;}
+table.grid td { border:1px solid #bbb ;}
+table.grid td.tableTitle { font-weight:bold ; text-align:center ;}
+table.mmap { border-collapse:collapse ; text-size:11px ; border:1px solid #d8d8d8 ;}
+table.mmap td { border-color:#d8d8d8 ; border-width:1px ; border-style:solid ;}
+table.mmap td.empty { border-style:none ; background-color:#f0f0f0 ;}
+table.mmap td.slavemodule { text-align:left ; font-size:11px ; border-style:solid solid none solid ;}
+table.mmap td.slavem { text-align:right ; font-size:9px ; font-style:italic ; border-style:none solid none solid ;}
+table.mmap td.slaveb { text-align:right ; font-size:9px ; font-style:italic ; border-style:none solid solid solid ;}
+table.mmap td.mastermodule { text-align:center ; font-size:11px ; border-style:solid solid none solid ;}
+table.mmap td.masterlr { text-align:center ; font-size:9px ; font-style:italic ; border-style:none solid solid solid ;}
+table.mmap td.masterl { text-align:center ; font-size:9px ; font-style:italic ; border-style:none none solid solid ;}
+table.mmap td.masterm { text-align:center ; font-size:9px ; font-style:italic ; border-style:none none solid none ;}
+table.mmap td.masterr { text-align:center ; font-size:9px ; font-style:italic ; border-style:none solid solid none ;}
+table.mmap td.addr { font-family:courier ; font-size:9px ; text-align:right ;}
+table.connectionboxes { border-collapse:separate ; border-spacing:0px ; font-family:arial ;}
+table.connectionboxes td.from { border-bottom:1px solid black ; font-size:9px ; font-style:italic ; vertical-align:bottom ; text-align:left ;}
+table.connectionboxes td.to { font-size:9px ; font-style:italic ; vertical-align:top ; text-align:right ;}
+table.connectionboxes td.lefthandwire { border-bottom:1px solid black ; font-size:9px ; font-style:italic ; vertical-align:bottom ; text-align:right ;}
+table.connectionboxes td.righthandwire { border-bottom:1px solid black ; font-size:9px ; font-style:italic ; vertical-align:bottom ; text-align:left ;}
+table.connectionboxes td.righthandlabel { font-size:11px ; vertical-align:bottom ; text-align:left ;}
+table.connectionboxes td.neighbor { padding:3px ; border:1px solid black ; font-size: 11px ; background:#e8e8e8 ; vertical-align:center ; text-align:center ;}
+table.connectionboxes td.main { padding:8px ; border:1px solid black ; font-size: 14px ; font-weight:bold ; background:#ffffff ; vertical-align:center ; text-align:center ;}
+.parametersbox { border:1px solid #d0d0d0 ; display:inline-block ; max-height:160px ; overflow:auto ; width:360px ; font-size:10px ;}
+.flowbox { display:inline-block ;}
+.parametersbox table { font-size:10px ;}
+td.parametername { font-style:italic ;}
+td.parametervalue { font-weight:bold ;}
+div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; border-top:1px solid #707070 ; border-bottom:1px solid #707070 ; padding:20px ; margin:20px ; width:auto ;}</style>
+ </head>
+ <body>
+  <table class="topTitle">
+   <tr>
+    <td class="l">a10_sata_xcvr_atxpll_core</td>
+    <td class="r">
+     <br/>
+     <br/>
+    </td>
+   </tr>
+  </table>
+  <table class="blueBar">
+   <tr>
+    <td class="l">2018.06.14.10:48:02</td>
+    <td class="r">Datasheet</td>
+   </tr>
+  </table>
+  <div style="width:100% ;  height:10px"> </div>
+  <div class="label">Overview</div>
+  <div class="greydiv">
+   <div style="display:inline-block ; text-align:left">
+    <table class="connectionboxes">
+     <tr style="height:6px">
+      <td></td>
+     </tr>
+    </table>
+   </div><span style="display:inline-block ; width:28px"> </span>
+   <div style="display:inline-block ; text-align:left"><span>
+     <br/></span>
+   </div>
+  </div>
+  <div style="width:100% ;  height:10px"> </div>
+  <div class="label">Memory Map</div>
+  <table class="mmap">
+   <tr>
+    <td class="empty" rowspan="2"></td>
+   </tr>
+  </table>
+  <a name="module_xcvr_atx_pll_a10_0"> </a>
+  <div>
+   <hr/>
+   <h2>xcvr_atx_pll_a10_0</h2>altera_xcvr_atx_pll_a10 v17.1
+   <br/>
+   <br/>
+   <br/>
+   <table class="flowbox">
+    <tr>
+     <td class="parametersbox">
+      <h2>Parameters</h2>
+      <table>
+       <tr>
+        <td class="parametername">rcfg_debug</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_pll_reconfig</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_advanced_avmm_options</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_jtag_enable</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_separate_avmm_busy</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_enable_avmm_busy_port</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">set_capability_reg_enable</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">set_user_identifier</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">set_csr_soft_logic_enable</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">dbg_embedded_debug_enable</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">dbg_capability_reg_enable</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">dbg_user_identifier</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">dbg_stat_soft_logic_enable</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">dbg_ctrl_soft_logic_enable</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_file_prefix</td>
+        <td class="parametervalue">altera_xcvr_atx_pll_a10</td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_sv_file_enable</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_h_file_enable</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_txt_file_enable</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_mif_file_enable</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_multi_enable</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">set_rcfg_emb_strm_enable</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_emb_strm_enable</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_reduced_files_enable</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_profile_cnt</td>
+        <td class="parametervalue">2</td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_profile_select</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_profile_data0</td>
+        <td class="parametervalue"></td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_profile_data1</td>
+        <td class="parametervalue"></td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_profile_data2</td>
+        <td class="parametervalue"></td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_profile_data3</td>
+        <td class="parametervalue"></td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_profile_data4</td>
+        <td class="parametervalue"></td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_profile_data5</td>
+        <td class="parametervalue"></td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_profile_data6</td>
+        <td class="parametervalue"></td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_profile_data7</td>
+        <td class="parametervalue"></td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_params</td>
+        <td class="parametervalue">rcfg_debug,enable_pll_reconfig,rcfg_jtag_enable,rcfg_separate_avmm_busy,rcfg_enable_avmm_busy_port,set_capability_reg_enable,set_user_identifier,set_csr_soft_logic_enable,enable_pld_atx_cal_busy_port,support_mode,prot_mode,bw_sel,refclk_cnt,refclk_index,primary_pll_buffer,enable_8G_path,enable_16G_path,enable_pcie_clk,enable_cascade_out,enable_hip_cal_done_port,set_hip_cal_en,set_output_clock_frequency,set_auto_reference_clock_frequency,set_manual_reference_clock_frequency,set_fref_clock_frequency,set_m_counter,set_ref_clk_div,set_l_counter,set_l_cascade_counter,set_l_cascade_predivider,set_k_counter,enable_mcgb,mcgb_div,enable_hfreq_clk,enable_mcgb_pcie_clksw,mcgb_aux_clkin_cnt,enable_bonding_clks,enable_fb_comp_bonding,pma_width,enable_pld_mcgb_cal_busy_port</td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_param_labels</td>
+        <td class="parametervalue">rcfg_debug,Enable dynamic reconfiguration,Enable Altera Debug Master Endpoint,Separate reconfig_waitrequest from the status of AVMM arbitration with PreSICE,Enable avmm_busy port,Enable capability registers,Set user-defined IP identifier,Enable control and status registers,enable_pld_atx_cal_busy_port,Support mode,Protocol mode,Bandwidth,Number of PLL reference clocks,Selected reference clock source,Primary PLL clock output buffer,Enable PLL GX clock output port,Enable PLL GT clock output port,Enable PCIe clock output port,Enable cascade clock output port,Enable calibration status ports for HIP,Enable PCIe hard IP calibration,PLL output frequency,PLL integer reference clock frequency,PLL fractional reference clock frequency,PLL fractional reference clock frequency,Multiply factor (M-Counter),Divide factor (N-Counter),Divide factor (L-Counter),Divide factor (L-Cascade Counter),predivide factor (L-Cascade Predivider),Fractional multiply factor (K),Include Master Clock Generation Block,Clock division factor,Enable x6/xN non-bonded high-speed clock output port,Enable PCIe clock switch interface,Number of auxiliary MCGB clock input ports.,Enable bonding clock output ports,Enable feedback compensation bonding,PMA interface width,enable_pld_mcgb_cal_busy_port</td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_param_vals0</td>
+        <td class="parametervalue"></td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_param_vals1</td>
+        <td class="parametervalue"></td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_param_vals2</td>
+        <td class="parametervalue"></td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_param_vals3</td>
+        <td class="parametervalue"></td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_param_vals4</td>
+        <td class="parametervalue"></td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_param_vals5</td>
+        <td class="parametervalue"></td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_param_vals6</td>
+        <td class="parametervalue"></td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_param_vals7</td>
+        <td class="parametervalue"></td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_lc_refclk_select_mux_powerdown_mode</td>
+        <td class="parametervalue">powerup</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_lc_refclk_select_mux_xmux_lc_scratch0_src</td>
+        <td class="parametervalue">scratch0_src_lvpecl</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_lc_refclk_select_mux_xmux_lc_scratch1_src</td>
+        <td class="parametervalue">scratch1_src_lvpecl</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_lc_refclk_select_mux_xmux_lc_scratch2_src</td>
+        <td class="parametervalue">scratch2_src_lvpecl</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_lc_refclk_select_mux_xmux_lc_scratch3_src</td>
+        <td class="parametervalue">scratch3_src_lvpecl</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_lc_refclk_select_mux_xmux_lc_scratch4_src</td>
+        <td class="parametervalue">scratch4_src_lvpecl</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_lc_refclk_select_mux_xmux_refclk_src</td>
+        <td class="parametervalue">src_lvpecl</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_lc_refclk_select_mux_xpm_iqref_mux_iqclk_sel</td>
+        <td class="parametervalue">power_down</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_lc_refclk_select_mux_xpm_iqref_mux_scratch0_src</td>
+        <td class="parametervalue">scratch0_power_down</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_lc_refclk_select_mux_xpm_iqref_mux_scratch1_src</td>
+        <td class="parametervalue">scratch1_power_down</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_lc_refclk_select_mux_xpm_iqref_mux_scratch2_src</td>
+        <td class="parametervalue">scratch2_power_down</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_lc_refclk_select_mux_xpm_iqref_mux_scratch3_src</td>
+        <td class="parametervalue">scratch3_power_down</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_lc_refclk_select_mux_xpm_iqref_mux_scratch4_src</td>
+        <td class="parametervalue">scratch4_power_down</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_lc_refclk_select_mux_refclk_select</td>
+        <td class="parametervalue">ref_iqclk0</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_lc_refclk_select_mux_silicon_rev</td>
+        <td class="parametervalue">20nm1</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_lc_refclk_select_mux_inclk0_logical_to_physical_mapping</td>
+        <td class="parametervalue">ref_iqclk0</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_lc_refclk_select_mux_inclk1_logical_to_physical_mapping</td>
+        <td class="parametervalue">power_down</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_lc_refclk_select_mux_inclk2_logical_to_physical_mapping</td>
+        <td class="parametervalue">power_down</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_lc_refclk_select_mux_inclk3_logical_to_physical_mapping</td>
+        <td class="parametervalue">power_down</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_lc_refclk_select_mux_inclk4_logical_to_physical_mapping</td>
+        <td class="parametervalue">power_down</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_refclk_divider_silicon_rev</td>
+        <td class="parametervalue">20nm1</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_refclk_divider_clk_divider</td>
+        <td class="parametervalue">div2_off</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_refclk_divider_core_clk_lvpecl</td>
+        <td class="parametervalue">core_clk_lvpecl_off</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_refclk_divider_enable_lvpecl</td>
+        <td class="parametervalue">lvpecl_enable</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_refclk_divider_optimal</td>
+        <td class="parametervalue">true</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_refclk_divider_powerdown_mode</td>
+        <td class="parametervalue">powerup</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_refclk_divider_sel_pldclk</td>
+        <td class="parametervalue">iqclk_sel_lvpecl</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_refclk_divider_sup_mode</td>
+        <td class="parametervalue">user_mode</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_refclk_divider_term_tristate</td>
+        <td class="parametervalue">tristate_off</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_refclk_divider_vcm_pup</td>
+        <td class="parametervalue">pup_off</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_refclk_divider_clkbuf_sel</td>
+        <td class="parametervalue">high_vcm</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_refclk_divider_iostandard</td>
+        <td class="parametervalue">lvpecl</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_silicon_rev</td>
+        <td class="parametervalue">20nm1</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_is_cascaded_pll</td>
+        <td class="parametervalue">false</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_cgb_div</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_pma_width</td>
+        <td class="parametervalue">64</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_lc_atb</td>
+        <td class="parametervalue">atb_selectdisable</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_cp_compensation_enable</td>
+        <td class="parametervalue">true</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_cp_current_setting</td>
+        <td class="parametervalue">cp_current_setting26</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_cp_testmode</td>
+        <td class="parametervalue">cp_normal</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_cp_lf_3rd_pole_freq</td>
+        <td class="parametervalue">lf_3rd_pole_setting1</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_lf_cbig_size</td>
+        <td class="parametervalue">lf_cbig_setting4</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_cp_lf_order</td>
+        <td class="parametervalue">lf_3rd_order</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_lf_resistance</td>
+        <td class="parametervalue">lf_setting1</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_lf_ripplecap</td>
+        <td class="parametervalue">lf_ripple_cap_0</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_cal_status</td>
+        <td class="parametervalue">cal_in_progress</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_bonding</td>
+        <td class="parametervalue">pll_bonding</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_expected_lc_boost_voltage</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_power_rail_et</td>
+        <td class="parametervalue">950</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_dprio_lc_vreg_boost_scratch</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_dprio_lc_vreg1_boost_scratch</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_dprio_clk_vreg_boost_scratch</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_dprio_mcgb_vreg_boost_scratch</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_dprio_vreg_boost_step_size</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_dprio_vreg1_boost_step_size</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_dprio_clk_vreg_boost_step_size</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_dprio_mcgb_vreg_boost_step_size</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_dprio_lc_vreg_boost_expected_voltage</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_dprio_lc_vreg1_boost_expected_voltage</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_dprio_clk_vreg_boost_expected_voltage</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_dprio_mcgb_vreg_boost_expected_voltage</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_clk_high_perf_voltage</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_clk_mid_power_voltage</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_clk_low_power_voltage</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_tank_sel</td>
+        <td class="parametervalue">lctank2</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_tank_band</td>
+        <td class="parametervalue">lc_band6</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_tank_voltage_coarse</td>
+        <td class="parametervalue">vreg_setting_coarse0</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_tank_voltage_fine</td>
+        <td class="parametervalue">vreg_setting5</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_output_regulator_supply</td>
+        <td class="parametervalue">vreg1v_setting0</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_overrange_voltage</td>
+        <td class="parametervalue">over_setting0</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_underrange_voltage</td>
+        <td class="parametervalue">under_setting4</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_fb_select</td>
+        <td class="parametervalue">direct_fb</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_d2a_voltage</td>
+        <td class="parametervalue">d2a_setting_4</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_dsm_mode</td>
+        <td class="parametervalue">dsm_mode_integer</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_dsm_out_sel</td>
+        <td class="parametervalue">pll_dsm_disable</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_dsm_ecn_bypass</td>
+        <td class="parametervalue">false</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_dsm_ecn_test_en</td>
+        <td class="parametervalue">false</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_dsm_fractional_division</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_dsm_fractional_value_ready</td>
+        <td class="parametervalue">pll_k_ready</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_enable_lc_calibration</td>
+        <td class="parametervalue">true</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_enable_lc_vreg_calibration</td>
+        <td class="parametervalue">true</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_iqclk_mux_sel</td>
+        <td class="parametervalue">iqtxrxclk0</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_vco_bypass_enable</td>
+        <td class="parametervalue">false</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_l_counter</td>
+        <td class="parametervalue">4</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_l_counter_enable</td>
+        <td class="parametervalue">true</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_cascadeclk_test</td>
+        <td class="parametervalue">cascadetest_off</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_hclk_divide</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_enable_hclk</td>
+        <td class="parametervalue">hclk_disabled</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_m_counter</td>
+        <td class="parametervalue">40</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_ref_clk_div</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_bandwidth_range_high</td>
+        <td class="parametervalue">0 hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_bandwidth_range_low</td>
+        <td class="parametervalue">0 hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_bw_sel</td>
+        <td class="parametervalue">medium</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_calibration_mode</td>
+        <td class="parametervalue">cal_off</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_datarate</td>
+        <td class="parametervalue">6000000000 bps</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_device_variant</td>
+        <td class="parametervalue">device1</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_f_max_pfd</td>
+        <td class="parametervalue">350000000 Hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_f_max_ref</td>
+        <td class="parametervalue">800000000 Hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_f_max_tank_0</td>
+        <td class="parametervalue">8800000000 Hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_f_max_tank_1</td>
+        <td class="parametervalue">11400000000 Hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_f_max_tank_2</td>
+        <td class="parametervalue">14400000000 Hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_f_max_vco</td>
+        <td class="parametervalue">14400000000 Hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_f_max_x1</td>
+        <td class="parametervalue">8700000000 Hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_f_min_pfd</td>
+        <td class="parametervalue">61440000 Hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_f_min_ref</td>
+        <td class="parametervalue">61440000 Hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_f_min_tank_0</td>
+        <td class="parametervalue">6500000000 Hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_f_min_tank_1</td>
+        <td class="parametervalue">8800000000 Hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_f_min_tank_2</td>
+        <td class="parametervalue">11400000000 Hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_f_min_vco</td>
+        <td class="parametervalue">7200000000 Hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_initial_settings</td>
+        <td class="parametervalue">true</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_l_counter_scratch</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_lc_mode</td>
+        <td class="parametervalue">lccmu_normal</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_n_counter_scratch</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_output_clock_frequency</td>
+        <td class="parametervalue">3000000000 Hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_power_mode</td>
+        <td class="parametervalue">low_power</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_powerdown_mode</td>
+        <td class="parametervalue">powerup</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_prot_mode</td>
+        <td class="parametervalue">sas_tx</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_reference_clock_frequency</td>
+        <td class="parametervalue">150000000 Hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_side</td>
+        <td class="parametervalue">side_unknown</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_pm_speed_grade</td>
+        <td class="parametervalue">i3</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_sup_mode</td>
+        <td class="parametervalue">user_mode</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_top_or_bottom</td>
+        <td class="parametervalue">tb_unknown</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_vccdreg_clk</td>
+        <td class="parametervalue">vreg_clk5</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_vccdreg_fb</td>
+        <td class="parametervalue">vreg_fb8</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_vccdreg_fw</td>
+        <td class="parametervalue">vreg_fw5</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_regulator_bypass</td>
+        <td class="parametervalue">reg_enable</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_vco_freq</td>
+        <td class="parametervalue">12000000000 Hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_f_max_vco_fractional</td>
+        <td class="parametervalue">0 hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_f_max_pfd_fractional</td>
+        <td class="parametervalue">0 hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_min_fractional_percentage</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_max_fractional_percentage</td>
+        <td class="parametervalue">100</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_analog_mode</td>
+        <td class="parametervalue">user_custom</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_is_otn</td>
+        <td class="parametervalue">false</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_is_sdi</td>
+        <td class="parametervalue">false</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_primary_use</td>
+        <td class="parametervalue">hssi_x1</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_fpll_refclk_selection</td>
+        <td class="parametervalue">select_vco_output</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_lc_to_fpll_l_counter_scratch</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_lc_to_fpll_l_counter</td>
+        <td class="parametervalue">lcounter_setting0</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_pfd_delay_compensation</td>
+        <td class="parametervalue">normal_delay</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_xcpvco_xchgpmplf_cp_current_boost</td>
+        <td class="parametervalue">normal_setting</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_f_max_lcnt_fpll_cascading</td>
+        <td class="parametervalue">1200000000</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_pfd_pulse_width</td>
+        <td class="parametervalue">pulse_width_setting0</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_enable_idle_atx_pll_support</td>
+        <td class="parametervalue">idle_none</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_advanced_options</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_hip_options</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_manual_configuration</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">generate_docs</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">generate_add_hdl_instance_example</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">device_family</td>
+        <td class="parametervalue">ARRIA10</td>
+       </tr>
+       <tr>
+        <td class="parametername">device</td>
+        <td class="parametervalue">10AX016C3U19I2SG</td>
+       </tr>
+       <tr>
+        <td class="parametername">base_device</td>
+        <td class="parametervalue">NIGHTFURY1</td>
+       </tr>
+       <tr>
+        <td class="parametername">test_mode</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_pld_atx_cal_busy_port</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_debug_ports_parameters</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">support_mode</td>
+        <td class="parametervalue">user_mode</td>
+       </tr>
+       <tr>
+        <td class="parametername">message_level</td>
+        <td class="parametervalue">error</td>
+       </tr>
+       <tr>
+        <td class="parametername">pma_speedgrade</td>
+        <td class="parametervalue">i3</td>
+       </tr>
+       <tr>
+        <td class="parametername">device_revision</td>
+        <td class="parametervalue">20nm1</td>
+       </tr>
+       <tr>
+        <td class="parametername">prot_mode</td>
+        <td class="parametervalue">SAS TX</td>
+       </tr>
+       <tr>
+        <td class="parametername">prot_mode_fnl</td>
+        <td class="parametervalue">sas_tx</td>
+       </tr>
+       <tr>
+        <td class="parametername">primary_use</td>
+        <td class="parametervalue">hssi_x1</td>
+       </tr>
+       <tr>
+        <td class="parametername">bw_sel</td>
+        <td class="parametervalue">medium</td>
+       </tr>
+       <tr>
+        <td class="parametername">refclk_cnt</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">refclk_index</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">silicon_rev</td>
+        <td class="parametervalue">false</td>
+       </tr>
+       <tr>
+        <td class="parametername">fb_select_fnl</td>
+        <td class="parametervalue">direct_fb</td>
+       </tr>
+       <tr>
+        <td class="parametername">primary_pll_buffer</td>
+        <td class="parametervalue">GX clock output buffer</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_8G_buffer_fnl</td>
+        <td class="parametervalue">true</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_16G_buffer_fnl</td>
+        <td class="parametervalue">false</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_8G_path</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_16G_path</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_pcie_clk</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_cascade_out</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_atx_to_fpll_cascade_out</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_hip_cal_done_port</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">set_hip_cal_en</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">hip_cal_en</td>
+        <td class="parametervalue">disable</td>
+       </tr>
+       <tr>
+        <td class="parametername">dsm_mode</td>
+        <td class="parametervalue">dsm_mode_integer</td>
+       </tr>
+       <tr>
+        <td class="parametername">set_output_clock_frequency</td>
+        <td class="parametervalue">3000.0</td>
+       </tr>
+       <tr>
+        <td class="parametername">output_clock_datarate</td>
+        <td class="parametervalue">6000.0</td>
+       </tr>
+       <tr>
+        <td class="parametername">output_clock_frequency</td>
+        <td class="parametervalue">3000.0 MHz</td>
+       </tr>
+       <tr>
+        <td class="parametername">vco_freq</td>
+        <td class="parametervalue">12000.0 MHz</td>
+       </tr>
+       <tr>
+        <td class="parametername">datarate</td>
+        <td class="parametervalue">6000.0 Mbps</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_fractional</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">set_auto_reference_clock_frequency</td>
+        <td class="parametervalue">150.0</td>
+       </tr>
+       <tr>
+        <td class="parametername">set_manual_reference_clock_frequency</td>
+        <td class="parametervalue">200.0</td>
+       </tr>
+       <tr>
+        <td class="parametername">reference_clock_frequency_fnl</td>
+        <td class="parametervalue">150.000000 MHz</td>
+       </tr>
+       <tr>
+        <td class="parametername">set_fref_clock_frequency</td>
+        <td class="parametervalue">156.25</td>
+       </tr>
+       <tr>
+        <td class="parametername">feedback_clock_frequency_fnl</td>
+        <td class="parametervalue">156.25</td>
+       </tr>
+       <tr>
+        <td class="parametername">select_manual_config</td>
+        <td class="parametervalue">false</td>
+       </tr>
+       <tr>
+        <td class="parametername">m_counter</td>
+        <td class="parametervalue">40</td>
+       </tr>
+       <tr>
+        <td class="parametername">effective_m_counter</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">set_m_counter</td>
+        <td class="parametervalue">24</td>
+       </tr>
+       <tr>
+        <td class="parametername">ref_clk_div</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">set_ref_clk_div</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">l_counter</td>
+        <td class="parametervalue">4</td>
+       </tr>
+       <tr>
+        <td class="parametername">set_l_counter</td>
+        <td class="parametervalue">16</td>
+       </tr>
+       <tr>
+        <td class="parametername">l_cascade_counter</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">set_l_cascade_counter</td>
+        <td class="parametervalue">15</td>
+       </tr>
+       <tr>
+        <td class="parametername">l_cascade_predivider</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">set_l_cascade_predivider</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">k_counter</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">set_k_counter</td>
+        <td class="parametervalue">2000000000</td>
+       </tr>
+       <tr>
+        <td class="parametername">auto_list</td>
+        <td class="parametervalue">61.855670 {m 97 effective_m 97 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 62.500000 {m 96 effective_m 96 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 63.157895 {m 95 effective_m 95 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 63.829787 {m 94 effective_m 94 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 64.516129 {m 93 effective_m 93 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 65.217391 {m 92 effective_m 92 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 65.934066 {m 91 effective_m 91 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 66.666667 {m 90 effective_m 90 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 67.415730 {m 89 effective_m 89 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 68.181818 {m 88 effective_m 88 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 68.965517 {m 87 effective_m 87 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 69.767442 {m 86 effective_m 86 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 70.588235 {m 85 effective_m 85 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 71.428571 {m 84 effective_m 84 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 72.289157 {m 83 effective_m 83 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 73.170732 {m 82 effective_m 82 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 74.074074 {m 81 effective_m 81 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 75.000000 {m 80 effective_m 80 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 75.949367 {m 79 effective_m 79 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 76.923077 {m 78 effective_m 78 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 77.922078 {m 77 effective_m 77 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 78.947368 {m 76 effective_m 76 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 80.000000 {m 75 effective_m 75 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 81.081081 {m 74 effective_m 74 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 82.191781 {m 73 effective_m 73 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 83.333333 {m 72 effective_m 72 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 84.507042 {m 71 effective_m 71 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 85.714286 {m 70 effective_m 70 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 86.956522 {m 69 effective_m 69 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 88.235294 {m 68 effective_m 68 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 89.552239 {m 67 effective_m 67 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 90.909091 {m 66 effective_m 66 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 92.307692 {m 65 effective_m 65 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 93.750000 {m 64 effective_m 64 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 95.238095 {m 63 effective_m 63 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 96.774194 {m 62 effective_m 62 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 98.360656 {m 61 effective_m 61 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 100.000000 {m 60 effective_m 60 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 101.694915 {m 59 effective_m 59 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 103.448276 {m 58 effective_m 58 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 105.263158 {m 57 effective_m 57 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 107.142857 {m 56 effective_m 56 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 109.090909 {m 55 effective_m 55 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 111.111111 {m 54 effective_m 54 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 113.207547 {m 53 effective_m 53 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 115.384615 {m 52 effective_m 52 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 117.647059 {m 51 effective_m 51 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 120.000000 {m 50 effective_m 50 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 122.448980 {m 49 effective_m 49 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 123.711340 {m 97 effective_m 97 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 125.000000 {m 48 effective_m 48 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 126.315789 {m 95 effective_m 95 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 127.659574 {m 47 effective_m 47 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 129.032258 {m 93 effective_m 93 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 130.434783 {m 46 effective_m 46 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 131.868132 {m 91 effective_m 91 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 133.333333 {m 45 effective_m 45 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 134.831461 {m 89 effective_m 89 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 136.363636 {m 44 effective_m 44 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 137.931034 {m 87 effective_m 87 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 139.534884 {m 43 effective_m 43 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 141.176471 {m 85 effective_m 85 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 142.857143 {m 42 effective_m 42 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 144.578313 {m 83 effective_m 83 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 146.341463 {m 41 effective_m 41 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 148.148148 {m 81 effective_m 81 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 150.000000 {m 40 effective_m 40 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 151.898734 {m 79 effective_m 79 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 153.846154 {m 39 effective_m 39 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 155.844156 {m 77 effective_m 77 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 157.894737 {m 38 effective_m 38 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 160.000000 {m 75 effective_m 75 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 162.162162 {m 37 effective_m 37 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 164.383562 {m 73 effective_m 73 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 166.666667 {m 36 effective_m 36 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 169.014085 {m 71 effective_m 71 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 171.428571 {m 35 effective_m 35 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 173.913043 {m 69 effective_m 69 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 176.470588 {m 34 effective_m 34 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 179.104478 {m 67 effective_m 67 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 181.818182 {m 33 effective_m 33 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 184.615385 {m 65 effective_m 65 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 187.500000 {m 32 effective_m 32 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 190.476190 {m 63 effective_m 63 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 193.548387 {m 31 effective_m 31 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 196.721311 {m 61 effective_m 61 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 200.000000 {m 30 effective_m 30 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 203.389831 {m 59 effective_m 59 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 206.896552 {m 29 effective_m 29 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 210.526316 {m 57 effective_m 57 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 214.285714 {m 28 effective_m 28 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 218.181818 {m 55 effective_m 55 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 222.222222 {m 27 effective_m 27 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 226.415094 {m 53 effective_m 53 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 230.769231 {m 26 effective_m 26 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 235.294118 {m 51 effective_m 51 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 240.000000 {m 25 effective_m 25 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 244.897959 {m 49 effective_m 49 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 247.422680 {m 97 effective_m 97 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 250.000000 {m 24 effective_m 24 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 252.631579 {m 95 effective_m 95 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 255.319149 {m 47 effective_m 47 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 258.064516 {m 93 effective_m 93 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 260.869565 {m 23 effective_m 23 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 263.736264 {m 91 effective_m 91 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 266.666667 {m 45 effective_m 45 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 269.662921 {m 89 effective_m 89 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 272.727273 {m 22 effective_m 22 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 275.862069 {m 87 effective_m 87 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 279.069767 {m 43 effective_m 43 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 282.352941 {m 85 effective_m 85 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 285.714286 {m 21 effective_m 21 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 289.156627 {m 83 effective_m 83 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 292.682927 {m 41 effective_m 41 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 296.296296 {m 81 effective_m 81 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 300.000000 {m 20 effective_m 20 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 303.797468 {m 79 effective_m 79 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 307.692308 {m 39 effective_m 39 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 311.688312 {m 77 effective_m 77 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 315.789474 {m 19 effective_m 19 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 320.000000 {m 75 effective_m 75 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 324.324324 {m 37 effective_m 37 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 328.767123 {m 73 effective_m 73 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 333.333333 {m 18 effective_m 18 n 1 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 338.028169 {m 71 effective_m 71 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 342.857143 {m 35 effective_m 35 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 347.826087 {m 69 effective_m 69 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 352.941176 {m 34 effective_m 34 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 358.208955 {m 67 effective_m 67 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 363.636364 {m 33 effective_m 33 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 369.230769 {m 65 effective_m 65 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 375.000000 {m 32 effective_m 32 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 380.952381 {m 63 effective_m 63 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 387.096774 {m 31 effective_m 31 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 393.442623 {m 61 effective_m 61 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 400.000000 {m 30 effective_m 30 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 406.779661 {m 59 effective_m 59 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 413.793103 {m 29 effective_m 29 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 421.052632 {m 57 effective_m 57 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 428.571429 {m 28 effective_m 28 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 436.363636 {m 55 effective_m 55 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 444.444444 {m 27 effective_m 27 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 452.830189 {m 53 effective_m 53 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 461.538462 {m 26 effective_m 26 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 470.588235 {m 51 effective_m 51 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 480.000000 {m 25 effective_m 25 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 489.795918 {m 49 effective_m 49 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 494.845361 {m 97 effective_m 97 n 8 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 500.000000 {m 24 effective_m 24 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 505.263158 {m 95 effective_m 95 n 8 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 510.638298 {m 47 effective_m 47 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 516.129032 {m 93 effective_m 93 n 8 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 521.739130 {m 23 effective_m 23 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 527.472527 {m 91 effective_m 91 n 8 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 533.333333 {m 45 effective_m 45 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 539.325843 {m 89 effective_m 89 n 8 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 545.454545 {m 22 effective_m 22 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 551.724138 {m 87 effective_m 87 n 8 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 558.139535 {m 43 effective_m 43 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 564.705882 {m 85 effective_m 85 n 8 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 571.428571 {m 21 effective_m 21 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 578.313253 {m 83 effective_m 83 n 8 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 585.365854 {m 41 effective_m 41 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 592.592593 {m 81 effective_m 81 n 8 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 600.000000 {m 20 effective_m 20 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 607.594937 {m 79 effective_m 79 n 8 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 615.384615 {m 39 effective_m 39 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 623.376623 {m 77 effective_m 77 n 8 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 631.578947 {m 19 effective_m 19 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 640.000000 {m 75 effective_m 75 n 8 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 648.648649 {m 37 effective_m 37 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 657.534247 {m 73 effective_m 73 n 8 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 666.666667 {m 18 effective_m 18 n 2 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 676.056338 {m 71 effective_m 71 n 8 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 685.714286 {m 35 effective_m 35 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 695.652174 {m 69 effective_m 69 n 8 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 705.882353 {m 34 effective_m 34 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 716.417910 {m 67 effective_m 67 n 8 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 727.272727 {m 33 effective_m 33 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 738.461538 {m 65 effective_m 65 n 8 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 750.000000 {m 32 effective_m 32 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 761.904762 {m 63 effective_m 63 n 8 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 774.193548 {m 31 effective_m 31 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 786.885246 {m 61 effective_m 61 n 8 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0} 800.000000 {m 30 effective_m 30 n 4 l 4 l_cascade 1 l_cascade_predivider 1 k 1 tank_sel lctank0 tank_band lc_band0}</td>
+       </tr>
+       <tr>
+        <td class="parametername">manual_list</td>
+        <td class="parametervalue"></td>
+       </tr>
+       <tr>
+        <td class="parametername">pll_setting</td>
+        <td class="parametervalue">refclk {150.000000 MHz} m_cnt 40 n_cnt 1 l_cnt 4 k_cnt 1 l_cascade 1 l_cascade_predivider 1 outclk {3000.0 MHz}</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_fb_comp_bonding_fnl</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">check_output_ports_pll</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">iqclk_mux_sel</td>
+        <td class="parametervalue">iqtxrxclk0</td>
+       </tr>
+       <tr>
+        <td class="parametername">set_altera_xcvr_atx_pll_a10_calibration_en</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">calibration_en</td>
+        <td class="parametervalue">enable</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_analog_resets</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_ext_lockdetect_ports</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">atx_pll_bonding_mode</td>
+        <td class="parametervalue">cpri_bonding</td>
+       </tr>
+       <tr>
+        <td class="parametername">lc_refclk_select</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_mcgb</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">mcgb_div</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">mcgb_div_fnl</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_hfreq_clk</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_mcgb_pcie_clksw</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">mcgb_aux_clkin_cnt</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">mcgb_in_clk_freq</td>
+        <td class="parametervalue">3000.0</td>
+       </tr>
+       <tr>
+        <td class="parametername">mcgb_out_datarate</td>
+        <td class="parametervalue">6000.0</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_bonding_clks</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_fb_comp_bonding</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">mcgb_enable_iqtxrxclk</td>
+        <td class="parametervalue">disable_iqtxrxclk</td>
+       </tr>
+       <tr>
+        <td class="parametername">pma_width</td>
+        <td class="parametervalue">64</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_mcgb_debug_ports_parameters</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_pld_mcgb_cal_busy_port</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">check_output_ports_mcgb</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">is_protocol_PCIe</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">mapped_output_clock_frequency</td>
+        <td class="parametervalue">3000.0 MHz</td>
+       </tr>
+       <tr>
+        <td class="parametername">mapped_primary_pll_buffer</td>
+        <td class="parametervalue">GX clock output buffer</td>
+       </tr>
+       <tr>
+        <td class="parametername">mapped_hip_cal_done_port</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_cgb_master_prot_mode</td>
+        <td class="parametervalue">basic_tx</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_cgb_master_silicon_rev</td>
+        <td class="parametervalue">20nm1</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_cgb_master_x1_div_m_sel</td>
+        <td class="parametervalue">divbypass</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_cgb_master_cgb_enable_iqtxrxclk</td>
+        <td class="parametervalue">disable_iqtxrxclk</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_cgb_master_ser_mode</td>
+        <td class="parametervalue">sixty_four_bit</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_cgb_master_datarate</td>
+        <td class="parametervalue">6000000000 bps</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_cgb_master_cgb_power_down</td>
+        <td class="parametervalue">normal_cgb</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_cgb_master_observe_cgb_clocks</td>
+        <td class="parametervalue">observe_nothing</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_cgb_master_op_mode</td>
+        <td class="parametervalue">enabled</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_cgb_master_tx_ucontrol_reset_pcie</td>
+        <td class="parametervalue">pcscorehip_controls_mcgb</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_cgb_master_vccdreg_output</td>
+        <td class="parametervalue">vccdreg_nominal</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_cgb_master_input_select</td>
+        <td class="parametervalue">lcpll_top</td>
+       </tr>
+       <tr>
+        <td class="parametername">hssi_pma_cgb_master_input_select_gen3</td>
+        <td class="parametervalue">unused</td>
+       </tr>
+       <tr>
+        <td class="parametername">gui_parameter_list</td>
+        <td class="parametervalue">K counter (valid in fractional mode),L counter (valid in non-cascade mode),M counter,N counter,L cascade predivider/VCO divider(valid in cascade mode) ,L cascade counter (valid in cascade mode),PLL output frequency,vco_freq,datarate</td>
+       </tr>
+       <tr>
+        <td class="parametername">gui_parameter_values</td>
+        <td class="parametervalue">1,4,40,1,select_vco_output,1,3000.0 MHz,12000.0 MHz,6000.0 Mbps</td>
+       </tr>
+       <tr>
+        <td class="parametername">deviceFamily</td>
+        <td class="parametervalue">UNKNOWN</td>
+       </tr>
+       <tr>
+        <td class="parametername">generateLegacySim</td>
+        <td class="parametervalue">false</td>
+       </tr>
+      </table>
+     </td>
+    </tr>
+   </table>&#160;&#160;
+   <table class="flowbox">
+    <tr>
+     <td class="parametersbox">
+      <h2>Software Assignments</h2>(none)</td>
+    </tr>
+   </table>
+  </div>
+  <table class="blueBar">
+   <tr>
+    <td class="l">generation took 0,00 seconds</td>
+    <td class="r">rendering took 0,03 seconds</td>
+   </tr>
+  </table>
+ </body>
+</html>

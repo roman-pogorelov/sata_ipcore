@@ -1,0 +1,35 @@
+Info: Starting: Create HDL design files for synthesis
+Info: qsys-generate D:\workspace\qprojects\eth2opt_ctrl\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_atxpll_core\a10_sata_xcvr_atxpll_core.qsys --synthesis=VERILOG --output-directory=D:\workspace\qprojects\eth2opt_ctrl\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_atxpll_core\a10_sata_xcvr_atxpll_core --family="Arria 10" --part=10AX016C3U19I2SG
+Progress: Loading a10_sata_xcvr_atxpll_core/a10_sata_xcvr_atxpll_core.qsys
+Progress: Reading input file
+Progress: Adding xcvr_atx_pll_a10_0 [altera_xcvr_atx_pll_a10 17.1]
+Info: altera_xcvr_atx_pll_a10: NOTE: Modified mcgb tcl package that enables ATX PLL Sharing
+Progress: Parameterizing module xcvr_atx_pll_a10_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: a10_sata_xcvr_atxpll_core.xcvr_atx_pll_a10_0: For the selected device(10AX016C3U19I2SG), PLL speed grade is 3.
+Info: a10_sata_xcvr_atxpll_core: "Transforming system: a10_sata_xcvr_atxpll_core"
+Info: a10_sata_xcvr_atxpll_core: Running transform generation_view_transform
+Info: a10_sata_xcvr_atxpll_core: Running transform generation_view_transform took 0.000s
+Info: xcvr_atx_pll_a10_0: Running transform generation_view_transform
+Info: xcvr_atx_pll_a10_0: Running transform generation_view_transform took 0.000s
+Info: a10_sata_xcvr_atxpll_core: Running transform merlin_avalon_transform
+Info: a10_sata_xcvr_atxpll_core: Running transform merlin_avalon_transform took 0.007s
+Info: a10_sata_xcvr_atxpll_core: "Naming system components in system: a10_sata_xcvr_atxpll_core"
+Info: a10_sata_xcvr_atxpll_core: "Processing generation queue"
+Info: a10_sata_xcvr_atxpll_core: "Generating: a10_sata_xcvr_atxpll_core"
+Info: a10_sata_xcvr_atxpll_core: "Generating: a10_sata_xcvr_atxpll_core_altera_xcvr_atx_pll_a10_171_pm4bbmq"
+Info: xcvr_atx_pll_a10_0: add_fileset_file ./twentynm_xcvr_avmm.sv SYSTEM_VERILOG PATH ../../../alt_xcvr_core/nf/twentynm_xcvr_avmm.sv
+Info: xcvr_atx_pll_a10_0: add_fileset_file ./alt_xcvr_resync.sv SYSTEM_VERILOG PATH ../../../../altera_xcvr_generic/ctrl/alt_xcvr_resync.sv
+Info: xcvr_atx_pll_a10_0: add_fileset_file ./alt_xcvr_arbiter.sv SYSTEM_VERILOG PATH ../../../../altera_xcvr_generic/ctrl/alt_xcvr_arbiter.sv
+Info: xcvr_atx_pll_a10_0: add_fileset_file ./a10_avmm_h.sv SYSTEM_VERILOG PATH ../../../altera_xcvr_native_phy/altera_xcvr_native_vi/a10_avmm_h.sv
+Info: xcvr_atx_pll_a10_0: add_fileset_file ./altera_xcvr_native_a10_functions_h.sv SYSTEM_VERILOG PATH ../../../altera_xcvr_native_phy/altera_xcvr_native_vi/altera_xcvr_native_a10_functions_h.sv
+Info: xcvr_atx_pll_a10_0: add_fileset_file ./alt_xcvr_atx_pll_rcfg_arb.sv SYSTEM_VERILOG PATH ../source/alt_xcvr_atx_pll_rcfg_arb.sv
+Info: xcvr_atx_pll_a10_0: add_fileset_file ./a10_xcvr_atx_pll.sv SYSTEM_VERILOG PATH ../source/a10_xcvr_atx_pll.sv
+Info: xcvr_atx_pll_a10_0: add_fileset_file ./alt_xcvr_pll_embedded_debug.sv SYSTEM_VERILOG PATH ../source/alt_xcvr_pll_embedded_debug.sv
+Info: xcvr_atx_pll_a10_0: add_fileset_file ./alt_xcvr_pll_avmm_csr.sv SYSTEM_VERILOG PATH ../source/alt_xcvr_pll_avmm_csr.sv
+Info: a10_sata_xcvr_atxpll_core: Done "a10_sata_xcvr_atxpll_core" with 2 modules, 14 files
+Info: qsys-generate succeeded.
+Info: Finished: Create HDL design files for synthesis
