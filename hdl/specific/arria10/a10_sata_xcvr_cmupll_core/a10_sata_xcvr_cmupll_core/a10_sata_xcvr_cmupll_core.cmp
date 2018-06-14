@@ -1,0 +1,10 @@
+	component a10_sata_xcvr_cmupll_core is
+		port (
+			pll_cal_busy  : out std_logic;        -- pll_cal_busy
+			pll_locked    : out std_logic;        -- pll_locked
+			pll_powerdown : in  std_logic := 'X'; -- pll_powerdown
+			pll_refclk0   : in  std_logic := 'X'; -- clk
+			tx_serial_clk : out std_logic         -- clk
+		);
+	end component a10_sata_xcvr_cmupll_core;
+

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pinplan
+ variation_name="xcvr_cdr_pll_a10_0"
+ megafunction_name="ALTERA_XCVR_CDR_PLL_A10"
+ intended_family="Arria 10"
+ specifies="all_ports">
+ <global>
+  <pin name="pll_powerdown" direction="input" scope="external" />
+  <pin name="pll_refclk0" direction="input" scope="external" />
+  <pin name="tx_serial_clk" direction="output" scope="external" />
+  <pin name="pll_locked" direction="output" scope="external" />
+  <pin name="pll_cal_busy" direction="output" scope="external" />
+ </global>
+</pinplan>

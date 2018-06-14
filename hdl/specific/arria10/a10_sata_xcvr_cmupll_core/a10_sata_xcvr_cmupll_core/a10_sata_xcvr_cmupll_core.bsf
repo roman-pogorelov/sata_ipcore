@@ -1,0 +1,92 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 2017  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+*/
+(header "symbol" (version "1.1"))
+(symbol
+	(rect 0 0 336 184)
+	(text "a10_sata_xcvr_cmupll_core" (rect 86 -1 200 11)(font "Arial" (font_size 10)))
+	(text "inst" (rect 8 168 20 180)(font "Arial" ))
+	(port
+		(pt 0 72)
+		(input)
+		(text "pll_powerdown" (rect 0 0 56 12)(font "Arial" (font_size 8)))
+		(text "pll_powerdown" (rect 4 61 82 72)(font "Arial" (font_size 8)))
+		(line (pt 0 72)(pt 96 72)(line_width 1))
+	)
+	(port
+		(pt 0 112)
+		(input)
+		(text "pll_refclk0" (rect 0 0 40 12)(font "Arial" (font_size 8)))
+		(text "pll_refclk0" (rect 4 101 70 112)(font "Arial" (font_size 8)))
+		(line (pt 0 112)(pt 96 112)(line_width 1))
+	)
+	(port
+		(pt 336 72)
+		(output)
+		(text "tx_serial_clk" (rect 0 0 49 12)(font "Arial" (font_size 8)))
+		(text "tx_serial_clk" (rect 272 61 350 72)(font "Arial" (font_size 8)))
+		(line (pt 336 72)(pt 240 72)(line_width 1))
+	)
+	(port
+		(pt 336 112)
+		(output)
+		(text "pll_locked" (rect 0 0 37 12)(font "Arial" (font_size 8)))
+		(text "pll_locked" (rect 286 101 346 112)(font "Arial" (font_size 8)))
+		(line (pt 336 112)(pt 240 112)(line_width 1))
+	)
+	(port
+		(pt 336 152)
+		(output)
+		(text "pll_cal_busy" (rect 0 0 49 12)(font "Arial" (font_size 8)))
+		(text "pll_cal_busy" (rect 272 141 344 152)(font "Arial" (font_size 8)))
+		(line (pt 336 152)(pt 240 152)(line_width 1))
+	)
+	(drawing
+		(text "pll_powerdown" (rect 9 43 96 99)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "pll_powerdown" (rect 101 67 280 144)(font "Arial" (color 0 0 0)))
+		(text "pll_refclk0" (rect 36 83 138 179)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "clk" (rect 101 107 220 224)(font "Arial" (color 0 0 0)))
+		(text "tx_serial_clk" (rect 241 43 560 99)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "clk" (rect 225 67 468 144)(font "Arial" (color 0 0 0)))
+		(text "pll_locked" (rect 241 83 542 179)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "pll_locked" (rect 195 107 450 224)(font "Arial" (color 0 0 0)))
+		(text "pll_cal_busy" (rect 241 123 554 259)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "pll_cal_busy" (rect 183 147 438 304)(font "Arial" (color 0 0 0)))
+		(text " system " (rect 301 168 650 346)(font "Arial" ))
+		(line (pt 96 32)(pt 240 32)(line_width 1))
+		(line (pt 240 32)(pt 240 168)(line_width 1))
+		(line (pt 96 168)(pt 240 168)(line_width 1))
+		(line (pt 96 32)(pt 96 168)(line_width 1))
+		(line (pt 97 52)(pt 97 76)(line_width 1))
+		(line (pt 98 52)(pt 98 76)(line_width 1))
+		(line (pt 97 92)(pt 97 116)(line_width 1))
+		(line (pt 98 92)(pt 98 116)(line_width 1))
+		(line (pt 239 52)(pt 239 76)(line_width 1))
+		(line (pt 238 52)(pt 238 76)(line_width 1))
+		(line (pt 239 92)(pt 239 116)(line_width 1))
+		(line (pt 238 92)(pt 238 116)(line_width 1))
+		(line (pt 239 132)(pt 239 156)(line_width 1))
+		(line (pt 238 132)(pt 238 156)(line_width 1))
+		(line (pt 0 0)(pt 336 0)(line_width 1))
+		(line (pt 336 0)(pt 336 184)(line_width 1))
+		(line (pt 0 184)(pt 336 184)(line_width 1))
+		(line (pt 0 0)(pt 0 184)(line_width 1))
+	)
+)

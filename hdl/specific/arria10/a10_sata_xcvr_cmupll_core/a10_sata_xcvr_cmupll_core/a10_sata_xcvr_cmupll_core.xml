@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deploy
+ date="2018.06.14.10:49:59"
+ outputDirectory="D:/workspace/qprojects/eth2opt_ctrl/sata_ipcore/hdl/specific/arria10/a10_sata_xcvr_cmupll_core/a10_sata_xcvr_cmupll_core/">
+ <perimeter>
+  <parameter
+     name="AUTO_GENERATION_ID"
+     type="Integer"
+     defaultValue="0"
+     onHdl="0"
+     affectsHdl="1" />
+  <parameter
+     name="AUTO_UNIQUE_ID"
+     type="String"
+     defaultValue=""
+     onHdl="0"
+     affectsHdl="1" />
+  <parameter
+     name="AUTO_DEVICE_FAMILY"
+     type="String"
+     defaultValue="Arria 10"
+     onHdl="0"
+     affectsHdl="1" />
+  <parameter
+     name="AUTO_DEVICE"
+     type="String"
+     defaultValue="10AX016C3U19I2SG"
+     onHdl="0"
+     affectsHdl="1" />
+  <parameter
+     name="AUTO_DEVICE_SPEEDGRADE"
+     type="String"
+     defaultValue="2"
+     onHdl="0"
+     affectsHdl="1" />
+  <parameter
+     name="AUTO_PLL_REFCLK0_CLOCK_RATE"
+     type="Long"
+     defaultValue="-1"
+     onHdl="0"
+     affectsHdl="1" />
+  <parameter
+     name="AUTO_PLL_REFCLK0_CLOCK_DOMAIN"
+     type="Integer"
+     defaultValue="-1"
+     onHdl="0"
+     affectsHdl="1" />
+  <parameter
+     name="AUTO_PLL_REFCLK0_RESET_DOMAIN"
+     type="Integer"
+     defaultValue="-1"
+     onHdl="0"
+     affectsHdl="1" />
+  <interface name="pll_cal_busy" kind="conduit" start="0">
+   <property name="associatedClock" value="" />
+   <property name="associatedReset" value="" />
+   <port name="pll_cal_busy" direction="output" role="pll_cal_busy" width="1" />
+  </interface>
+  <interface name="pll_locked" kind="conduit" start="0">
+   <property name="associatedClock" value="" />
+   <property name="associatedReset" value="" />
+   <port name="pll_locked" direction="output" role="pll_locked" width="1" />
+  </interface>
+  <interface name="pll_powerdown" kind="conduit" start="0">
+   <property name="associatedClock" value="" />
+   <property name="associatedReset" value="" />
+   <port name="pll_powerdown" direction="input" role="pll_powerdown" width="1" />
+  </interface>
+  <interface name="pll_refclk0" kind="clock" start="0">
+   <property name="clockRate" value="0" />
+   <property name="externallyDriven" value="false" />
+   <property name="ptfSchematicName" value="" />
+   <port name="pll_refclk0" direction="input" role="clk" width="1" />
+  </interface>
+  <interface name="tx_serial_clk" kind="hssi_serial_clock" start="1">
+   <property name="clockRate" value="0" />
+   <port name="tx_serial_clk" direction="output" role="clk" width="1" />
+  </interface>
+ </perimeter>
+ <entity
+   kind="a10_sata_xcvr_cmupll_core"
+   version="1.0"
+   name="a10_sata_xcvr_cmupll_core">
+  <parameter name="AUTO_PLL_REFCLK0_RESET_DOMAIN" value="-1" />
+  <parameter name="AUTO_PLL_REFCLK0_CLOCK_DOMAIN" value="-1" />
+  <parameter name="AUTO_GENERATION_ID" value="1528962599" />
+  <parameter name="AUTO_DEVICE" value="10AX016C3U19I2SG" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="Arria 10" />
+  <parameter name="AUTO_UNIQUE_ID" value="" />
+  <parameter name="AUTO_PLL_REFCLK0_CLOCK_RATE" value="-1" />
+  <parameter name="AUTO_DEVICE_SPEEDGRADE" value="2" />
+  <generatedFiles>
+   <file
+       path="D:\workspace\qprojects\eth2opt_ctrl\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_cmupll_core\a10_sata_xcvr_cmupll_core\synth\a10_sata_xcvr_cmupll_core.v"
+       attributes="CONTAINS_INLINE_CONFIGURATION" />
+   <file
+       path="D:\workspace\qprojects\eth2opt_ctrl\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_cmupll_core\a10_sata_xcvr_cmupll_core\synth\a10_sata_xcvr_cmupll_core_cfg.v"
+       attributes="CONTAINS_INLINE_CONFIGURATION" />
+  </generatedFiles>
+  <childGeneratedFiles>
+   <file
+       path="D:\workspace\qprojects\eth2opt_ctrl\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_cmupll_core\a10_sata_xcvr_cmupll_core\synth\a10_sata_xcvr_cmupll_core.v"
+       attributes="CONTAINS_INLINE_CONFIGURATION" />
+   <file
+       path="D:\workspace\qprojects\eth2opt_ctrl\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_cmupll_core\a10_sata_xcvr_cmupll_core\synth\a10_sata_xcvr_cmupll_core_cfg.v"
+       attributes="CONTAINS_INLINE_CONFIGURATION" />
+  </childGeneratedFiles>
+  <sourceFiles>
+   <file
+       path="D:/workspace/qprojects/eth2opt_ctrl/sata_ipcore/hdl/specific/arria10/a10_sata_xcvr_cmupll_core/a10_sata_xcvr_cmupll_core.qsys" />
+  </sourceFiles>
+  <childSourceFiles>
+   <file
+       path="C:/intelfpga/17.1/ip/altera/alt_xcvr/altera_xcvr_pll/altera_xcvr_cdr_pll_vi/tcl/altera_xcvr_cdr_pll_a10_hw.tcl" />
+  </childSourceFiles>
+  <messages>
+   <message level="Info" culprit="a10_sata_xcvr_cmupll_core">"Generating: a10_sata_xcvr_cmupll_core"</message>
+   <message level="Info" culprit="a10_sata_xcvr_cmupll_core">"Generating: altera_xcvr_cdr_pll_a10"</message>
+   <message level="Info" culprit="xcvr_cdr_pll_a10_0">add_fileset_file ./twentynm_xcvr_avmm.sv SYSTEM_VERILOG PATH ../../../alt_xcvr_core/nf/twentynm_xcvr_avmm.sv</message>
+   <message level="Info" culprit="xcvr_cdr_pll_a10_0">add_fileset_file ./alt_xcvr_resync.sv SYSTEM_VERILOG PATH ../../../../altera_xcvr_generic/ctrl/alt_xcvr_resync.sv</message>
+   <message level="Info" culprit="xcvr_cdr_pll_a10_0">add_fileset_file ./altera_xcvr_cdr_pll_a10.sv SYSTEM_VERILOG PATH ../source/altera_xcvr_cdr_pll_a10.sv</message>
+   <message level="Info" culprit="xcvr_cdr_pll_a10_0">add_fileset_file ./a10_avmm_h.sv SYSTEM_VERILOG PATH ../../../altera_xcvr_native_phy/altera_xcvr_native_vi/a10_avmm_h.sv</message>
+   <message level="Info" culprit="xcvr_cdr_pll_a10_0">add_fileset_file ./alt_xcvr_native_avmm_nf.sv SYSTEM_VERILOG PATH ../../../altera_xcvr_native_phy/altera_xcvr_native_vi/alt_xcvr_native_avmm_nf.sv</message>
+   <message level="Info" culprit="xcvr_cdr_pll_a10_0">add_fileset_file ./alt_xcvr_pll_embedded_debug.sv SYSTEM_VERILOG PATH ../../altera_xcvr_atx_pll_vi/source/alt_xcvr_pll_embedded_debug.sv</message>
+   <message level="Info" culprit="xcvr_cdr_pll_a10_0">add_fileset_file ./alt_xcvr_pll_avmm_csr.sv SYSTEM_VERILOG PATH ../../altera_xcvr_atx_pll_vi/source/alt_xcvr_pll_avmm_csr.sv</message>
+  </messages>
+ </entity>
+ <entity
+   kind="altera_xcvr_cdr_pll_a10"
+   version="17.1"
+   name="altera_xcvr_cdr_pll_a10">
+  <parameter
+     name="auto_counters"
+     value="refclk 150.000000 m_cnt 20 n_cnt 1 lpfd_cnt 2 lpd_cnt 0 fvco 6000" />
+  <parameter
+     name="cdr_pll_set_cdr_vco_speed_pciegen3"
+     value="cdr_vco_max_speedbin_pciegen3" />
+  <parameter name="cdr_pll_f_max_pfd" value="350000000 Hz" />
+  <parameter name="bw_sel_atom" value="medium" />
+  <parameter
+     name="pma_cdr_refclk_select_mux_inclk2_logical_to_physical_mapping"
+     value="power_down" />
+  <parameter name="refclk_cnt" value="1" />
+  <parameter name="cdr_pll_f_min_vco" value="4900000000 Hz" />
+  <parameter name="cdr_pll_pm_speed_grade" value="i3" />
+  <parameter name="output_clock_frequency" value="3000" />
+  <parameter name="pma_cdr_refclk_select_mux_powerdown_mode" value="powerup" />
+  <parameter name="enable_analog_resets" value="0" />
+  <parameter name="cdr_pll_initial_settings" value="true" />
+  <parameter name="cdr_pll_f_max_m_counter" value="1" />
+  <parameter name="cdr_pll_side" value="side_unknown" />
+  <parameter name="cdr_pll_tx_pll_prot_mode" value="txpll_enable" />
+  <parameter name="device_revision" value="20nm1" />
+  <parameter name="cdr_pll_clklow_mux_select" value="clklow_mux_cdr_fbclk" />
+  <parameter name="pma_cdr_refclk_select_mux_refclk_select" value="ref_iqclk0" />
+  <parameter name="refclk_index" value="0" />
+  <parameter name="cdr_pll_analog_mode" value="user_custom" />
+  <parameter name="cdr_pll_lpd_counter" value="0" />
+  <parameter name="generate_docs" value="0" />
+  <parameter name="cdr_pll_auto_reset_on" value="auto_reset_off" />
+  <parameter
+     name="cdr_pll_chgpmp_up_pd_trim_double"
+     value="normal_up_trim_current" />
+  <parameter name="cdr_pll_diag_loopback_enable" value="false" />
+  <parameter
+     name="pma_cdr_refclk_select_mux_inclk3_logical_to_physical_mapping"
+     value="power_down" />
+  <parameter
+     name="cdr_pll_bbpd_data_pattern_filter_select"
+     value="bbpd_data_pat_off" />
+  <parameter name="cdr_pll_is_cascaded_pll" value="false" />
+  <parameter name="cdr_pll_pma_width" value="8" />
+  <parameter name="cdr_pll_f_min_pfd" value="50000000 Hz" />
+  <parameter name="cdr_pll_txpll_hclk_driver_enable" value="false" />
+  <parameter
+     name="cdr_pll_chgpmp_current_dn_trim"
+     value="cp_current_trimming_dn_setting0" />
+  <parameter name="datarate" value="6000 Mbps" />
+  <parameter name="cdr_pll_bw_sel" value="medium" />
+  <parameter name="cdr_pll_ref_clock_frequency" value="150.0 MHz" />
+  <parameter name="device" value="10AX016C3U19I2SG" />
+  <parameter name="refclk_select_mux_powerdown_mode" value="powerup" />
+  <parameter name="cdr_pll_prot_mode" value="unused" />
+  <parameter name="cdr_pll_lf_resistor_pfd" value="lf_pfd_setting2" />
+  <parameter name="device_family" value="Arria 10" />
+  <parameter name="base_device" value="NIGHTFURY1" />
+  <parameter name="cdr_pll_vco_freq" value="6000000000 Hz" />
+  <parameter name="cdr_pll_position" value="position_unknown" />
+  <parameter name="cdr_pll_pd_l_counter" value="0" />
+  <parameter name="cdr_pll_fb_select" value="direct_fb" />
+  <parameter name="cdr_pll_chgpmp_testmode" value="cp_test_disable" />
+  <parameter name="cdr_pll_primary_use" value="cmu" />
+  <parameter name="dummy_embedded_debug_warning" value="0" />
+  <parameter
+     name="pma_cdr_refclk_select_mux_inclk1_logical_to_physical_mapping"
+     value="power_down" />
+  <parameter name="cdr_pll_requires_gt_capable_channel" value="false" />
+  <parameter name="generate_add_hdl_instance_example" value="0" />
+  <parameter name="cmu_refclk_select" value="0" />
+  <parameter name="enable_pll_reconfig" value="0" />
+  <parameter name="cdr_pll_lf_resistor_pd" value="lf_pd_setting0" />
+  <parameter name="cdr_pll_set_cdr_input_freq_range" value="0" />
+  <parameter name="enable_advanced_avmm_options" value="0" />
+  <parameter name="cdr_pll_set_cdr_vco_speed_fix" value="60" />
+  <parameter name="cdr_pll_vco_overrange_voltage" value="vco_overrange_off" />
+  <parameter name="rcfg_file_prefix" value="altera_xcvr_cdr_pll_a10" />
+  <parameter name="pma_cdr_refclk_select_mux_silicon_rev" value="20nm1" />
+  <parameter name="cdr_pll_ncounter" value="1" />
+  <parameter name="set_capability_reg_enable" value="0" />
+  <parameter name="cdr_pll_lpfd_counter" value="2" />
+  <parameter name="enable_advanced_options" value="0" />
+  <parameter name="cdr_pll_cgb_div" value="1" />
+  <parameter name="set_csr_soft_logic_enable" value="0" />
+  <parameter name="cdr_pll_set_cdr_vco_speed" value="3" />
+  <parameter name="gui_tx_pll_prot_mode" value="Basic" />
+  <parameter name="cdr_pll_m_counter" value="20" />
+  <parameter name="cdr_pll_pd_fastlock_mode" value="false" />
+  <parameter name="message_level" value="error" />
+  <parameter name="cdr_pll_atb_select_control" value="atb_off" />
+  <parameter name="cdr_pll_set_cdr_v2i_enable" value="true" />
+  <parameter name="cdr_pll_loopback_mode" value="loopback_disabled" />
+  <parameter name="speed_grade" value="i3" />
+  <parameter name="cdr_pll_datarate" value="6000000000 bps" />
+  <parameter name="cdr_pll_disable_up_dn" value="true" />
+  <parameter name="cdr_pll_chgpmp_vccreg" value="vreg_fw0" />
+  <parameter name="bw_sel" value="Medium" />
+  <parameter name="primary_use" value="cmu" />
+  <parameter name="cdr_pll_pfd_lcounter" value="2" />
+  <parameter name="cdr_pll_fref_mux_select" value="fref_mux_cdr_refclk" />
+  <parameter name="dbg_ctrl_soft_logic_enable" value="0" />
+  <parameter name="reference_clock_frequency" value="150.0" />
+  <parameter name="set_user_identifier" value="0" />
+  <parameter name="cdr_pll_power_mode" value="low_power" />
+  <parameter name="cdr_pll_cdr_powerdown_mode" value="power_up" />
+  <parameter name="cdr_pll_set_cdr_vco_reset" value="false" />
+  <parameter name="cdr_pll_cal_vco_count_length" value="sel_8b_count" />
+  <parameter name="cdr_pll_enable_idle_rx_channel_support" value="false" />
+  <parameter name="cdr_pll_pcie_gen" value="non_pcie" />
+  <parameter name="cdr_pll_lf_ripple_cap" value="lf_no_ripple" />
+  <parameter name="cdr_pll_f_max_ref" value="800000000 Hz" />
+  <parameter name="vco_freq" value="6000 MHz" />
+  <parameter name="manual_counters" value="" />
+  <parameter name="set_altera_xcvr_cdr_pll_a10_calibration_en" value="1" />
+  <parameter
+     name="pma_cdr_refclk_select_mux_inclk0_logical_to_physical_mapping"
+     value="ref_iqclk0" />
+  <parameter name="cdr_pll_reference_clock_frequency" value="150000000 Hz" />
+  <parameter name="cdr_pll_mcounter" value="20" />
+  <parameter name="cdr_pll_f_max_cmu_out_freq" value="1" />
+  <parameter name="rcfg_mif_file_enable" value="0" />
+  <parameter name="cdr_pll_loop_filter_bias_select" value="lpflt_bias_7" />
+  <parameter name="cdr_pll_lck2ref_delay_control" value="lck2ref_delay_2" />
+  <parameter name="dbg_embedded_debug_enable" value="0" />
+  <parameter name="cdr_pll_n_counter" value="1" />
+  <parameter name="cdr_pll_uc_cru_rstb" value="cdr_lf_reset_off" />
+  <parameter name="cdr_pll_chgpmp_current_dn_pd" value="cp_current_pd_dn_setting0" />
+  <parameter name="cdr_pll_cdr_odi_select" value="sel_cdr" />
+  <parameter name="cdr_pll_sup_mode" value="user_mode" />
+  <parameter name="cdr_pll_gpon_lck2ref_control" value="gpon_lck2ref_off" />
+  <parameter name="cdr_pll_pd_lcounter" value="0" />
+  <parameter name="cdr_pll_uc_ro_cal_status" value="uc_ro_cal_notdone" />
+  <parameter name="dbg_capability_reg_enable" value="0" />
+  <parameter name="cdr_pll_chgpmp_replicate" value="false" />
+  <parameter name="cdr_pll_top_or_bottom" value="tb_unknown" />
+  <parameter name="cdr_pll_ltd_ltr_micro_controller_select" value="ltd_ltr_pcs" />
+  <parameter name="cdr_pll_f_min_ref" value="50000000 Hz" />
+  <parameter name="cdr_pll_bandwidth_range_high" value="0 hz" />
+  <parameter name="dbg_stat_soft_logic_enable" value="0" />
+  <parameter name="cdr_pll_iqclk_mux_sel" value="power_down" />
+  <parameter name="cdr_pll_f_max_vco" value="9800000000 Hz" />
+  <parameter name="cdr_pll_uc_ro_cal" value="uc_ro_cal_on" />
+  <parameter name="cdr_pll_n_counter_scratch" value="1" />
+  <parameter name="rcfg_separate_avmm_busy" value="0" />
+  <parameter name="cdr_pll_f_min_gt_channel" value="8700000000 Hz" />
+  <parameter name="rcfg_debug" value="0" />
+  <parameter name="cdr_pll_chgpmp_current_pd" value="cp_current_pd_setting0" />
+  <parameter name="cdr_pll_out_clock_frequency" value="3000 MHz" />
+  <parameter name="tx_pll_prot_mode" value="txpll_enable" />
+  <parameter name="cdr_pll_fref_clklow_div" value="1" />
+  <parameter name="cdr_pll_bandwidth_range_low" value="0 hz" />
+  <parameter
+     name="cdr_pll_chgpmp_current_up_trim"
+     value="cp_current_trimming_up_setting0" />
+  <parameter name="cdr_pll_reverse_serial_loopback" value="no_loopback" />
+  <parameter name="cdr_pll_output_clock_frequency" value="3000000000 Hz" />
+  <parameter name="cdr_pll_optimal" value="false" />
+  <parameter
+     name="pma_cdr_refclk_select_mux_inclk4_logical_to_physical_mapping"
+     value="power_down" />
+  <parameter name="cdr_pll_chgpmp_current_pfd" value="cp_current_pfd_setting3" />
+  <parameter name="cdr_pll_pfd_l_counter" value="2" />
+  <parameter name="cdr_pll_cdr_phaselock_mode" value="no_ignore_lock" />
+  <parameter name="cdr_pll_vco_underrange_voltage" value="vco_underange_off" />
+  <parameter name="select_manual_config" value="false" />
+  <parameter name="rcfg_jtag_enable" value="0" />
+  <parameter name="cdr_pll_chgpmp_current_up_pd" value="cp_current_pd_up_setting0" />
+  <parameter name="diag_loopback_enable" value="false" />
+  <parameter name="rcfg_sv_file_enable" value="0" />
+  <parameter name="rcfg_enable_avmm_busy_port" value="0" />
+  <parameter name="rcfg_h_file_enable" value="0" />
+  <parameter name="dbg_user_identifier" value="0" />
+  <parameter name="cdr_pll_silicon_rev" value="20nm1" />
+  <parameter name="rcfg_txt_file_enable" value="0" />
+  <parameter name="loopback_mode" value="loopback_disabled" />
+  <parameter
+     name="cdr_pll_chgpmp_dn_pd_trim_double"
+     value="normal_dn_trim_current" />
+  <parameter name="support_mode" value="user_mode" />
+  <parameter name="calibration_en" value="enable" />
+  <generatedFiles>
+   <file
+       path="D:\workspace\qprojects\eth2opt_ctrl\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_cmupll_core\a10_sata_xcvr_cmupll_core\altera_xcvr_cdr_pll_a10_171\synth\twentynm_xcvr_avmm.sv"
+       attributes="" />
+   <file
+       path="D:\workspace\qprojects\eth2opt_ctrl\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_cmupll_core\a10_sata_xcvr_cmupll_core\altera_xcvr_cdr_pll_a10_171\synth\alt_xcvr_resync.sv"
+       attributes="" />
+   <file
+       path="D:\workspace\qprojects\eth2opt_ctrl\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_cmupll_core\a10_sata_xcvr_cmupll_core\altera_xcvr_cdr_pll_a10_171\synth\altera_xcvr_cdr_pll_a10.sv"
+       attributes="" />
+   <file
+       path="D:\workspace\qprojects\eth2opt_ctrl\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_cmupll_core\a10_sata_xcvr_cmupll_core\altera_xcvr_cdr_pll_a10_171\synth\a10_avmm_h.sv"
+       attributes="" />
+   <file
+       path="D:\workspace\qprojects\eth2opt_ctrl\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_cmupll_core\a10_sata_xcvr_cmupll_core\altera_xcvr_cdr_pll_a10_171\synth\alt_xcvr_native_avmm_nf.sv"
+       attributes="" />
+   <file
+       path="D:\workspace\qprojects\eth2opt_ctrl\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_cmupll_core\a10_sata_xcvr_cmupll_core\altera_xcvr_cdr_pll_a10_171\synth\alt_xcvr_pll_embedded_debug.sv"
+       attributes="" />
+   <file
+       path="D:\workspace\qprojects\eth2opt_ctrl\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_cmupll_core\a10_sata_xcvr_cmupll_core\altera_xcvr_cdr_pll_a10_171\synth\alt_xcvr_pll_avmm_csr.sv"
+       attributes="" />
+   <file
+       path="D:\workspace\qprojects\eth2opt_ctrl\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_cmupll_core\a10_sata_xcvr_cmupll_core\altera_xcvr_cdr_pll_a10_171\synth\plain_files.txt"
+       attributes="" />
+  </generatedFiles>
+  <childGeneratedFiles>
+   <file
+       path="D:\workspace\qprojects\eth2opt_ctrl\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_cmupll_core\a10_sata_xcvr_cmupll_core\altera_xcvr_cdr_pll_a10_171\synth\twentynm_xcvr_avmm.sv"
+       attributes="" />
+   <file
+       path="D:\workspace\qprojects\eth2opt_ctrl\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_cmupll_core\a10_sata_xcvr_cmupll_core\altera_xcvr_cdr_pll_a10_171\synth\alt_xcvr_resync.sv"
+       attributes="" />
+   <file
+       path="D:\workspace\qprojects\eth2opt_ctrl\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_cmupll_core\a10_sata_xcvr_cmupll_core\altera_xcvr_cdr_pll_a10_171\synth\altera_xcvr_cdr_pll_a10.sv"
+       attributes="" />
+   <file
+       path="D:\workspace\qprojects\eth2opt_ctrl\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_cmupll_core\a10_sata_xcvr_cmupll_core\altera_xcvr_cdr_pll_a10_171\synth\a10_avmm_h.sv"
+       attributes="" />
+   <file
+       path="D:\workspace\qprojects\eth2opt_ctrl\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_cmupll_core\a10_sata_xcvr_cmupll_core\altera_xcvr_cdr_pll_a10_171\synth\alt_xcvr_native_avmm_nf.sv"
+       attributes="" />
+   <file
+       path="D:\workspace\qprojects\eth2opt_ctrl\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_cmupll_core\a10_sata_xcvr_cmupll_core\altera_xcvr_cdr_pll_a10_171\synth\alt_xcvr_pll_embedded_debug.sv"
+       attributes="" />
+   <file
+       path="D:\workspace\qprojects\eth2opt_ctrl\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_cmupll_core\a10_sata_xcvr_cmupll_core\altera_xcvr_cdr_pll_a10_171\synth\alt_xcvr_pll_avmm_csr.sv"
+       attributes="" />
+   <file
+       path="D:\workspace\qprojects\eth2opt_ctrl\sata_ipcore\hdl\specific\arria10\a10_sata_xcvr_cmupll_core\a10_sata_xcvr_cmupll_core\altera_xcvr_cdr_pll_a10_171\synth\plain_files.txt"
+       attributes="" />
+  </childGeneratedFiles>
+  <sourceFiles>
+   <file
+       path="C:/intelfpga/17.1/ip/altera/alt_xcvr/altera_xcvr_pll/altera_xcvr_cdr_pll_vi/tcl/altera_xcvr_cdr_pll_a10_hw.tcl" />
+  </sourceFiles>
+  <childSourceFiles/>
+  <instantiator instantiator="a10_sata_xcvr_cmupll_core" as="xcvr_cdr_pll_a10_0" />
+  <messages>
+   <message level="Info" culprit="a10_sata_xcvr_cmupll_core">"Generating: altera_xcvr_cdr_pll_a10"</message>
+   <message level="Info" culprit="xcvr_cdr_pll_a10_0">add_fileset_file ./twentynm_xcvr_avmm.sv SYSTEM_VERILOG PATH ../../../alt_xcvr_core/nf/twentynm_xcvr_avmm.sv</message>
+   <message level="Info" culprit="xcvr_cdr_pll_a10_0">add_fileset_file ./alt_xcvr_resync.sv SYSTEM_VERILOG PATH ../../../../altera_xcvr_generic/ctrl/alt_xcvr_resync.sv</message>
+   <message level="Info" culprit="xcvr_cdr_pll_a10_0">add_fileset_file ./altera_xcvr_cdr_pll_a10.sv SYSTEM_VERILOG PATH ../source/altera_xcvr_cdr_pll_a10.sv</message>
+   <message level="Info" culprit="xcvr_cdr_pll_a10_0">add_fileset_file ./a10_avmm_h.sv SYSTEM_VERILOG PATH ../../../altera_xcvr_native_phy/altera_xcvr_native_vi/a10_avmm_h.sv</message>
+   <message level="Info" culprit="xcvr_cdr_pll_a10_0">add_fileset_file ./alt_xcvr_native_avmm_nf.sv SYSTEM_VERILOG PATH ../../../altera_xcvr_native_phy/altera_xcvr_native_vi/alt_xcvr_native_avmm_nf.sv</message>
+   <message level="Info" culprit="xcvr_cdr_pll_a10_0">add_fileset_file ./alt_xcvr_pll_embedded_debug.sv SYSTEM_VERILOG PATH ../../altera_xcvr_atx_pll_vi/source/alt_xcvr_pll_embedded_debug.sv</message>
+   <message level="Info" culprit="xcvr_cdr_pll_a10_0">add_fileset_file ./alt_xcvr_pll_avmm_csr.sv SYSTEM_VERILOG PATH ../../altera_xcvr_atx_pll_vi/source/alt_xcvr_pll_avmm_csr.sv</message>
+  </messages>
+ </entity>
+</deploy>

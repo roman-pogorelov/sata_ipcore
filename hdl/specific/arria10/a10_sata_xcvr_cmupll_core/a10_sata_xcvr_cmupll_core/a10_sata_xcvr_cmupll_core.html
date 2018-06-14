@@ -1,0 +1,749 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>datasheet for a10_sata_xcvr_cmupll_core</title>
+  <style type="text/css">
+body { font-family:arial ;}
+a { text-decoration:underline ; color:#003000 ;}
+a:hover { text-decoration:underline ; color:0030f0 ;}
+td { padding : 5px ;}
+table.topTitle { width:100% ;}
+table.topTitle td.l { text-align:left ; font-weight: bold ; font-size:30px ;}
+table.topTitle td.r { text-align:right ; font-weight: bold ; font-size:16px ;}
+table.blueBar { width : 100% ; border-spacing : 0px ;}
+table.blueBar td { background:#0036ff ; font-size:12px ; color : white ; text-align : left ; font-weight : bold ;}
+table.blueBar td.l { text-align : left ;}
+table.blueBar td.r { text-align : right ;}
+table.items { width:100% ; border-collapse:collapse ;}
+table.items td.label { font-weight:bold ; font-size:16px ; vertical-align:top ;}
+table.items td.mono { font-family:courier ; font-size:12px ; white-space:pre ;}
+div.label { font-weight:bold ; font-size:16px ; vertical-align:top ; text-align:center ;}
+table.grid { border-collapse:collapse ;}
+table.grid td { border:1px solid #bbb ; font-size:12px ;}
+body { font-family:arial ;}
+table.x { font-family:courier ; border-collapse:collapse ; padding:2px ;}
+table.x td { border:1px solid #bbb ;}
+td.tableTitle { font-weight:bold ; text-align:center ;}
+table.grid { border-collapse:collapse ;}
+table.grid td { border:1px solid #bbb ;}
+table.grid td.tableTitle { font-weight:bold ; text-align:center ;}
+table.mmap { border-collapse:collapse ; text-size:11px ; border:1px solid #d8d8d8 ;}
+table.mmap td { border-color:#d8d8d8 ; border-width:1px ; border-style:solid ;}
+table.mmap td.empty { border-style:none ; background-color:#f0f0f0 ;}
+table.mmap td.slavemodule { text-align:left ; font-size:11px ; border-style:solid solid none solid ;}
+table.mmap td.slavem { text-align:right ; font-size:9px ; font-style:italic ; border-style:none solid none solid ;}
+table.mmap td.slaveb { text-align:right ; font-size:9px ; font-style:italic ; border-style:none solid solid solid ;}
+table.mmap td.mastermodule { text-align:center ; font-size:11px ; border-style:solid solid none solid ;}
+table.mmap td.masterlr { text-align:center ; font-size:9px ; font-style:italic ; border-style:none solid solid solid ;}
+table.mmap td.masterl { text-align:center ; font-size:9px ; font-style:italic ; border-style:none none solid solid ;}
+table.mmap td.masterm { text-align:center ; font-size:9px ; font-style:italic ; border-style:none none solid none ;}
+table.mmap td.masterr { text-align:center ; font-size:9px ; font-style:italic ; border-style:none solid solid none ;}
+table.mmap td.addr { font-family:courier ; font-size:9px ; text-align:right ;}
+table.connectionboxes { border-collapse:separate ; border-spacing:0px ; font-family:arial ;}
+table.connectionboxes td.from { border-bottom:1px solid black ; font-size:9px ; font-style:italic ; vertical-align:bottom ; text-align:left ;}
+table.connectionboxes td.to { font-size:9px ; font-style:italic ; vertical-align:top ; text-align:right ;}
+table.connectionboxes td.lefthandwire { border-bottom:1px solid black ; font-size:9px ; font-style:italic ; vertical-align:bottom ; text-align:right ;}
+table.connectionboxes td.righthandwire { border-bottom:1px solid black ; font-size:9px ; font-style:italic ; vertical-align:bottom ; text-align:left ;}
+table.connectionboxes td.righthandlabel { font-size:11px ; vertical-align:bottom ; text-align:left ;}
+table.connectionboxes td.neighbor { padding:3px ; border:1px solid black ; font-size: 11px ; background:#e8e8e8 ; vertical-align:center ; text-align:center ;}
+table.connectionboxes td.main { padding:8px ; border:1px solid black ; font-size: 14px ; font-weight:bold ; background:#ffffff ; vertical-align:center ; text-align:center ;}
+.parametersbox { border:1px solid #d0d0d0 ; display:inline-block ; max-height:160px ; overflow:auto ; width:360px ; font-size:10px ;}
+.flowbox { display:inline-block ;}
+.parametersbox table { font-size:10px ;}
+td.parametername { font-style:italic ;}
+td.parametervalue { font-weight:bold ;}
+div.greydiv { vertical-align:top ; text-align:center ; background:#eeeeee ; border-top:1px solid #707070 ; border-bottom:1px solid #707070 ; padding:20px ; margin:20px ; width:auto ;}</style>
+ </head>
+ <body>
+  <table class="topTitle">
+   <tr>
+    <td class="l">a10_sata_xcvr_cmupll_core</td>
+    <td class="r">
+     <br/>
+     <br/>
+    </td>
+   </tr>
+  </table>
+  <table class="blueBar">
+   <tr>
+    <td class="l">2018.06.14.10:49:59</td>
+    <td class="r">Datasheet</td>
+   </tr>
+  </table>
+  <div style="width:100% ;  height:10px"> </div>
+  <div class="label">Overview</div>
+  <div class="greydiv">
+   <div style="display:inline-block ; text-align:left">
+    <table class="connectionboxes">
+     <tr style="height:6px">
+      <td></td>
+     </tr>
+    </table>
+   </div><span style="display:inline-block ; width:28px"> </span>
+   <div style="display:inline-block ; text-align:left"><span>
+     <br/></span>
+   </div>
+  </div>
+  <div style="width:100% ;  height:10px"> </div>
+  <div class="label">Memory Map</div>
+  <table class="mmap">
+   <tr>
+    <td class="empty" rowspan="2"></td>
+   </tr>
+  </table>
+  <a name="module_xcvr_cdr_pll_a10_0"> </a>
+  <div>
+   <hr/>
+   <h2>xcvr_cdr_pll_a10_0</h2>altera_xcvr_cdr_pll_a10 v17.1
+   <br/>
+   <br/>
+   <br/>
+   <table class="flowbox">
+    <tr>
+     <td class="parametersbox">
+      <h2>Parameters</h2>
+      <table>
+       <tr>
+        <td class="parametername">rcfg_debug</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_pll_reconfig</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_advanced_avmm_options</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_jtag_enable</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_separate_avmm_busy</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_enable_avmm_busy_port</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">set_capability_reg_enable</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">set_user_identifier</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">set_csr_soft_logic_enable</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">dbg_embedded_debug_enable</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">dbg_capability_reg_enable</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">dbg_user_identifier</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">dbg_stat_soft_logic_enable</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">dbg_ctrl_soft_logic_enable</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_file_prefix</td>
+        <td class="parametervalue">altera_xcvr_cdr_pll_a10</td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_sv_file_enable</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_h_file_enable</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_txt_file_enable</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">rcfg_mif_file_enable</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_silicon_rev</td>
+        <td class="parametervalue">20nm1</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_pma_width</td>
+        <td class="parametervalue">8</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_cgb_div</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_is_cascaded_pll</td>
+        <td class="parametervalue">false</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_bandwidth_range_high</td>
+        <td class="parametervalue">0 hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_bandwidth_range_low</td>
+        <td class="parametervalue">0 hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_datarate</td>
+        <td class="parametervalue">6000000000 bps</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_f_max_pfd</td>
+        <td class="parametervalue">350000000 Hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_f_max_ref</td>
+        <td class="parametervalue">800000000 Hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_f_max_vco</td>
+        <td class="parametervalue">9800000000 Hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_f_min_gt_channel</td>
+        <td class="parametervalue">8700000000 Hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_f_min_pfd</td>
+        <td class="parametervalue">50000000 Hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_f_min_ref</td>
+        <td class="parametervalue">50000000 Hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_f_min_vco</td>
+        <td class="parametervalue">4900000000 Hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_lpd_counter</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_lpfd_counter</td>
+        <td class="parametervalue">2</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_n_counter_scratch</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_output_clock_frequency</td>
+        <td class="parametervalue">3000000000 Hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_reference_clock_frequency</td>
+        <td class="parametervalue">150000000 Hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_set_cdr_vco_speed</td>
+        <td class="parametervalue">3</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_set_cdr_vco_speed_fix</td>
+        <td class="parametervalue">60</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_vco_freq</td>
+        <td class="parametervalue">6000000000 Hz</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_atb_select_control</td>
+        <td class="parametervalue">atb_off</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_auto_reset_on</td>
+        <td class="parametervalue">auto_reset_off</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_bbpd_data_pattern_filter_select</td>
+        <td class="parametervalue">bbpd_data_pat_off</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_bw_sel</td>
+        <td class="parametervalue">medium</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_cdr_odi_select</td>
+        <td class="parametervalue">sel_cdr</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_cdr_phaselock_mode</td>
+        <td class="parametervalue">no_ignore_lock</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_cdr_powerdown_mode</td>
+        <td class="parametervalue">power_up</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_chgpmp_current_pd</td>
+        <td class="parametervalue">cp_current_pd_setting0</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_chgpmp_current_pfd</td>
+        <td class="parametervalue">cp_current_pfd_setting3</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_chgpmp_replicate</td>
+        <td class="parametervalue">false</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_chgpmp_testmode</td>
+        <td class="parametervalue">cp_test_disable</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_clklow_mux_select</td>
+        <td class="parametervalue">clklow_mux_cdr_fbclk</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_diag_loopback_enable</td>
+        <td class="parametervalue">false</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_disable_up_dn</td>
+        <td class="parametervalue">true</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_fref_clklow_div</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_fref_mux_select</td>
+        <td class="parametervalue">fref_mux_cdr_refclk</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_gpon_lck2ref_control</td>
+        <td class="parametervalue">gpon_lck2ref_off</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_initial_settings</td>
+        <td class="parametervalue">true</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_lck2ref_delay_control</td>
+        <td class="parametervalue">lck2ref_delay_2</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_lf_resistor_pd</td>
+        <td class="parametervalue">lf_pd_setting0</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_lf_resistor_pfd</td>
+        <td class="parametervalue">lf_pfd_setting2</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_lf_ripple_cap</td>
+        <td class="parametervalue">lf_no_ripple</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_loop_filter_bias_select</td>
+        <td class="parametervalue">lpflt_bias_7</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_loopback_mode</td>
+        <td class="parametervalue">loopback_disabled</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_ltd_ltr_micro_controller_select</td>
+        <td class="parametervalue">ltd_ltr_pcs</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_m_counter</td>
+        <td class="parametervalue">20</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_n_counter</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_optimal</td>
+        <td class="parametervalue">false</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_pd_fastlock_mode</td>
+        <td class="parametervalue">false</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_pd_l_counter</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_pfd_l_counter</td>
+        <td class="parametervalue">2</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_position</td>
+        <td class="parametervalue">position_unknown</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_power_mode</td>
+        <td class="parametervalue">low_power</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_primary_use</td>
+        <td class="parametervalue">cmu</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_prot_mode</td>
+        <td class="parametervalue">unused</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_requires_gt_capable_channel</td>
+        <td class="parametervalue">false</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_reverse_serial_loopback</td>
+        <td class="parametervalue">no_loopback</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_set_cdr_v2i_enable</td>
+        <td class="parametervalue">true</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_set_cdr_vco_reset</td>
+        <td class="parametervalue">false</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_set_cdr_vco_speed_pciegen3</td>
+        <td class="parametervalue">cdr_vco_max_speedbin_pciegen3</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_side</td>
+        <td class="parametervalue">side_unknown</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_pm_speed_grade</td>
+        <td class="parametervalue">i3</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_sup_mode</td>
+        <td class="parametervalue">user_mode</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_top_or_bottom</td>
+        <td class="parametervalue">tb_unknown</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_tx_pll_prot_mode</td>
+        <td class="parametervalue">txpll_enable</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_txpll_hclk_driver_enable</td>
+        <td class="parametervalue">false</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_vco_overrange_voltage</td>
+        <td class="parametervalue">vco_overrange_off</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_vco_underrange_voltage</td>
+        <td class="parametervalue">vco_underange_off</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_fb_select</td>
+        <td class="parametervalue">direct_fb</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_uc_ro_cal</td>
+        <td class="parametervalue">uc_ro_cal_on</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_uc_ro_cal_status</td>
+        <td class="parametervalue">uc_ro_cal_notdone</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_iqclk_mux_sel</td>
+        <td class="parametervalue">power_down</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_uc_cru_rstb</td>
+        <td class="parametervalue">cdr_lf_reset_off</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_pcie_gen</td>
+        <td class="parametervalue">non_pcie</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_analog_mode</td>
+        <td class="parametervalue">user_custom</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_f_max_m_counter</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_chgpmp_vccreg</td>
+        <td class="parametervalue">vreg_fw0</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_set_cdr_input_freq_range</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_chgpmp_current_dn_trim</td>
+        <td class="parametervalue">cp_current_trimming_dn_setting0</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_chgpmp_up_pd_trim_double</td>
+        <td class="parametervalue">normal_up_trim_current</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_chgpmp_current_up_pd</td>
+        <td class="parametervalue">cp_current_pd_up_setting0</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_f_max_cmu_out_freq</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_chgpmp_current_up_trim</td>
+        <td class="parametervalue">cp_current_trimming_up_setting0</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_chgpmp_dn_pd_trim_double</td>
+        <td class="parametervalue">normal_dn_trim_current</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_cal_vco_count_length</td>
+        <td class="parametervalue">sel_8b_count</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_chgpmp_current_dn_pd</td>
+        <td class="parametervalue">cp_current_pd_dn_setting0</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_enable_idle_rx_channel_support</td>
+        <td class="parametervalue">false</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_advanced_options</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">generate_docs</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">generate_add_hdl_instance_example</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">enable_analog_resets</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">device_family</td>
+        <td class="parametervalue">ARRIA10</td>
+       </tr>
+       <tr>
+        <td class="parametername">base_device</td>
+        <td class="parametervalue">NIGHTFURY1</td>
+       </tr>
+       <tr>
+        <td class="parametername">device</td>
+        <td class="parametervalue">10AX016C3U19I2SG</td>
+       </tr>
+       <tr>
+        <td class="parametername">message_level</td>
+        <td class="parametervalue">error</td>
+       </tr>
+       <tr>
+        <td class="parametername">speed_grade</td>
+        <td class="parametervalue">i3</td>
+       </tr>
+       <tr>
+        <td class="parametername">bw_sel</td>
+        <td class="parametervalue">Medium</td>
+       </tr>
+       <tr>
+        <td class="parametername">refclk_cnt</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">refclk_index</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">bw_sel_atom</td>
+        <td class="parametervalue">medium</td>
+       </tr>
+       <tr>
+        <td class="parametername">device_revision</td>
+        <td class="parametervalue">20nm1</td>
+       </tr>
+       <tr>
+        <td class="parametername">support_mode</td>
+        <td class="parametervalue">user_mode</td>
+       </tr>
+       <tr>
+        <td class="parametername">select_manual_config</td>
+        <td class="parametervalue">false</td>
+       </tr>
+       <tr>
+        <td class="parametername">reference_clock_frequency</td>
+        <td class="parametervalue">150.0</td>
+       </tr>
+       <tr>
+        <td class="parametername">output_clock_frequency</td>
+        <td class="parametervalue">3000</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_out_clock_frequency</td>
+        <td class="parametervalue">3000 MHz</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_ref_clock_frequency</td>
+        <td class="parametervalue">150.0 MHz</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_mcounter</td>
+        <td class="parametervalue">20</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_ncounter</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_pfd_lcounter</td>
+        <td class="parametervalue">2</td>
+       </tr>
+       <tr>
+        <td class="parametername">cdr_pll_pd_lcounter</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">manual_counters</td>
+        <td class="parametervalue"></td>
+       </tr>
+       <tr>
+        <td class="parametername">auto_counters</td>
+        <td class="parametervalue">refclk 150.000000 m_cnt 20 n_cnt 1 lpfd_cnt 2 lpd_cnt 0 fvco 6000</td>
+       </tr>
+       <tr>
+        <td class="parametername">vco_freq</td>
+        <td class="parametervalue">6000 MHz</td>
+       </tr>
+       <tr>
+        <td class="parametername">datarate</td>
+        <td class="parametervalue">6000 Mbps</td>
+       </tr>
+       <tr>
+        <td class="parametername">primary_use</td>
+        <td class="parametervalue">cmu</td>
+       </tr>
+       <tr>
+        <td class="parametername">gui_tx_pll_prot_mode</td>
+        <td class="parametervalue">Basic</td>
+       </tr>
+       <tr>
+        <td class="parametername">diag_loopback_enable</td>
+        <td class="parametervalue">false</td>
+       </tr>
+       <tr>
+        <td class="parametername">loopback_mode</td>
+        <td class="parametervalue">loopback_disabled</td>
+       </tr>
+       <tr>
+        <td class="parametername">tx_pll_prot_mode</td>
+        <td class="parametervalue">txpll_enable</td>
+       </tr>
+       <tr>
+        <td class="parametername">refclk_select_mux_powerdown_mode</td>
+        <td class="parametervalue">powerup</td>
+       </tr>
+       <tr>
+        <td class="parametername">dummy_embedded_debug_warning</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">set_altera_xcvr_cdr_pll_a10_calibration_en</td>
+        <td class="parametervalue">1</td>
+       </tr>
+       <tr>
+        <td class="parametername">calibration_en</td>
+        <td class="parametervalue">enable</td>
+       </tr>
+       <tr>
+        <td class="parametername">pma_cdr_refclk_select_mux_silicon_rev</td>
+        <td class="parametervalue">20nm1</td>
+       </tr>
+       <tr>
+        <td class="parametername">pma_cdr_refclk_select_mux_refclk_select</td>
+        <td class="parametervalue">ref_iqclk0</td>
+       </tr>
+       <tr>
+        <td class="parametername">pma_cdr_refclk_select_mux_powerdown_mode</td>
+        <td class="parametervalue">powerup</td>
+       </tr>
+       <tr>
+        <td class="parametername">pma_cdr_refclk_select_mux_inclk0_logical_to_physical_mapping</td>
+        <td class="parametervalue">ref_iqclk0</td>
+       </tr>
+       <tr>
+        <td class="parametername">pma_cdr_refclk_select_mux_inclk1_logical_to_physical_mapping</td>
+        <td class="parametervalue">power_down</td>
+       </tr>
+       <tr>
+        <td class="parametername">pma_cdr_refclk_select_mux_inclk2_logical_to_physical_mapping</td>
+        <td class="parametervalue">power_down</td>
+       </tr>
+       <tr>
+        <td class="parametername">pma_cdr_refclk_select_mux_inclk3_logical_to_physical_mapping</td>
+        <td class="parametervalue">power_down</td>
+       </tr>
+       <tr>
+        <td class="parametername">pma_cdr_refclk_select_mux_inclk4_logical_to_physical_mapping</td>
+        <td class="parametervalue">power_down</td>
+       </tr>
+       <tr>
+        <td class="parametername">cmu_refclk_select</td>
+        <td class="parametervalue">0</td>
+       </tr>
+       <tr>
+        <td class="parametername">deviceFamily</td>
+        <td class="parametervalue">UNKNOWN</td>
+       </tr>
+       <tr>
+        <td class="parametername">generateLegacySim</td>
+        <td class="parametervalue">false</td>
+       </tr>
+      </table>
+     </td>
+    </tr>
+   </table>&#160;&#160;
+   <table class="flowbox">
+    <tr>
+     <td class="parametersbox">
+      <h2>Software Assignments</h2>(none)</td>
+    </tr>
+   </table>
+  </div>
+  <table class="blueBar">
+   <tr>
+    <td class="l">generation took 0,00 seconds</td>
+    <td class="r">rendering took 0,02 seconds</td>
+   </tr>
+  </table>
+ </body>
+</html>
