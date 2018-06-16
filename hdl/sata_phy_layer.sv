@@ -3,7 +3,7 @@
     //      Модуль физического уровня стека SerialATA
     sata_phy_layer
     #(
-        .FPGAFAMILY         ()  // Семейство FPGA ("Arria V" | "Arria 10")
+        .FPGAFAMILY         ()  // Семейство FPGA ("Arria V" | "Stratix V" | "Arria 10")
     )
     the_sata_phy_layer
     (
@@ -44,7 +44,7 @@
 
 module sata_phy_layer
 #(
-    parameter               FPGAFAMILY  = "Arria V"     // Семейство FPGA ("Arria V" | "Arria 10")
+    parameter               FPGAFAMILY  = "Arria V"     // Семейство FPGA ("Arria V" | "Stratix V" | "Arria 10")
 )
 (
     // Общий сброс
@@ -723,6 +723,56 @@ module sata_phy_layer
                 .gxb_rx             (gxb_rx),                       // i
                 .gxb_tx             (gxb_tx)                        // o
             ); // the_a10_sata_xcvr
+        end
+        if (FPGAFAMILY == "Stratix V") begin: stratixv_xcvr
+            //------------------------------------------------------------------------------------
+            //      Модуль высокоскоростного приемопередатчика StratixV, настроенного для
+            //      работы с интерфейсом SerialATA
+            sv_sata_xcvr
+            #(
+                .PLLTYPE            ("CMUPLL")                      // Тип используемой PLL ("CMUPLL" | "ATXPLL")
+            )
+            the_sv_sata_xcvr
+            (
+                // Сброс и тактирование интерфейса реконфигурации
+                .reconfig_reset     (reconfig_reset),               // i
+                .reconfig_clk       (reconfig_clk),                 // i
+                
+                // Сброс и тактирование высокоскоростных приемопередатчиков
+                .gxb_reset          (xcvr_reset_reg),               // i
+                .gxb_refclk         (gxb_refclk),                   // i
+                
+                // Интерфейс реконфигурации между поколениями SATA
+                // (домен reconfig_clk)
+                .recfg_request      (gxb_recfg_request),            // i
+                .recfg_sata_gen     (recfg_sata_gen_resync),        // i  [1 : 0]
+                .recfg_ready        (gxb_recfg_ready),              // o
+                
+                // Интерфейсные сигналы приемника
+                .rx_clock           (rx_clk),                       // o
+                .rx_data            (rx_data_unalign),              // o  [31 : 0]
+                .rx_datak           (rx_datak_unalign),             // o  [3 : 0]
+                .rx_is_lockedtodata (rx_is_lockedtodata),           // o
+                .rx_is_lockedtoref  (rx_is_lockedtoref),            // o
+                .rx_patterndetect   (rx_patterndetect),             // o  [3 : 0]
+                .rx_signaldetect    (rx_signaldetect),              // o
+                .rx_syncstatus      (rx_syncstatus),                // o  [3 : 0]
+                
+                // Интерфейсные сигналы передатчика
+                .tx_clock           (tx_clk),                       // o
+                .tx_data            (tx_data_reg),                  // i  [31 : 0]
+                .tx_datak           ({{3{1'b0}}, tx_datak_reg}),    // i  [3 : 0]
+                .tx_elecidle        (tx_elecidle),                  // i
+                
+                // Статусные сигналы готовности
+                // (домен gxb_refclk)
+                .rx_ready           (gxb_rx_ready),                 // o
+                .tx_ready           (gxb_tx_ready),                 // o
+                
+                // Высокоскоростные линии
+                .gxb_rx             (gxb_rx),                       // i
+                .gxb_tx             (gxb_tx)                        // o
+            ); // the_sv_sata_xcvr
         end
         else begin: arriav_xcvr
             //------------------------------------------------------------------------------------
