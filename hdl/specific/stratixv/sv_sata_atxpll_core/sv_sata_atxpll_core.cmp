@@ -1,0 +1,12 @@
+	component sv_sata_atxpll_core is
+		port (
+			pll_powerdown      : in  std_logic                     := 'X';             -- pll_powerdown
+			pll_refclk         : in  std_logic_vector(0 downto 0)  := (others => 'X'); -- pll_refclk
+			pll_fbclk          : in  std_logic                     := 'X';             -- pll_fbclk
+			pll_clkout         : out std_logic;                                        -- pll_clkout
+			pll_locked         : out std_logic;                                        -- pll_locked
+			reconfig_to_xcvr   : in  std_logic_vector(69 downto 0) := (others => 'X'); -- reconfig_to_xcvr
+			reconfig_from_xcvr : out std_logic_vector(45 downto 0)                     -- reconfig_from_xcvr
+		);
+	end component sv_sata_atxpll_core;
+

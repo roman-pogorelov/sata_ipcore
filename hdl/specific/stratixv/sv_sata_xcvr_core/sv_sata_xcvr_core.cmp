@@ -1,0 +1,37 @@
+	component sv_sata_xcvr_core is
+		port (
+			pll_powerdown           : in  std_logic_vector(0 downto 0)  := (others => 'X'); -- pll_powerdown
+			tx_analogreset          : in  std_logic_vector(0 downto 0)  := (others => 'X'); -- tx_analogreset
+			tx_digitalreset         : in  std_logic_vector(0 downto 0)  := (others => 'X'); -- tx_digitalreset
+			tx_serial_data          : out std_logic_vector(0 downto 0);                     -- tx_serial_data
+			ext_pll_clk             : in  std_logic_vector(0 downto 0)  := (others => 'X'); -- ext_pll_clk
+			rx_analogreset          : in  std_logic_vector(0 downto 0)  := (others => 'X'); -- rx_analogreset
+			rx_digitalreset         : in  std_logic_vector(0 downto 0)  := (others => 'X'); -- rx_digitalreset
+			rx_cdr_refclk           : in  std_logic_vector(0 downto 0)  := (others => 'X'); -- rx_cdr_refclk
+			rx_serial_data          : in  std_logic_vector(0 downto 0)  := (others => 'X'); -- rx_serial_data
+			rx_is_lockedtoref       : out std_logic_vector(0 downto 0);                     -- rx_is_lockedtoref
+			rx_is_lockedtodata      : out std_logic_vector(0 downto 0);                     -- rx_is_lockedtodata
+			tx_std_coreclkin        : in  std_logic_vector(0 downto 0)  := (others => 'X'); -- tx_std_coreclkin
+			rx_std_coreclkin        : in  std_logic_vector(0 downto 0)  := (others => 'X'); -- rx_std_coreclkin
+			tx_std_clkout           : out std_logic_vector(0 downto 0);                     -- tx_std_clkout
+			rx_std_clkout           : out std_logic_vector(0 downto 0);                     -- rx_std_clkout
+			tx_std_elecidle         : in  std_logic_vector(0 downto 0)  := (others => 'X'); -- tx_std_elecidle
+			rx_std_signaldetect     : out std_logic_vector(0 downto 0);                     -- rx_std_signaldetect
+			tx_cal_busy             : out std_logic_vector(0 downto 0);                     -- tx_cal_busy
+			rx_cal_busy             : out std_logic_vector(0 downto 0);                     -- rx_cal_busy
+			reconfig_to_xcvr        : in  std_logic_vector(69 downto 0) := (others => 'X'); -- reconfig_to_xcvr
+			reconfig_from_xcvr      : out std_logic_vector(45 downto 0);                    -- reconfig_from_xcvr
+			tx_parallel_data        : in  std_logic_vector(31 downto 0) := (others => 'X'); -- tx_parallel_data
+			tx_datak                : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- tx_datak
+			unused_tx_parallel_data : in  std_logic_vector(27 downto 0) := (others => 'X'); -- unused_tx_parallel_data
+			rx_parallel_data        : out std_logic_vector(31 downto 0);                    -- rx_parallel_data
+			rx_datak                : out std_logic_vector(3 downto 0);                     -- rx_datak
+			rx_errdetect            : out std_logic_vector(3 downto 0);                     -- rx_errdetect
+			rx_disperr              : out std_logic_vector(3 downto 0);                     -- rx_disperr
+			rx_runningdisp          : out std_logic_vector(3 downto 0);                     -- rx_runningdisp
+			rx_patterndetect        : out std_logic_vector(3 downto 0);                     -- rx_patterndetect
+			rx_syncstatus           : out std_logic_vector(3 downto 0);                     -- rx_syncstatus
+			unused_rx_parallel_data : out std_logic_vector(7 downto 0)                      -- unused_rx_parallel_data
+		);
+	end component sv_sata_xcvr_core;
+

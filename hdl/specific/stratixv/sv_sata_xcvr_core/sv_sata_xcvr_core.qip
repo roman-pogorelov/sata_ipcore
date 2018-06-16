@@ -1,0 +1,179 @@
+set_global_assignment -entity "sv_sata_xcvr_core" -library "sv_sata_xcvr_core" -name IP_TOOL_NAME "altera_xcvr_native_sv"
+set_global_assignment -entity "sv_sata_xcvr_core" -library "sv_sata_xcvr_core" -name IP_TOOL_VERSION "17.1"
+set_global_assignment -entity "sv_sata_xcvr_core" -library "sv_sata_xcvr_core" -name IP_TOOL_ENV "mwpim"
+set_global_assignment -library "sv_sata_xcvr_core" -name MISC_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core.cmp"]
+set_global_assignment -entity "sv_sata_xcvr_core" -library "sv_sata_xcvr_core" -name IP_TARGETED_DEVICE_FAMILY "Stratix V"
+set_global_assignment -entity "sv_sata_xcvr_core" -library "sv_sata_xcvr_core" -name IP_GENERATED_DEVICE_FAMILY "{Stratix V}"
+set_global_assignment -entity "sv_sata_xcvr_core" -library "sv_sata_xcvr_core" -name IP_QSYS_MODE "UNKNOWN"
+set_global_assignment -name SYNTHESIS_ONLY_QIP ON
+set_global_assignment -entity "sv_sata_xcvr_core" -library "sv_sata_xcvr_core" -name IP_COMPONENT_NAME "c3Zfc2F0YV94Y3ZyX2NvcmU="
+set_global_assignment -entity "sv_sata_xcvr_core" -library "sv_sata_xcvr_core" -name IP_COMPONENT_DISPLAY_NAME "U3RyYXRpeCBWIFRyYW5zY2VpdmVyIE5hdGl2ZSBQSFk="
+set_global_assignment -entity "sv_sata_xcvr_core" -library "sv_sata_xcvr_core" -name IP_COMPONENT_REPORT_HIERARCHY "Off"
+set_global_assignment -entity "sv_sata_xcvr_core" -library "sv_sata_xcvr_core" -name IP_COMPONENT_INTERNAL "On"
+set_global_assignment -entity "sv_sata_xcvr_core" -library "sv_sata_xcvr_core" -name IP_COMPONENT_AUTHOR "QWx0ZXJhIENvcnBvcmF0aW9u"
+set_global_assignment -entity "sv_sata_xcvr_core" -library "sv_sata_xcvr_core" -name IP_COMPONENT_VERSION "MTcuMQ=="
+set_global_assignment -entity "sv_sata_xcvr_core" -library "sv_sata_xcvr_core" -name IP_COMPONENT_DESCRIPTION "U3RyYXRpeCBWIFRyYW5zY2VpdmVyIE5hdGl2ZSBQSFku"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_NAME "YWx0ZXJhX3hjdnJfbmF0aXZlX3N2"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_DISPLAY_NAME "U3RyYXRpeCBWIFRyYW5zY2VpdmVyIE5hdGl2ZSBQSFk="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_REPORT_HIERARCHY "Off"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_INTERNAL "On"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_AUTHOR "QWx0ZXJhIENvcnBvcmF0aW9u"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_VERSION "MTcuMQ=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_DESCRIPTION "U3RyYXRpeCBWIFRyYW5zY2VpdmVyIE5hdGl2ZSBQSFku"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZGV2aWNlX2ZhbWlseQ==::U3RyYXRpeCBW::ZGV2aWNlX2ZhbWlseQ=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZGV2aWNlX3NwZWVkZ3JhZGU=::ZmFzdGVzdA==::RGV2aWNlIHNwZWVkIGdyYWRl"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "bWVzc2FnZV9sZXZlbA==::ZXJyb3I=::TWVzc2FnZSBsZXZlbCBmb3IgcnVsZSB2aW9sYXRpb25z"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "dHhfZW5hYmxl::MQ==::RW5hYmxlIFRYIGRhdGFwYXRo"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "cnhfZW5hYmxl::MQ==::RW5hYmxlIFJYIGRhdGFwYXRo"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3N0ZA==::MQ==::RW5hYmxlIFN0YW5kYXJkIFBDUw=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3Rlbmc=::MA==::RW5hYmxlIDEwRyBQQ1M="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZGF0YV9wYXRoX3NlbGVjdA==::c3RhbmRhcmQ=::ZGF0YV9wYXRoX3NlbGVjdA=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "Y2hhbm5lbHM=::MQ==::TnVtYmVyIG9mIGRhdGEgY2hhbm5lbHM="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "Ym9uZGVkX21vZGU=::bm9uX2JvbmRlZA==::Qm9uZGluZyBtb2Rl"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3NpbXBsZV9pbnRlcmZhY2U=::MQ==::RW5hYmxlIHNpbXBsaWZpZWQgZGF0YSBpbnRlcmZhY2U="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c2V0X2RhdGFfcmF0ZQ==::NjAwMA==::RGF0YSByYXRl"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZGF0YV9yYXRl::NjAwMCBNYnBz::ZGF0YV9yYXRl"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "cG1hX3dpZHRo::MjA=::UENTIC8gUE1BIGludGVyZmFjZSB3aWR0aA=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "cG1hX2RpcmVjdF93aWR0aA==::ODA=::UE1BIGRpcmVjdCBpbnRlcmZhY2Ugd2lkdGg="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "dHhfcG1hX2Nsa19kaXY=::MQ==::VFggbG9jYWwgY2xvY2sgZGl2aXNpb24gZmFjdG9y"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "dHhfcG1hX3R4ZGV0ZWN0cnhfY3RybA==::MA==::RW5hYmxlIFFQSSBwb3J0cw=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "YmFzZV9kYXRhX3JhdGU=::NjAwMA==::VFggUExMIGJhc2UgZGF0YSByYXRl"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "cGxsX2V4dGVybmFsX2VuYWJsZQ==::MQ==::VXNlIGV4dGVybmFsIFRYIFBMTA=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "cGxsX2RhdGFfcmF0ZQ==::NjAwMCBNYnBz::cGxsX2RhdGFfcmF0ZQ=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "cGxsX3R5cGU=::Q01V::cGxsX3R5cGU="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "cGxsX25ldHdvcmtfc2VsZWN0::eDE=::cGxsX25ldHdvcmtfc2VsZWN0"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "cGxscw==::MQ==::TnVtYmVyIG9mIFRYIFBMTHM="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "cGxsX3NlbGVjdA==::MA==::TWFpbiBUWCBQTEwgbG9naWNhbCBpbmRleA=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "cGxsX3JlZmNsa19zZWxlY3Q=::MA==::cGxsX3JlZmNsa19zZWxlY3Q="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "cGxsX3JlZmNsa19mcmVx::MTI1LjAgTUh6::cGxsX3JlZmNsa19mcmVx"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "cGxsX2ZlZWRiYWNrX3BhdGg=::aW50ZXJuYWw=::cGxsX2ZlZWRiYWNrX3BhdGg="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "Z3VpX3BsbF9yZWNvbmZpZ19wbGwwX2Nsa19uZXR3b3Jr::eDE=::U2VsZWN0ZWQgY2xvY2sgbmV0d29yaw=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "Y2RyX3JlY29uZmlnX2VuYWJsZQ==::MA==::RW5hYmxlIENEUiBkeW5hbWljIHJlY29uZmlndXJhdGlvbg=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "Y2RyX3JlZmNsa19jbnQ=::MQ==::TnVtYmVyIG9mIENEUiByZWZlcmVuY2UgY2xvY2tz"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "Y2RyX3JlZmNsa19zZWxlY3Q=::MA==::U2VsZWN0ZWQgQ0RSIHJlZmVyZW5jZSBjbG9jaw=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "Y2RyX3JlZmNsa19mcmVx::MTUwLjAgTUh6::Y2RyX3JlZmNsa19mcmVx"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c2V0X2Nkcl9yZWZjbGtfZnJlcQ==::MTUwLjAgTUh6::U2VsZWN0ZWQgQ0RSIHJlZmVyZW5jZSBjbG9jayBmcmVxdWVuY3k="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "cnhfcHBtX2RldGVjdF90aHJlc2hvbGQ=::MTAwMA==::UFBNIGRldGVjdG9yIHRocmVzaG9sZA=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfdHhfcG1hX3FwaXB1bGx1cA==::MA==::RW5hYmxlIHR4X3BtYV9xcGlwdWxsdXAgcG9ydCAoUVBJKQ=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfdHhfcG1hX3FwaXB1bGxkbg==::MA==::RW5hYmxlIHR4X3BtYV9xcGlwdWxsZG4gcG9ydCAoUVBJKQ=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfdHhfcG1hX3R4ZGV0ZWN0cng=::MA==::RW5hYmxlIHR4X3BtYV90eGRldGVjdHJ4IHBvcnQgKFFQSSk="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfdHhfcG1hX3J4Zm91bmQ=::MA==::RW5hYmxlIHR4X3BtYV9yeGZvdW5kIHBvcnQgKFFQSSk="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfdHhfcG1hX3BjbGs=::MA==::RW5hYmxlIHR4X3BtYV9wY2xrIHBvcnQ="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfcnhfcG1hX3FwaXB1bGxkbg==::MA==::RW5hYmxlIHJ4X3BtYV9xcGlwdWxsZG4gcG9ydCAoUVBJKQ=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfcnhfcG1hX2Nsa291dA==::MA==::RW5hYmxlIHJ4X3BtYV9jbGtvdXQgcG9ydA=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfcnhfcG1hX3BjbGs=::MA==::RW5hYmxlIHJ4X3BtYV9wY2xrIHBvcnQ="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfcnhfaXNfbG9ja2VkdG9kYXRh::MQ==::RW5hYmxlIHJ4X2lzX2xvY2tlZHRvZGF0YSBwb3J0"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfcnhfaXNfbG9ja2VkdG9yZWY=::MQ==::RW5hYmxlIHJ4X2lzX2xvY2tlZHRvcmVmIHBvcnQ="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRzX3J4X21hbnVhbF9jZHJfbW9kZQ==::MA==::RW5hYmxlIHJ4X3NldF9sb2NrdG9kYXRhIGFuZCByeF9zZXRfbG9ja3RvcmVmIHBvcnRz"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "cnhfY2xrc2xpcF9lbmFibGU=::MA==::RW5hYmxlIHJ4X2Nsa3NsaXAgcG9ydA=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfcnhfc2lnbmFsZGV0ZWN0::MA==::RW5hYmxlIHJ4X3NpZ25hbGRldGVjdCBwb3J0"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfcnhfc2VyaWFsbHBia2Vu::MA==::RW5hYmxlIHJ4X3NlcmlhbGxwYmtlbiBwb3J0"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX3Byb3RvY29sX2hpbnQ=::YmFzaWM=::U3RhbmRhcmQgUENTIHByb3RvY29sIG1vZGU="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX3Bjc19wbWFfd2lkdGg=::MjA=::U3RhbmRhcmQgUENTIC8gUE1BIGludGVyZmFjZSB3aWR0aA=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX3R4X3BsZF9wY3Nfd2lkdGg=::MzI=::RlBHQSBmYWJyaWMgLyBTdGFuZGFyZCBUWCBQQ1MgaW50ZXJmYWNlIHdpZHRo"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX3J4X3BsZF9wY3Nfd2lkdGg=::MzI=::RlBHQSBmYWJyaWMgLyBTdGFuZGFyZCBSWCBQQ1MgaW50ZXJmYWNlIHdpZHRo"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX2xvd19sYXRlbmN5X2J5cGFzc19lbmFibGU=::MA==::RW5hYmxlICdTdGFuZGFyZCBQQ1MnIGxvdyBsYXRlbmN5IG1vZGU="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX3R4X3BjZmlmb19tb2Rl::bG93X2xhdGVuY3k=::VFggRklGTyBtb2Rl"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX3J4X3BjZmlmb19tb2Rl::bG93X2xhdGVuY3k=::UlggRklGTyBtb2Rl"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfdHhfc3RkX3BjZmlmb19mdWxs::MA==::RW5hYmxlIHR4X3N0ZF9wY2ZpZm9fZnVsbCBwb3J0"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfdHhfc3RkX3BjZmlmb19lbXB0eQ==::MA==::RW5hYmxlIHR4X3N0ZF9wY2ZpZm9fZW1wdHkgcG9ydA=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfcnhfc3RkX3BjZmlmb19mdWxs::MA==::RW5hYmxlIHJ4X3N0ZF9wY2ZpZm9fZnVsbCBwb3J0"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfcnhfc3RkX3BjZmlmb19lbXB0eQ==::MA==::RW5hYmxlIHJ4X3N0ZF9wY2ZpZm9fZW1wdHkgcG9ydA=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX3J4X2J5dGVfb3JkZXJfZW5hYmxl::MA==::RW5hYmxlIFJYIGJ5dGUgb3JkZXJpbmc="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfcnhfc3RkX2J5dGVvcmRlcl9lbmE=::MA==::RW5hYmxlIHJ4X3N0ZF9ieXRlb3JkZXJfZW5hIHBvcnQ="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfcnhfc3RkX2J5dGVvcmRlcl9mbGFn::MA==::RW5hYmxlIHJ4X3N0ZF9ieXRlb3JkZXJfZmxhZyBwb3J0"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX3R4X2J5dGVfc2VyX2VuYWJsZQ==::MQ==::RW5hYmxlIFRYIGJ5dGUgc2VyaWFsaXplcg=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX3J4X2J5dGVfZGVzZXJfZW5hYmxl::MQ==::RW5hYmxlIFJYIGJ5dGUgZGVzZXJpYWxpemVy"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX3R4XzhiMTBiX2VuYWJsZQ==::MQ==::RW5hYmxlIFRYIDhCLzEwQiBlbmNvZGVy"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX3R4XzhiMTBiX2Rpc3BfY3RybF9lbmFibGU=::MA==::RW5hYmxlIFRYIDhCLzEwQiBkaXNwYXJpdHkgY29udHJvbA=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX3J4XzhiMTBiX2VuYWJsZQ==::MQ==::RW5hYmxlIFJYIDhCLzEwQiBkZWNvZGVy"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX3J4X3JtZmlmb19lbmFibGU=::MA==::RW5hYmxlIFJYIHJhdGUgbWF0Y2ggRklGTw=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfcnhfc3RkX3JtZmlmb19mdWxs::MA==::RW5hYmxlIHJ4X3N0ZF9ybWZpZm9fZnVsbCBwb3J0"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfcnhfc3RkX3JtZmlmb19lbXB0eQ==::MA==::RW5hYmxlIHJ4X3N0ZF9ybWZpZm9fZW1wdHkgcG9ydA=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX3R4X2JpdHNsaXBfZW5hYmxl::MA==::RW5hYmxlIFRYIGJpdHNsaXA="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfdHhfc3RkX2JpdHNsaXBib3VuZGFyeXNlbA==::MA==::RW5hYmxlIHR4X3N0ZF9iaXRzbGlwYm91bmRhcnlzZWwgcG9ydA=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX3J4X3dvcmRfYWxpZ25lcl9tb2Rl::bWFudWFs::Ulggd29yZCBhbGlnbmVyIG1vZGU="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX3J4X3dvcmRfYWxpZ25lcl9wYXR0ZXJuX2xlbg==::MTA=::Ulggd29yZCBhbGlnbmVyIHBhdHRlcm4gbGVuZ3Ro"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX3J4X3dvcmRfYWxpZ25lcl9wYXR0ZXJu::MTdj::Ulggd29yZCBhbGlnbmVyIHBhdHRlcm4gKGhleCk="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX3J4X3dvcmRfYWxpZ25lcl9ya251bWJlcg==::Mw==::TnVtYmVyIG9mIHdvcmQgYWxpZ25tZW50IHBhdHRlcm5zIHRvIGFjaGlldmUgc3luYw=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX3J4X3dvcmRfYWxpZ25lcl9yZW51bWJlcg==::Mw==::TnVtYmVyIG9mIGludmFsaWQgZGF0YSB3b3JkcyB0byBsb3NlIHN5bmM="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX3J4X3dvcmRfYWxpZ25lcl9yZ251bWJlcg==::Mw==::TnVtYmVyIG9mIHZhbGlkIGRhdGEgd29yZHMgdG8gZGVjcmVtZW50IGVycm9yIGNvdW50"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX3J4X3J1bl9sZW5ndGhfdmFs::MzE=::UnVuIGxlbmd0aCBkZXRlY3RvciB3b3JkIGNvdW50"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfcnhfc3RkX3dhX3BhdHRlcm5hbGlnbg==::MA==::RW5hYmxlIHJ4X3N0ZF93YV9wYXR0ZXJuYWxpZ24gcG9ydA=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfcnhfc3RkX3dhX2ExYTJzaXpl::MA==::RW5hYmxlIHJ4X3N0ZF93YV9hMWEyc2l6ZSBwb3J0"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfcnhfc3RkX2JpdHNsaXBib3VuZGFyeXNlbA==::MA==::RW5hYmxlIHJ4X3N0ZF9iaXRzbGlwYm91bmRhcnlzZWwgcG9ydA=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfcnhfc3RkX2JpdHNsaXA=::MA==::RW5hYmxlIHJ4X3N0ZF9iaXRzbGlwIHBvcnQ="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfcnhfc3RkX3J1bmxlbmd0aF9lcnI=::MA==::RW5hYmxlIHJ4X3N0ZF9ydW5sZW5ndGhfZXJyIHBvcnQ="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX3R4X2JpdHJldl9lbmFibGU=::MA==::RW5hYmxlIFRYIGJpdCByZXZlcnNhbA=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX3J4X2JpdHJldl9lbmFibGU=::MA==::RW5hYmxlIFJYIGJpdCByZXZlcnNhbA=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX3R4X2J5dGVyZXZfZW5hYmxl::MA==::RW5hYmxlIFRYIGJ5dGUgcmV2ZXJzYWw="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX3J4X2J5dGVyZXZfZW5hYmxl::MA==::RW5hYmxlIFJYIGJ5dGUgcmV2ZXJzYWw="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX3R4X3BvbGludl9lbmFibGU=::MA==::RW5hYmxlIFRYIHBvbGFyaXR5IGludmVyc2lvbg=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "c3RkX3J4X3BvbGludl9lbmFibGU=::MA==::RW5hYmxlIFJYIHBvbGFyaXR5IGludmVyc2lvbg=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfcnhfc3RkX2JpdHJldl9lbmE=::MA==::RW5hYmxlIHJ4X3N0ZF9iaXRyZXZfZW5hIHBvcnQ="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfcnhfc3RkX2J5dGVyZXZfZW5h::MA==::RW5hYmxlIHJ4X3N0ZF9ieXRlcmV2X2VuYSBwb3J0"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfdHhfc3RkX3BvbGludg==::MA==::RW5hYmxlIHR4X3N0ZF9wb2xpbnYgcG9ydA=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfcnhfc3RkX3BvbGludg==::MA==::RW5hYmxlIHJ4X3N0ZF9wb2xpbnYgcG9ydA=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfdHhfc3RkX2VsZWNpZGxl::MQ==::RW5hYmxlIHR4X3N0ZF9lbGVjaWRsZSBwb3J0"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfcnhfc3RkX3NpZ25hbGRldGVjdA==::MQ==::RW5hYmxlIHJ4X3N0ZF9zaWduYWxkZXRlY3QgcG9ydA=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX3BvcnRfcnhfc3RkX3ByYnNfc3RhdHVz::MA==::RW5hYmxlIHJ4X3N0ZF9wcmJzIHBvcnRz"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "bF9wbGxfc2V0dGluZ3M=::MA==::bF9wbGxfc2V0dGluZ3M="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "bF9lbmFibGVfdHhfcG1hX2RpcmVjdA==::MA==::bF9lbmFibGVfdHhfcG1hX2RpcmVjdA=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "bF9lbmFibGVfcnhfcG1hX2RpcmVjdA==::MA==::bF9lbmFibGVfcnhfcG1hX2RpcmVjdA=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "bF9lbmFibGVfdHhfc3Rk::MQ==::bF9lbmFibGVfdHhfc3Rk"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "bF9lbmFibGVfcnhfc3Rk::MQ==::bF9lbmFibGVfcnhfc3Rk"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "bF9lbmFibGVfcnhfc3RkX3dvcmRfYWxpZ25lcg==::MQ==::bF9lbmFibGVfcnhfc3RkX3dvcmRfYWxpZ25lcg=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "bF9lbmFibGVfdHhfdGVuZw==::MA==::bF9lbmFibGVfdHhfdGVuZw=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "bF9lbmFibGVfcnhfdGVuZw==::MA==::bF9lbmFibGVfcnhfdGVuZw=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "bF9uZXRsaXN0X3BsbHM=::MQ==::bF9uZXRsaXN0X3BsbHM="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "bF9yY2ZnX2ludGVyZmFjZXM=::MQ==::bF9yY2ZnX2ludGVyZmFjZXM="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "bF9yY2ZnX3RvX3hjdnJfd2lkdGg=::NzA=::bF9yY2ZnX3RvX3hjdnJfd2lkdGg="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "bF9yY2ZnX2Zyb21feGN2cl93aWR0aA==::NDY=::bF9yY2ZnX2Zyb21feGN2cl93aWR0aA=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "bF9wbWFfZGlyZWN0X3dvcmRfY291bnQ=::OA==::bF9wbWFfZGlyZWN0X3dvcmRfY291bnQ="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "bF9wbWFfZGlyZWN0X3dvcmRfd2lkdGg=::MTA=::bF9wbWFfZGlyZWN0X3dvcmRfd2lkdGg="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "bF9zdGRfdHhfd29yZF9jb3VudA==::NA==::bF9zdGRfdHhfd29yZF9jb3VudA=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "bF9zdGRfdHhfd29yZF93aWR0aA==::OA==::bF9zdGRfdHhfd29yZF93aWR0aA=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "bF9zdGRfdHhfZmllbGRfd2lkdGg=::MTE=::bF9zdGRfdHhfZmllbGRfd2lkdGg="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "bF9zdGRfcnhfd29yZF9jb3VudA==::NA==::bF9zdGRfcnhfd29yZF9jb3VudA=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "bF9zdGRfcnhfd29yZF93aWR0aA==::OA==::bF9zdGRfcnhfd29yZF93aWR0aA=="
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_COMPONENT_PARAMETER "bF9zdGRfcnhfZmllbGRfd2lkdGg=::MTY=::bF9zdGRfcnhfZmllbGRfd2lkdGg="
+
+set_global_assignment -library "sv_sata_xcvr_core" -name VERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core.v"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/altera_xcvr_functions.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_pcs.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_pcs_ch.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_pma.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_reconfig_bundle_to_xcvr.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_reconfig_bundle_to_ip.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_reconfig_bundle_merger.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_rx_pma.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_tx_pma.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_tx_pma_ch.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_xcvr_h.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_xcvr_avmm_csr.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_xcvr_avmm_dcd.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_xcvr_avmm.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_xcvr_data_adapter.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_xcvr_native.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_xcvr_plls.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/alt_xcvr_resync.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_hssi_10g_rx_pcs_rbc.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_hssi_10g_tx_pcs_rbc.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_hssi_8g_rx_pcs_rbc.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_hssi_8g_tx_pcs_rbc.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_hssi_8g_pcs_aggregate_rbc.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_hssi_common_pcs_pma_interface_rbc.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_hssi_common_pld_pcs_interface_rbc.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_hssi_pipe_gen1_2_rbc.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_hssi_pipe_gen3_rbc.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_hssi_rx_pcs_pma_interface_rbc.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_hssi_rx_pld_pcs_interface_rbc.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_hssi_tx_pcs_pma_interface_rbc.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/sv_hssi_tx_pld_pcs_interface_rbc.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/altera_xcvr_native_sv_functions_h.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/altera_xcvr_native_sv.sv"]
+set_global_assignment -library "sv_sata_xcvr_core" -name SOURCE_FILE [file join $::quartus(qip_path) "sv_sata_xcvr_core/plain_files.txt"]
+
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_TOOL_NAME "altera_xcvr_native_sv"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_TOOL_VERSION "17.1"
+set_global_assignment -entity "altera_xcvr_native_sv" -library "sv_sata_xcvr_core" -name IP_TOOL_ENV "mwpim"

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simPackage>
+ <file
+   path="sv_sata_xcvr_rst_core_sim/altera_xcvr_reset_control/altera_xcvr_functions.sv"
+   type="SYSTEM_VERILOG"
+   library="sv_sata_xcvr_rst_core" />
+ <file
+   path="sv_sata_xcvr_rst_core_sim/altera_xcvr_reset_control/mentor/altera_xcvr_functions.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="sv_sata_xcvr_rst_core"
+   simulator="modelsim" />
+ <file
+   path="sv_sata_xcvr_rst_core_sim/altera_xcvr_reset_control/alt_xcvr_resync.sv"
+   type="SYSTEM_VERILOG"
+   library="sv_sata_xcvr_rst_core" />
+ <file
+   path="sv_sata_xcvr_rst_core_sim/altera_xcvr_reset_control/mentor/alt_xcvr_resync.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="sv_sata_xcvr_rst_core"
+   simulator="modelsim" />
+ <file
+   path="sv_sata_xcvr_rst_core_sim/altera_xcvr_reset_control/altera_xcvr_reset_control.sv"
+   type="SYSTEM_VERILOG"
+   library="sv_sata_xcvr_rst_core" />
+ <file
+   path="sv_sata_xcvr_rst_core_sim/altera_xcvr_reset_control/alt_xcvr_reset_counter.sv"
+   type="SYSTEM_VERILOG"
+   library="sv_sata_xcvr_rst_core" />
+ <file
+   path="sv_sata_xcvr_rst_core_sim/altera_xcvr_reset_control/mentor/altera_xcvr_reset_control.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="sv_sata_xcvr_rst_core"
+   simulator="modelsim" />
+ <file
+   path="sv_sata_xcvr_rst_core_sim/altera_xcvr_reset_control/mentor/alt_xcvr_reset_counter.sv"
+   type="SYSTEM_VERILOG_ENCRYPT"
+   library="sv_sata_xcvr_rst_core"
+   simulator="modelsim" />
+ <file
+   path="sv_sata_xcvr_rst_core_sim/altera_xcvr_reset_control/plain_files.txt"
+   type="OTHER"
+   library="sv_sata_xcvr_rst_core" />
+ <file
+   path="sv_sata_xcvr_rst_core_sim/altera_xcvr_reset_control/mentor_files.txt"
+   type="OTHER"
+   library="sv_sata_xcvr_rst_core" />
+ <file
+   path="sv_sata_xcvr_rst_core_sim/altera_xcvr_reset_control/cadence_files.txt"
+   type="OTHER"
+   library="sv_sata_xcvr_rst_core" />
+ <file
+   path="sv_sata_xcvr_rst_core_sim/altera_xcvr_reset_control/synopsys_files.txt"
+   type="OTHER"
+   library="sv_sata_xcvr_rst_core" />
+ <file
+   path="sv_sata_xcvr_rst_core_sim/altera_xcvr_reset_control/aldec_files.txt"
+   type="OTHER"
+   library="sv_sata_xcvr_rst_core" />
+ <file
+   path="sv_sata_xcvr_rst_core_sim/sv_sata_xcvr_rst_core.v"
+   type="VERILOG" />
+ <topLevel name="sv_sata_xcvr_rst_core" />
+ <deviceFamily name="stratixv" />
+</simPackage>

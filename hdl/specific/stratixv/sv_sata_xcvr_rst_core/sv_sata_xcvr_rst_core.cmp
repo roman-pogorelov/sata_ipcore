@@ -1,0 +1,19 @@
+	component sv_sata_xcvr_rst_core is
+		port (
+			clock              : in  std_logic                    := 'X';             -- clk
+			reset              : in  std_logic                    := 'X';             -- reset
+			pll_powerdown      : out std_logic_vector(0 downto 0);                    -- pll_powerdown
+			tx_analogreset     : out std_logic_vector(0 downto 0);                    -- tx_analogreset
+			tx_digitalreset    : out std_logic_vector(0 downto 0);                    -- tx_digitalreset
+			tx_ready           : out std_logic_vector(0 downto 0);                    -- tx_ready
+			pll_locked         : in  std_logic_vector(0 downto 0) := (others => 'X'); -- pll_locked
+			pll_select         : in  std_logic_vector(0 downto 0) := (others => 'X'); -- pll_select
+			tx_cal_busy        : in  std_logic_vector(0 downto 0) := (others => 'X'); -- tx_cal_busy
+			rx_analogreset     : out std_logic_vector(0 downto 0);                    -- rx_analogreset
+			rx_digitalreset    : out std_logic_vector(0 downto 0);                    -- rx_digitalreset
+			rx_ready           : out std_logic_vector(0 downto 0);                    -- rx_ready
+			rx_is_lockedtodata : in  std_logic_vector(0 downto 0) := (others => 'X'); -- rx_is_lockedtodata
+			rx_cal_busy        : in  std_logic_vector(0 downto 0) := (others => 'X')  -- rx_cal_busy
+		);
+	end component sv_sata_xcvr_rst_core;
+

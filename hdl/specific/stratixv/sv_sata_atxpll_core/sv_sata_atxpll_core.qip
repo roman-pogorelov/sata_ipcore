@@ -1,0 +1,51 @@
+set_global_assignment -entity "sv_sata_atxpll_core" -library "sv_sata_atxpll_core" -name IP_TOOL_NAME "altera_xcvr_pll_sv"
+set_global_assignment -entity "sv_sata_atxpll_core" -library "sv_sata_atxpll_core" -name IP_TOOL_VERSION "17.1"
+set_global_assignment -entity "sv_sata_atxpll_core" -library "sv_sata_atxpll_core" -name IP_TOOL_ENV "mwpim"
+set_global_assignment -library "sv_sata_atxpll_core" -name MISC_FILE [file join $::quartus(qip_path) "sv_sata_atxpll_core.cmp"]
+set_global_assignment -entity "sv_sata_atxpll_core" -library "sv_sata_atxpll_core" -name IP_TARGETED_DEVICE_FAMILY "Stratix V"
+set_global_assignment -entity "sv_sata_atxpll_core" -library "sv_sata_atxpll_core" -name IP_GENERATED_DEVICE_FAMILY "{Stratix V}"
+set_global_assignment -entity "sv_sata_atxpll_core" -library "sv_sata_atxpll_core" -name IP_QSYS_MODE "UNKNOWN"
+set_global_assignment -name SYNTHESIS_ONLY_QIP ON
+set_global_assignment -entity "sv_sata_atxpll_core" -library "sv_sata_atxpll_core" -name IP_COMPONENT_NAME "c3Zfc2F0YV9hdHhwbGxfY29yZQ=="
+set_global_assignment -entity "sv_sata_atxpll_core" -library "sv_sata_atxpll_core" -name IP_COMPONENT_DISPLAY_NAME "U3RyYXRpeCBWIFRyYW5zY2VpdmVyIFBMTA=="
+set_global_assignment -entity "sv_sata_atxpll_core" -library "sv_sata_atxpll_core" -name IP_COMPONENT_REPORT_HIERARCHY "Off"
+set_global_assignment -entity "sv_sata_atxpll_core" -library "sv_sata_atxpll_core" -name IP_COMPONENT_INTERNAL "On"
+set_global_assignment -entity "sv_sata_atxpll_core" -library "sv_sata_atxpll_core" -name IP_COMPONENT_AUTHOR "QWx0ZXJhIENvcnBvcmF0aW9u"
+set_global_assignment -entity "sv_sata_atxpll_core" -library "sv_sata_atxpll_core" -name IP_COMPONENT_VERSION "MTcuMQ=="
+set_global_assignment -entity "sv_xcvr_plls" -library "sv_sata_atxpll_core" -name IP_COMPONENT_NAME "c3ZfeGN2cl9wbGxz"
+set_global_assignment -entity "sv_xcvr_plls" -library "sv_sata_atxpll_core" -name IP_COMPONENT_DISPLAY_NAME "U3RyYXRpeCBWIFRyYW5zY2VpdmVyIFBMTA=="
+set_global_assignment -entity "sv_xcvr_plls" -library "sv_sata_atxpll_core" -name IP_COMPONENT_REPORT_HIERARCHY "Off"
+set_global_assignment -entity "sv_xcvr_plls" -library "sv_sata_atxpll_core" -name IP_COMPONENT_INTERNAL "On"
+set_global_assignment -entity "sv_xcvr_plls" -library "sv_sata_atxpll_core" -name IP_COMPONENT_AUTHOR "QWx0ZXJhIENvcnBvcmF0aW9u"
+set_global_assignment -entity "sv_xcvr_plls" -library "sv_sata_atxpll_core" -name IP_COMPONENT_VERSION "MTcuMQ=="
+set_global_assignment -entity "sv_xcvr_plls" -library "sv_sata_atxpll_core" -name IP_COMPONENT_PARAMETER "ZGV2aWNlX2ZhbWlseQ==::U3RyYXRpeCBW::ZGV2aWNlX2ZhbWlseQ=="
+set_global_assignment -entity "sv_xcvr_plls" -library "sv_sata_atxpll_core" -name IP_COMPONENT_PARAMETER "cGxsX3R5cGU=::QVRY::cGxsX3R5cGU="
+set_global_assignment -entity "sv_xcvr_plls" -library "sv_sata_atxpll_core" -name IP_COMPONENT_PARAMETER "cGxsX3JlY29uZmln::MA==::RW5hYmxlIFBMTCByZWNvbmZpZ3VyYXRpb24="
+set_global_assignment -entity "sv_xcvr_plls" -library "sv_sata_atxpll_core" -name IP_COMPONENT_PARAMETER "cmVmY2xrcw==::MQ==::TnVtYmVyIG9mIFRYIFBMTCByZWZlcmVuY2UgY2xvY2tz"
+set_global_assignment -entity "sv_xcvr_plls" -library "sv_sata_atxpll_core" -name IP_COMPONENT_PARAMETER "cmVmZXJlbmNlX2Nsb2NrX2ZyZXF1ZW5jeQ==::MTUwLjAgTUh6::cmVmZXJlbmNlX2Nsb2NrX2ZyZXF1ZW5jeQ=="
+set_global_assignment -entity "sv_xcvr_plls" -library "sv_sata_atxpll_core" -name IP_COMPONENT_PARAMETER "cmVmZXJlbmNlX2Nsb2NrX3NlbGVjdA==::MA==::cmVmZXJlbmNlX2Nsb2NrX3NlbGVjdA=="
+set_global_assignment -entity "sv_xcvr_plls" -library "sv_sata_atxpll_core" -name IP_COMPONENT_PARAMETER "c2V0X2RhdGFfcmF0ZQ==::NjAwMCBNYnBz::UExMIG91dHB1dCBkYXRhIHJhdGU="
+set_global_assignment -entity "sv_xcvr_plls" -library "sv_sata_atxpll_core" -name IP_COMPONENT_PARAMETER "b3V0cHV0X2Nsb2NrX2RhdGFyYXRl::NjAwMCBNYnBz::b3V0cHV0X2Nsb2NrX2RhdGFyYXRl"
+set_global_assignment -entity "sv_xcvr_plls" -library "sv_sata_atxpll_core" -name IP_COMPONENT_PARAMETER "ZmVlZGJhY2tfY2xr::aW50ZXJuYWw=::UExMIGZlZWRiYWNrIHBhdGg="
+set_global_assignment -entity "sv_xcvr_plls" -library "sv_sata_atxpll_core" -name IP_COMPONENT_PARAMETER "bF9wbGxfc2V0dGluZ3M=::MA==::bF9wbGxfc2V0dGluZ3M="
+set_global_assignment -entity "sv_xcvr_plls" -library "sv_sata_atxpll_core" -name IP_COMPONENT_PARAMETER "bF9yY2ZnX3RvX3hjdnJfd2lkdGg=::NzA=::bF9yY2ZnX3RvX3hjdnJfd2lkdGg="
+set_global_assignment -entity "sv_xcvr_plls" -library "sv_sata_atxpll_core" -name IP_COMPONENT_PARAMETER "bF9yY2ZnX2Zyb21feGN2cl93aWR0aA==::NDY=::bF9yY2ZnX2Zyb21feGN2cl93aWR0aA=="
+set_global_assignment -entity "sv_xcvr_plls" -library "sv_sata_atxpll_core" -name IP_COMPONENT_PARAMETER "Z3VpX3BsbF9yZWNvbmZpZ19wbGwwX3BsbF90eXBl::QVRY::UExMIHR5cGU="
+set_global_assignment -entity "sv_xcvr_plls" -library "sv_sata_atxpll_core" -name IP_COMPONENT_PARAMETER "Z3VpX3BsbF9yZWNvbmZpZ19wbGwwX2RhdGFfcmF0ZQ==::NjAwMCBNYnBz::UExMIGJhc2UgZGF0YSByYXRl"
+set_global_assignment -entity "sv_xcvr_plls" -library "sv_sata_atxpll_core" -name IP_COMPONENT_PARAMETER "Z3VpX3BsbF9yZWNvbmZpZ19wbGwwX2RhdGFfcmF0ZV9kZXI=::NjAwMCBNYnBz::UExMIGJhc2UgZGF0YSByYXRl"
+set_global_assignment -entity "sv_xcvr_plls" -library "sv_sata_atxpll_core" -name IP_COMPONENT_PARAMETER "Z3VpX3BsbF9yZWNvbmZpZ19wbGwwX3JlZmNsa19mcmVx::MTUwLjAgTUh6::UmVmZXJlbmNlIGNsb2NrIGZyZXF1ZW5jeQ=="
+set_global_assignment -entity "sv_xcvr_plls" -library "sv_sata_atxpll_core" -name IP_COMPONENT_PARAMETER "Z3VpX3BsbF9yZWNvbmZpZ19wbGwwX3JlZmNsa19zZWw=::MA==::U2VsZWN0ZWQgcmVmZXJlbmNlIGNsb2NrIHNvdXJjZQ=="
+set_global_assignment -entity "sv_xcvr_plls" -library "sv_sata_atxpll_core" -name IP_COMPONENT_PARAMETER "Z3VpX3BsbF9yZWNvbmZpZ19wbGwwX2Nsa19uZXR3b3Jr::eDE=::U2VsZWN0ZWQgY2xvY2sgbmV0d29yaw=="
+
+set_global_assignment -library "sv_sata_atxpll_core" -name VERILOG_FILE [file join $::quartus(qip_path) "sv_sata_atxpll_core.v"]
+set_global_assignment -library "sv_sata_atxpll_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_atxpll_core/altera_xcvr_functions.sv"]
+set_global_assignment -library "sv_sata_atxpll_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_atxpll_core/sv_xcvr_h.sv"]
+set_global_assignment -library "sv_sata_atxpll_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_atxpll_core/sv_xcvr_plls.sv"]
+set_global_assignment -library "sv_sata_atxpll_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_atxpll_core/sv_reconfig_bundle_to_xcvr.sv"]
+set_global_assignment -library "sv_sata_atxpll_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_atxpll_core/sv_xcvr_avmm_csr.sv"]
+set_global_assignment -library "sv_sata_atxpll_core" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "sv_sata_atxpll_core/alt_xcvr_resync.sv"]
+set_global_assignment -library "sv_sata_atxpll_core" -name SOURCE_FILE [file join $::quartus(qip_path) "sv_sata_atxpll_core/plain_files.txt"]
+
+set_global_assignment -entity "sv_xcvr_plls" -library "sv_sata_atxpll_core" -name IP_TOOL_NAME "altera_xcvr_pll_sv"
+set_global_assignment -entity "sv_xcvr_plls" -library "sv_sata_atxpll_core" -name IP_TOOL_VERSION "17.1"
+set_global_assignment -entity "sv_xcvr_plls" -library "sv_sata_atxpll_core" -name IP_TOOL_ENV "mwpim"
