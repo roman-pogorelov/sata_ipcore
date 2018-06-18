@@ -4,12 +4,13 @@
     sata_dma_engine
     the_sata_dma_engine
     (
-        // Сброс и тактирование домена пользователя
-        .usr_reset                  (), // i
+        // Общий асинхронный сброс
+        .reset                      (), // i
+        
+        // Тактирование домена пользователя
         .usr_clk                    (), // i
         
-        // Сброс и тактирование домена Link-уровня SATA
-        .sata_reset                 (), // i
+        // Тактирование домена Link-уровня SATA
         .sata_clk                   (), // i
         
         // Интерфейс команд пользователя (домен usr_clk)
@@ -60,12 +61,13 @@
 
 module sata_dma_engine
 (
-    // Сброс и тактирование домена пользователя
-    input  logic            usr_reset,
+    // Общий асинхронный сброс
+    input  logic            reset,
+    
+    // Тактирование домена пользователя
     input  logic            usr_clk,
     
-    // Сброс и тактирование домена Link-уровня SATA
-    input  logic            sata_reset,
+    // Тактирование домена Link-уровня SATA
     input  logic            sata_clk,
     
     // Интерфейс команд пользователя (домен usr_clk)
@@ -126,7 +128,7 @@ module sata_dma_engine
     
     //------------------------------------------------------------------------------------
     //      Объявление сигналов
-    logic                   buffer_reset;
+    logic                   usr_reset;
     //
     logic                   link_busy;
     logic [2 : 0]           link_result;
@@ -216,22 +218,19 @@ module sata_dma_engine
         .EXTRA_STAGES   (1),            // Количество дополнительных ступеней цепи синхронизации
         .ACTIVE_LEVEL   (1'b1)          // Активный уровень сигнала сброса
     )
-    buffer_reset_synchronizer
+    usr_reset_synchronizer
     (
         // Сигнал тактирования
         .clk            (usr_clk),      // i
         
         // Входной сброс (асинхронный 
         // относительно сигнала тактирования)
-        .areset         (
-                            usr_reset |
-                            sata_reset
-                        ),              // i
+        .areset         (reset),        // i
         
         // Выходной сброс (синхронный 
         // относительно сигнала тактирования)
-        .sreset         (buffer_reset)  // o
-    ); // buffer_reset_synchronizer
+        .sreset         (usr_reset)     // o
+    ); // usr_reset_synchronizer
     
     //------------------------------------------------------------------------------------
     //      Модуль синхронизации сигнала на последовательной триггерной цепочке
@@ -272,7 +271,7 @@ module sata_dma_engine
     tx_resync_buffer
     (
         // Сброс и тактирование
-        .reset      (buffer_reset), // i
+        .reset      (usr_reset),    // i
         .wr_clk     (usr_clk),      // i
         .rd_clk     (sata_clk),     // i
         
@@ -305,7 +304,7 @@ module sata_dma_engine
     rx_resync_buffer
     (
         // Сброс и тактирование
-        .reset      (buffer_reset), // i
+        .reset      (usr_reset),    // i
         .wr_clk     (sata_clk),     // i
         .rd_clk     (usr_clk),      // i
         
