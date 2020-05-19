@@ -7,11 +7,11 @@
         // Сброс и тактирование
         .reset      (), // i
         .clk        (), // i
-        
+
         // Входной поток принимаемых данных
         .rx_data    (), // i  [31 : 0]
         .rx_datak   (), // i
-        
+
         // Выходной поток фреймов
         .fis_dat    (), // o  [31 : 0]
         .fis_val    (), // o
@@ -26,11 +26,11 @@ module sata_fis_extractor
     // Сброс и тактирование
     input  logic            reset,
     input  logic            clk,
-    
+
     // Входной поток принимаемых данных
     input  logic [31 : 0]   rx_data,
     input  logic            rx_datak,
-    
+
     // Выходной поток фреймов
     output logic [31 : 0]   fis_dat,
     output logic            fis_val,
@@ -46,7 +46,7 @@ module sata_fis_extractor
     logic [31 : 0]          fis_dat_reg;
     logic                   fis_val_reg;
     logic                   fis_eop_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр текущего состояния
     always @(posedge reset, posedge clk)
@@ -56,7 +56,7 @@ module sata_fis_extractor
             state_reg <= ~((rx_datak == `DWORD_IS_PRIM) & ((rx_data == `EOF_PRIM) | (rx_data == `SYNC_PRIM) | (rx_data == `WTRM_PRIM)));
         else
             state_reg <=  ((rx_datak == `DWORD_IS_PRIM) & (rx_data == `SOF_PRIM));
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр данных
     always @(posedge reset, posedge clk)
@@ -66,7 +66,7 @@ module sata_fis_extractor
             dat_reg <= rx_data;
         else
             dat_reg <= dat_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр признака достоверности
     always @(posedge reset, posedge clk)
@@ -76,7 +76,7 @@ module sata_fis_extractor
             val_reg <= ~(state_reg & (rx_datak == `DWORD_IS_PRIM) & ((rx_data == `EOF_PRIM) | (rx_data == `SYNC_PRIM) | (rx_data == `WTRM_PRIM)));
         else
             val_reg <=  (state_reg & (rx_datak == `DWORD_IS_DATA));
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр данных фрейма
     always @(posedge reset, posedge clk)
@@ -87,7 +87,7 @@ module sata_fis_extractor
         else
             fis_dat_reg <= fis_dat_reg;
     assign fis_dat = fis_dat_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр признака достоверности слова данных фрейма
     always @(posedge reset, posedge clk)
@@ -96,7 +96,7 @@ module sata_fis_extractor
         else
             fis_val_reg <= val_reg & ((rx_datak == `DWORD_IS_DATA) | ((rx_datak == `DWORD_IS_PRIM) & ((rx_data == `EOF_PRIM) | (rx_data == `SYNC_PRIM) | (rx_data == `WTRM_PRIM))));
     assign fis_val = fis_val_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр признака конца фрейма
     always @(posedge reset, posedge clk)
@@ -105,5 +105,5 @@ module sata_fis_extractor
         else
             fis_eop_reg <= val_reg & (rx_datak == `DWORD_IS_PRIM) & ((rx_data == `EOF_PRIM) | (rx_data == `SYNC_PRIM) | (rx_data == `WTRM_PRIM));
     assign fis_eop = fis_eop_reg;
-    
+
 endmodule: sata_fis_extractor

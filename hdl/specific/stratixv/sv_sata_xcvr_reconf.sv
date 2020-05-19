@@ -8,12 +8,12 @@
         // Сброс и тактирование
         .reset          (), // i
         .clk            (), // i
-        
+
         // Интерфейс команд на ре-конфигурацию
         .cmd_reconfig   (), // i
         .cmd_sata_gen   (), // i  [1 : 0]
         .cmd_ready      (), // o
-        
+
         // Интерфейс доступа к адресному пространству
         // IP-ядра реконфигурации
         .recfg_addr     (), // o  [6 : 0]
@@ -32,12 +32,12 @@ module sv_sata_xcvr_reconf
     // Сброс и тактирование
     input  logic            reset,
     input  logic            clk,
-    
+
     // Интерфейс команд на ре-конфигурацию
     input  logic            cmd_reconfig,
     input  logic [1 : 0]    cmd_sata_gen,
     output logic            cmd_ready,
-    
+
     // Интерфейс доступа к адресному пространству
     // IP-ядра реконфигурации
     output logic [6 : 0]    recfg_addr,
@@ -66,7 +66,7 @@ module sv_sata_xcvr_reconf
     localparam logic [31 : 0]   CHAN_CODE   = 32'h00000000;
     localparam logic [31 : 0]   MODE_CODE   = 32'h00000004;
     localparam logic [31 : 0]   WRITE_CODE  = 32'h00000005;
-    
+
     //------------------------------------------------------------------------------------
     //      Объявление сигналов
     logic [$clog2(WR_COUNT + 1) - 1 : 0]    write_cnt;
@@ -78,7 +78,7 @@ module sv_sata_xcvr_reconf
     logic                                   wreq_reg;
     logic [31 : 0]                          wdat_reg;
     logic                                   rreq_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Кодирование состояний конечного автомата
     enum logic [3 : 0] {
@@ -99,7 +99,7 @@ module sv_sata_xcvr_reconf
         st_wait_write    = 4'hE,
         st_check_write   = 4'hF
     } cstate, nstate;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр текущего состояния конечного автомата
     always @(posedge reset, posedge clk)
@@ -107,7 +107,7 @@ module sv_sata_xcvr_reconf
             cstate <= st_idle;
         else
             cstate <= nstate;
-    
+
     //------------------------------------------------------------------------------------
     //      Логика переходов конечного автомата
     always_comb begin
@@ -117,91 +117,91 @@ module sv_sata_xcvr_reconf
                     nstate = st_set_channel;
                 else
                     nstate = st_idle;
-            
+
             st_set_channel:
                 if (~recfg_busy)
                     nstate = st_wait_channel;
                 else
                     nstate = st_set_channel;
-            
+
             st_wait_channel:
                 if (wait_cnt == (WR_PAUSE - 1))
                     nstate = st_check_channel;
                 else
                     nstate = st_wait_channel;
-            
+
             st_check_channel:
                 if (~recfg_busy & ~recfg_rdat[BUSY_BIT])
                     nstate = st_set_mode;
                 else
                     nstate = st_check_channel;
-            
+
             st_set_mode:
                 if (~recfg_busy)
                     nstate = st_wait_mode;
                 else
                     nstate = st_set_mode;
-            
+
             st_wait_mode:
                 if (wait_cnt == (WR_PAUSE - 1))
                     nstate = st_check_mode;
                 else
                     nstate = st_wait_mode;
-            
+
             st_check_mode:
                 if (~recfg_busy & ~recfg_rdat[BUSY_BIT])
                     nstate = st_set_offset;
                 else
                     nstate = st_check_mode;
-            
+
             st_set_offset:
                 if (~recfg_busy)
                     nstate = st_wait_offset;
                 else
                     nstate = st_set_offset;
-            
+
             st_wait_offset:
                 if (wait_cnt == (WR_PAUSE - 1))
                     nstate = st_check_offset;
                 else
                     nstate = st_wait_offset;
-            
+
             st_check_offset:
                 if (~recfg_busy & ~recfg_rdat[BUSY_BIT])
                     nstate = st_set_value;
                 else
                     nstate = st_check_offset;
-            
+
             st_set_value:
                 if (~recfg_busy)
                     nstate = st_wait_value;
                 else
                     nstate = st_set_value;
-            
+
             st_wait_value:
                 if (wait_cnt == (WR_PAUSE - 1))
                     nstate = st_check_value;
                 else
                     nstate = st_wait_value;
-            
+
             st_check_value:
                 if (~recfg_busy & ~recfg_rdat[BUSY_BIT])
                     nstate = st_set_write;
                 else
                     nstate = st_check_value;
-            
+
             st_set_write:
                 if (~recfg_busy)
                     nstate = st_wait_write;
                 else
                     nstate = st_set_write;
-            
+
             st_wait_write:
                 if (wait_cnt == (WR_PAUSE - 1))
                     nstate = st_check_write;
                 else
                     nstate = st_wait_write;
-            
+
             st_check_write:
                 if (~recfg_busy & ~recfg_rdat[BUSY_BIT])
                     if (write_cnt == WR_COUNT)
@@ -210,12 +210,12 @@ module sv_sata_xcvr_reconf
                         nstate = st_set_offset;
                 else
                     nstate = st_check_write;
-            
+
             default:
                 nstate = st_idle;
         endcase
     end
-    
+
     //------------------------------------------------------------------------------------
     //      Счетчик операций записи параметров реконфигурации
     always @(posedge reset, posedge clk)
@@ -227,7 +227,7 @@ module sv_sata_xcvr_reconf
             write_cnt <= write_cnt + 1'b1;
         else
             write_cnt <= write_cnt;
-    
+
     //------------------------------------------------------------------------------------
     //      Счетчик интервала ожидания после каждой операции записи
     always @(posedge reset, posedge clk)
@@ -237,7 +237,7 @@ module sv_sata_xcvr_reconf
             wait_cnt <= wait_cnt + 1'b1;
         else
             wait_cnt <= '0;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр готовности
     initial ready_reg = 1'b1;
@@ -247,7 +247,7 @@ module sv_sata_xcvr_reconf
         else
             ready_reg <= (nstate == st_idle);
     assign cmd_ready = ready_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр смещений записи
     initial offset_reg = PARAM_OFFSET;
@@ -260,7 +260,7 @@ module sv_sata_xcvr_reconf
             offset_reg <= {offset_reg[WR_COUNT - 2 : 0], offset_reg[WR_COUNT - 1]};
         else
             offset_reg <= offset_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр значения записываемых параметров
     initial param_reg = SATA3_PARAMS;
@@ -277,7 +277,7 @@ module sv_sata_xcvr_reconf
             param_reg <= {param_reg[WR_COUNT - 2 : 0], param_reg[WR_COUNT - 1]};
         else
             param_reg <= param_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр адреса доступа
     initial addr_reg <= CTRL_ADDR;
@@ -291,7 +291,7 @@ module sv_sata_xcvr_reconf
             default:        addr_reg <= CTRL_ADDR;
         endcase
     assign recfg_addr = addr_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регист запроса на запись
     always @(posedge reset, posedge clk)
@@ -306,7 +306,7 @@ module sv_sata_xcvr_reconf
                 (nstate == st_set_write)
             );
     assign recfg_wreq = wreq_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр данных на запись
     always @(posedge reset, posedge clk)
@@ -320,7 +320,7 @@ module sv_sata_xcvr_reconf
             default:        wdat_reg <= CHAN_CODE;
         endcase
     assign recfg_wdat = wdat_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регист запроса на чтение
     always @(posedge reset, posedge clk)

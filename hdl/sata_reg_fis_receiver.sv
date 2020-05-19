@@ -7,14 +7,14 @@
         // Сброс и тактирование
         .reset          (), // i
         .clk            (), // i
-        
+
         // Входной последовательный интерфейс принимаемого фрейма
         .i_dat          (), // i  [31 : 0]
         .i_val          (), // i
         .i_eop          (), // i
         .i_err          (), // i
         .i_rdy          (), // o
-        
+
         // Выходной параллельный интерфейс принятого фрейма
         .o_dat_type     (), // o  [7 : 0]
         .o_dat_status   (), // o  [7 : 0]
@@ -32,14 +32,14 @@ module sata_reg_fis_receiver
     // Сброс и тактирование
     input  logic                reset,
     input  logic                clk,
-    
+
     // Входной последовательный интерфейс принимаемого фрейма
     input  logic [31 : 0]       i_dat,
     input  logic                i_val,
     input  logic                i_eop,
     input  logic                i_err,
     output logic                i_rdy,
-    
+
     // Выходной параллельный интерфейс принятого фрейма
     output logic [7 : 0]        o_dat_type,
     output logic [7 : 0]        o_dat_status,
@@ -53,18 +53,18 @@ module sata_reg_fis_receiver
     //------------------------------------------------------------------------------------
     //      Объявление констант
     localparam int unsigned FIS_LEN = 5;
-    
+
     //------------------------------------------------------------------------------------
     //      Объявление сигналов
     logic                           val_reg;
     logic [FIS_LEN : 0]             pos_reg;
     logic [FIS_LEN - 1 : 0][31 : 0] fis_reg;
     logic                           crc_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Постоянная готовность к приему
     assign i_rdy = 1'b1;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр признака достоверности принятого фрейма
     always @(posedge reset, posedge clk)
@@ -75,7 +75,7 @@ module sata_reg_fis_receiver
         else
             val_reg <= i_val & i_eop;
     assign o_val = val_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр позиции текущего слова фрейма
     initial pos_reg = {{FIS_LEN{1'b0}}, 1'b1};
@@ -91,7 +91,7 @@ module sata_reg_fis_receiver
                 pos_reg <= {pos_reg[$high(pos_reg) - 1 : 0], 1'b0};
         else
             pos_reg <= pos_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр накопления фрейма
     always @(posedge reset, posedge clk)
@@ -116,7 +116,7 @@ module sata_reg_fis_receiver
             end
         else
             fis_reg <= fis_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Заполнение выходных полей фрейма
     assign o_dat_type    =  fis_reg[0][7 : 0];
@@ -125,7 +125,7 @@ module sata_reg_fis_receiver
     assign o_dat_address = {fis_reg[2][23 : 0], fis_reg[1][23 : 0]};
     assign o_dat_scount  =  fis_reg[3][15 : 0];
     assign o_dat_tcount  =  fis_reg[4][15 : 0];
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр признак ошибки CRC для фрейма
     always @(posedge reset, posedge clk)
@@ -136,5 +136,5 @@ module sata_reg_fis_receiver
         else
             crc_reg <= crc_reg;
     assign o_dat_badcrc = crc_reg;
-    
+
 endmodule: sata_reg_fis_receiver

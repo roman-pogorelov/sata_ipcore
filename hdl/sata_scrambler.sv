@@ -7,13 +7,13 @@
         // Сброс и тактирование
         .reset      (), // i
         .clk        (), // i
-        
+
         // Входной потоковый интерфейс
         .i_dat      (), // i  [31 : 0]
         .i_val      (), // i
         .i_eop      (), // i
         .i_rdy      (), // o
-        
+
         // Выходной потоковый интерфейс
         .o_dat      (), // o  [31 : 0]
         .o_val      (), // o
@@ -29,13 +29,13 @@ module sata_scrambler
     // Сброс и тактирование
     input  logic                reset,
     input  logic                clk,
-    
+
     // Входной потоковый интерфейс
     input  logic [31 : 0]       i_dat,
     input  logic                i_val,
     input  logic                i_eop,
     output logic                i_rdy,
-    
+
     // Выходной потоковый интерфейс
     output logic [31 : 0]       o_dat,
     output logic                o_val,
@@ -49,11 +49,11 @@ module sata_scrambler
     logic [31 : 0]              dat_reg;
     logic                       val_reg;
     logic                       eop_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Сквозная трансляция сигнала готовности
     assign i_rdy = o_rdy;
-    
+
     //------------------------------------------------------------------------------------
     //      Генератор псевдослучайной последовательности на сдвиговом линейном регистре
     //      с обратными связями
@@ -70,17 +70,17 @@ module sata_scrambler
         // Сброс и тактирование
         .reset          (reset),            // i
         .clk            (clk),              // i
-        
+
         // Разрешение тактирования
         .clkena         (i_val & i_rdy),    // i
-        
+
         // Синхронный сброс (инициализация)
         .init           (i_eop),            // i
-        
+
         // Выход
         .data           (lfsr)              // o  [REGWIDTH - 1 : 0]
     ); // sata_lfsr_generator
-    
+
     //------------------------------------------------------------------------------------
     //      Модуль реверса (зеркалирования) разрядов произвольной параллельной шины
     bitreverser
@@ -90,12 +90,12 @@ module sata_scrambler
     lfsr_reverser
     (
         // Входные данные
-        .i_dat      (lfsr[47 : 16]),    // i  [WIDTH - 1 : 0] 
-        
+        .i_dat      (lfsr[47 : 16]),    // i  [WIDTH - 1 : 0]
+
         // Выходные данные
         .o_dat      (scram)             // o  [WIDTH - 1 : 0]
     ); // lfsr_reverser
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр данных
     always @(posedge reset, posedge clk)
@@ -106,7 +106,7 @@ module sata_scrambler
         else
             dat_reg <= dat_reg;
     assign o_dat = dat_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр признака достоверности
     always @(posedge reset, posedge clk)
@@ -117,7 +117,7 @@ module sata_scrambler
         else
             val_reg <= val_reg;
     assign o_val = val_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр признака конца пакета
     always @(posedge reset, posedge clk)
@@ -128,5 +128,5 @@ module sata_scrambler
         else
             eop_reg <= eop_reg;
     assign o_eop = eop_reg;
-    
+
 endmodule: sata_scrambler

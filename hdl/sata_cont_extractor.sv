@@ -8,11 +8,11 @@
         // Сброс и тактирование
         .reset      (), // i
         .clk        (), // i
-        
+
         // Входной поток
         .i_data     (), // i  [31 : 0]
         .i_datak    (), // i
-        
+
         // Выходной поток
         .o_data     (), // o  [31 : 0]
         .o_datak    ()  // o
@@ -26,11 +26,11 @@ module sata_cont_extractor
     // Сброс и тактирование
     input  logic                reset,
     input  logic                clk,
-    
+
     // Входной поток
     input  logic [31 : 0]       i_data,
     input  logic                i_datak,
-    
+
     // Выходной поток
     output logic [31 : 0]       o_data,
     output logic                o_datak
@@ -42,7 +42,7 @@ module sata_cont_extractor
     logic                       curr_datak_reg;
     logic [31 : 0]              next_data_reg;
     logic                       next_datak_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр текущего состояния
     always @(posedge reset, posedge clk)
@@ -52,7 +52,7 @@ module sata_cont_extractor
             state_reg <= ~((i_datak == `DWORD_IS_PRIM) & (i_data != `CONT_PRIM) & (i_data != `ALIGN_PRIM));
         else
             state_reg <=  ((i_datak == `DWORD_IS_PRIM) & (i_data == `CONT_PRIM));
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр текущего значения данных
     always @(posedge reset, posedge clk)
@@ -63,7 +63,7 @@ module sata_cont_extractor
         else
             curr_data_reg <= next_data_reg;
     assign o_data = curr_data_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр текущего значения признака примитива
     always @(posedge reset, posedge clk)
@@ -74,7 +74,7 @@ module sata_cont_extractor
         else
             curr_datak_reg <= next_datak_reg;
     assign o_datak = curr_datak_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр следующего значения данных
     always @(posedge reset, posedge clk)
@@ -82,7 +82,7 @@ module sata_cont_extractor
             next_data_reg <= '0;
         else
             next_data_reg <= i_data;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр следующего значения признака примитива
     always @(posedge reset, posedge clk)
@@ -90,5 +90,5 @@ module sata_cont_extractor
             next_datak_reg <= '0;
         else
             next_datak_reg <= i_datak;
-    
+
 endmodule: sata_cont_extractor

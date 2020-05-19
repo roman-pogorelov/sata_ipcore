@@ -11,7 +11,7 @@
         // Сброс и тактирование
         .reset          (), // i
         .clk            (), // i
-        
+
         // Интерфейс записи в FIFO
         .wr_data        (), // i  [31 : 0]
         .wr_eop         (), // i
@@ -19,7 +19,7 @@
         .wr_req         (), // i
         .wr_full        (), // o
         .wr_almostfull  (), // o
-        
+
         // Интерфейс чтения из FIFO
         .rd_data        (), // o  [31 : 0]
         .rd_eop         (), // o
@@ -39,7 +39,7 @@ module sata_link_fifo
     // Сброс и тактирование
     input  logic            reset,
     input  logic            clk,
-    
+
     // Интерфейс записи в FIFO
     input  logic [31 : 0]   wr_data,
     input  logic            wr_eop,
@@ -47,7 +47,7 @@ module sata_link_fifo
     input  logic            wr_req,
     output logic            wr_full,
     output logic            wr_almostfull,
-    
+
     // Интерфейс чтения из FIFO
     output logic [31 : 0]   rd_data,
     output logic            rd_eop,
@@ -62,7 +62,7 @@ module sata_link_fifo
     localparam int unsigned         FIFO_WITHU          = $clog2(FIFO_LENGTH);
     localparam int unsigned         FIFO_ALMOST_EMPTY   = 2;
     localparam int unsigned         FIFO_ALMOST_FULL    = FIFO_LENGTH / 2;
-    
+
     //------------------------------------------------------------------------------------
     //      FIFO на ядре Altera
     scfifo

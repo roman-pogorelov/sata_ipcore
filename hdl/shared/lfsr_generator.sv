@@ -15,13 +15,13 @@
         // Сброс и тактирование
         .reset          (), // i
         .clk            (), // i
-        
+
         // Разрешение тактирования
         .clkena         (), // i
-        
+
         // Синхронный сброс (инициализация)
         .init           (), // i
-        
+
         // Выход
         .data           ()  // o  [REGWIDTH - 1 : 0]
     ); // the_lfsr_generator
@@ -39,13 +39,13 @@ module lfsr_generator
     // Сброс и тактирование
     input  logic                            reset,
     input  logic                            clk,
-    
+
     // Разрешение тактирования
     input  logic                            clkena,
-    
+
     // Синхронный сброс (инициализация)
     input  logic                            init,
-    
+
     // Выход
     output logic [REGWIDTH - 1 : 0]         data
 );
@@ -62,7 +62,7 @@ module lfsr_generator
             $fatal("STEPSIZE can't be less then 1");
         end
     end
-    
+
     //------------------------------------------------------------------------------------
     //      Расчет нового значения LFSR
     function automatic logic [REGWIDTH - 1 : 0] lfsr_calc(input  logic [REGWIDTH - 1 : 0] lfsr);
@@ -80,11 +80,11 @@ module lfsr_generator
             lfsr = lfsr_calc;
         end
     endfunction
-    
+
     //------------------------------------------------------------------------------------
     //      Объявление сигналов сигналов
     logic [REGWIDTH - 1 : 0]    lfs_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Сдвиговый линейный регистр с обратными связями
     initial lfs_reg = REGINITIAL;
@@ -99,5 +99,5 @@ module lfsr_generator
         else
             lfs_reg <= lfs_reg;
     assign data = lfs_reg;
-    
+
 endmodule: lfsr_generator

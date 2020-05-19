@@ -8,8 +8,8 @@
     the_bitreverser
     (
         // Входные данные
-        .i_dat      (), // i  [WIDTH - 1 : 0] 
-        
+        .i_dat      (), // i  [WIDTH - 1 : 0]
+
         // Выходные данные
         .o_dat      ()  // o  [WIDTH - 1 : 0]
     ); // the_bitreverser
@@ -22,7 +22,7 @@ module bitreverser
 (
     // Входные данные
     input  wire [WIDTH - 1 : 0] i_dat,
-    
+
     // Выходные данные
     output wire [WIDTH - 1 : 0] o_dat
 );
@@ -34,5 +34,5 @@ module bitreverser
             assign o_dat[i] = i_dat[WIDTH - 1 - i];
         end
     endgenerate
-    
+
 endmodule // bitreverser

@@ -11,17 +11,17 @@
         // Сброс и тактирование интерфейса реконфигурации
         .reconfig_reset     (), // i
         .reconfig_clk       (), // i
-        
+
         // Сброс и тактирование высокоскоростных приемопередатчиков
         .gxb_reset          (), // i
         .gxb_refclk         (), // i
-        
+
         // Интерфейс реконфигурации между поколениями SATA
         // (домен reconfig_clk)
         .recfg_request      (), // i
         .recfg_sata_gen     (), // i  [1 : 0]
         .recfg_ready        (), // o
-        
+
         // Интерфейсные сигналы приемника
         .rx_clock           (), // o
         .rx_data            (), // o  [31 : 0]
@@ -31,18 +31,18 @@
         .rx_patterndetect   (), // o  [3 : 0]
         .rx_signaldetect    (), // o
         .rx_syncstatus      (), // o  [3 : 0]
-        
+
         // Интерфейсные сигналы передатчика
         .tx_clock           (), // o
         .tx_data            (), // i  [31 : 0]
         .tx_datak           (), // i  [3 : 0]
         .tx_elecidle        (), // i
-        
+
         // Статусные сигналы готовности
         // (домен gxb_refclk)
         .rx_ready           (), // o
         .tx_ready           (), // o
-        
+
         // Высокоскоростные линии
         .gxb_rx             (), // i
         .gxb_tx             ()  // o
@@ -57,17 +57,17 @@ module a10_sata_xcvr
     // Сброс и тактирование интерфейса реконфигурации
     input  logic            reconfig_reset,
     input  logic            reconfig_clk,
-    
+
     // Сброс и тактирование высокоскоростных приемопередатчиков
     input  logic            gxb_reset,
     input  logic            gxb_refclk,
-    
+
     // Интерфейс реконфигурации между поколениями SATA
     // (домен reconfig_clk)
     input  logic            recfg_request,
     input  logic [1 : 0]    recfg_sata_gen,
     output logic            recfg_ready,
-    
+
     // Интерфейсные сигналы приемника
     output logic            rx_clock,
     output logic [31 : 0]   rx_data,
@@ -77,18 +77,18 @@ module a10_sata_xcvr
     output logic [3 : 0]    rx_patterndetect,
     output logic            rx_signaldetect,
     output logic [3 : 0]    rx_syncstatus,
-    
+
     // Интерфейсные сигналы передатчика
     output logic            tx_clock,
     input  logic [31 : 0]   tx_data,
     input  logic [3 : 0]    tx_datak,
     input  logic            tx_elecidle,
-    
+
     // Статусные сигналы готовности
     // (домен gxb_refclk)
     output logic            rx_ready,
     output logic            tx_ready,
-    
+
     // Высокоскоростные линии
     input  logic            gxb_rx,
     output logic            gxb_tx
@@ -113,7 +113,7 @@ module a10_sata_xcvr
     logic                   recfg_rreq;
     logic [31 : 0]          recfg_rdat;
     logic                   recfg_busy;
-    
+
     //------------------------------------------------------------------------------------
     //      Ядро высокоскоростного приемопередатчика Serial ATA
     a10_sata_xcvr_core
@@ -158,7 +158,7 @@ module a10_sata_xcvr
         .unused_rx_parallel_data    (  ),                   // output wire [71:0]  unused_rx_parallel_data.unused_rx_parallel_data
         .unused_tx_parallel_data    ({92{1'b0}})            // input  wire [91:0]  unused_tx_parallel_data.unused_tx_parallel_data
     ); // sata_a10_sata_xcvr_core
-    
+
     //------------------------------------------------------------------------------------
     //      Контроллер сброса
     a10_sata_xcvr_rst_core
@@ -180,7 +180,7 @@ module a10_sata_xcvr
         .tx_digitalreset        (tx_digitalreset),      // o  [0:0]    tx_digitalreset.tx_digitalreset
         .tx_ready               (tx_ready)              // o  [0:0]           tx_ready.tx_ready
     ); // the_a10_sata_xcvr_rst_core
-    
+
     //------------------------------------------------------------------------------------
     //      Генерация необходимой PLL
     generate
@@ -224,7 +224,7 @@ module a10_sata_xcvr
             ); // the_a10_sata_xcvr_cmupll_core
         end
     endgenerate
-    
+
     //------------------------------------------------------------------------------------
     //      Модуль реконфигурации высокоскоростного приемопередатчика Arria 10 на
     //      режимы работы стандартов SATA1, SATA2, SATA3
@@ -234,12 +234,12 @@ module a10_sata_xcvr
         // Сброс и тактирование
         .reset          (reconfig_reset),   // i
         .clk            (reconfig_clk),     // i
-        
+
         // Интерфейс команд на ре-конфигурацию
         .cmd_reconfig   (recfg_request),    // i
         .cmd_sata_gen   (recfg_sata_gen),   // i  [1 : 0]
         .cmd_ready      (recfg_ready),      // o
-        
+
         // Интерфейс доступа к адресному пространству
         // IP-ядра реконфигурации
         .recfg_addr     (recfg_addr),       // o  [9 : 0]
@@ -249,5 +249,5 @@ module a10_sata_xcvr
         .recfg_rdat     (recfg_rdat),       // i  [31 : 0]
         .recfg_busy     (recfg_busy)        // i
     ); // the_a10_sata_xcvr_reconf
-    
+
 endmodule: a10_sata_xcvr

@@ -7,14 +7,14 @@
         // Сброс и тактирование
         .reset              (), // i
         .clk                (), // i
-        
+
         // Входной последовательный интерфейс принимаемого фрейма
         .i_dat              (), // i  [31 : 0]
         .i_val              (), // i
         .i_eop              (), // i
         .i_err              (), // i
         .i_rdy              (), // o
-        
+
         // Выходной параллельный интерфейс идентификационной информации
         .identify_done      (), // o
         .sata1_supported    (), // o
@@ -32,14 +32,14 @@ module sata_identify_parser
     // Сброс и тактирование
     input  logic                reset,
     input  logic                clk,
-    
+
     // Входной последовательный интерфейс принимаемого фрейма
     input  logic [31 : 0]       i_dat,
     input  logic                i_val,
     input  logic                i_eop,
     input  logic                i_err,
     output logic                i_rdy,
-    
+
     // Выходной параллельный интерфейс идентификационной информации
     output logic                identify_done,
     output logic                sata1_supported,
@@ -53,7 +53,7 @@ module sata_identify_parser
     localparam int unsigned     FIS_LEN         = 128;
     localparam int unsigned     SATA_CAP_OFFSET = 38;
     localparam int unsigned     MAX_LBA_OFFSET  = 50;
-    
+
     //------------------------------------------------------------------------------------
     //      Объявление сигналов
     logic                               sop_reg;
@@ -63,11 +63,11 @@ module sata_identify_parser
     logic [31 : 0]                      max_lba_low_reg;
     logic [15 : 0]                      max_lba_high_reg;
     logic                               bad_crc_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Постоянная готовность к приему
     assign i_rdy = 1'b1;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр признака начала пакета
     initial sop_reg = 1'b1;
@@ -78,7 +78,7 @@ module sata_identify_parser
             sop_reg <= i_eop;
         else
             sop_reg <= sop_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Счетчик длины идентификационного фрейма данных
     always @(posedge reset, posedge clk)
@@ -93,7 +93,7 @@ module sata_identify_parser
                 len_cnt <= len_cnt + (len_cnt != FIS_LEN);
         else
             len_cnt <= len_cnt;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр окончания разбора идентификационного фрейма
     always @(posedge reset, posedge clk)
@@ -104,7 +104,7 @@ module sata_identify_parser
         else
             done_reg <= i_val & i_eop & (len_cnt == (FIS_LEN - 1));
     assign identify_done = done_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр признаков поддержки SATA1, SATA2, SATA3
     always @(posedge reset, posedge clk)
@@ -115,7 +115,7 @@ module sata_identify_parser
         else
             sata_supported_reg <= sata_supported_reg;
     assign {sata3_supported, sata2_supported,  sata1_supported} = sata_supported_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр младшей части максимального LBA адреса
     always @(posedge reset, posedge clk)
@@ -125,7 +125,7 @@ module sata_identify_parser
             max_lba_low_reg <= i_dat;
         else
             max_lba_low_reg <= max_lba_low_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр старшей части максимального LBA адреса
     always @(posedge reset, posedge clk)
@@ -136,7 +136,7 @@ module sata_identify_parser
         else
             max_lba_high_reg <= max_lba_high_reg;
     assign max_lba_address = {max_lba_high_reg, max_lba_low_reg};
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр признака некорректной контрольной суммы
     always @(posedge reset, posedge clk)
@@ -147,5 +147,5 @@ module sata_identify_parser
         else
             bad_crc_reg <= bad_crc_reg;
     assign bad_checksum = bad_crc_reg;
-    
+
 endmodule: sata_identify_parser

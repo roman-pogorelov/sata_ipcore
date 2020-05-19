@@ -1,6 +1,6 @@
 /*
     //------------------------------------------------------------------------------------
-    //      Буфер синхронизации потоковых интерфейсов фреймов SATA между 
+    //      Буфер синхронизации потоковых интерфейсов фреймов SATA между
     //      двумя доменами тактирования
     sata_fis_resynchronizer
     #(
@@ -14,12 +14,12 @@
         .reset      (), // i
         .wr_clk     (), // i
         .rd_clk     (), // i
-        
+
         // Входной потоковый интерфейс
         .wr_dat     (), // i  [DWIDTH - 1 : 0]
         .wr_val     (), // i
         .wr_rdy     (), // o
-        
+
         // Выходной потоковый интерфейс
         .rd_dat     (), // o  [DWIDTH - 1 : 0]
         .rd_val     (), // o
@@ -38,12 +38,12 @@ module sata_fis_resynchronizer
     input  logic                    reset,
     input  logic                    wr_clk,
     input  logic                    rd_clk,
-    
+
     // Входной потоковый интерфейс
     input  logic [DWIDTH - 1 : 0]   wr_dat,
     input  logic                    wr_val,
     output logic                    wr_rdy,
-    
+
     // Выходной потоковый интерфейс
     output logic [DWIDTH - 1 : 0]   rd_dat,
     output logic                    rd_val,
@@ -53,7 +53,7 @@ module sata_fis_resynchronizer
     //      Описание сигналов
     logic                           fifo_rdempty;
     logic                           fifo_wrfull;
-    
+
     //------------------------------------------------------------------------------------
     //      Двухклоковое FIFO на ядре от Altera
     dcfifo
@@ -93,5 +93,5 @@ module sata_fis_resynchronizer
     //      Формирование сигналов wr_rdy и rd_val
     assign wr_rdy = ~fifo_wrfull;
     assign rd_val = ~fifo_rdempty;
-    
+
 endmodule: sata_fis_resynchronizer

@@ -16,25 +16,25 @@
     (
         // Общий асинхронный сброс
         .reset          (), // i
-        
+
         // Восстановленная частота тактирования
         .rcv_clk        (), // i
-        
+
         // Опорная частота тактирования
         .ref_clk        (), // i
-        
+
         // Входной поток данных на восстановленной частоте
         .rcv_data       (), // i  [8 * BYTES - 1 : 0]
         .rcv_datak      (), // i  [BYTES - 1 : 0]
-        
+
         // Выходной поток данных на опорной частоте
         .ref_data       (), // o  [8 * BYTES - 1 : 0]
         .ref_datak      (), // o  [BYTES - 1 : 0]
-        
+
         // Статусные сигналы на восстановленной частоте
         .stat_rcv_del   (), // o
         .stat_rcv_ovfl  (), // o
-        
+
         // Статусные сигналы на опорной частоте
         .stat_ref_ins   (), // o
         .stat_ref_unfl  ()  // o
@@ -54,25 +54,25 @@ module pcs_rate_match_fifo
 (
     // Общий асинхронный сброс
     input  logic                        reset,
-    
+
     // Восстановленная частота тактирования
     input  logic                        rcv_clk,
-    
+
     // Опорная частота тактирования
     input  logic                        ref_clk,
-    
+
     // Входной поток данных на восстановленной частоте
     input  logic [8 * BYTES - 1 : 0]    rcv_data,
     input  logic [BYTES - 1 : 0]        rcv_datak,
-    
+
     // Выходной поток данных на опорной частоте
     output logic [8 * BYTES - 1 : 0]    ref_data,
     output logic [BYTES - 1 : 0]        ref_datak,
-    
+
     // Статусные сигналы на восстановленной частоте
     output logic                        stat_rcv_del,
     output logic                        stat_rcv_ovfl,
-    
+
     // Статусные сигналы на опорной частоте
     output logic                        stat_ref_ins,
     output logic                        stat_ref_unfl
@@ -80,7 +80,7 @@ module pcs_rate_match_fifo
     //------------------------------------------------------------------------------------
     //      Описание констан
     localparam int unsigned             WTIME = 4;
-    
+
     //------------------------------------------------------------------------------------
     //      Объявление сигналов
     logic                               rcv_reset;
@@ -117,7 +117,7 @@ module pcs_rate_match_fifo
     logic                               rcv_ovfl_reg;
     logic                               ref_ins_reg;
     logic                               ref_unfl_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Кодирование состояний конечного автомата записи
     enum logic [1 : 0] {
@@ -127,7 +127,7 @@ module pcs_rate_match_fifo
     } wr_state;
     wire [1 : 0] wr_st;
     assign wr_st = wr_state;
-    
+
     //------------------------------------------------------------------------------------
     //      Кодирование состояний конечного автомата чтения
     enum logic [2 : 0] {
@@ -138,7 +138,7 @@ module pcs_rate_match_fifo
     } rd_state;
     wire [2 : 0] rd_st;
     assign rd_st = rd_state;
-    
+
     //------------------------------------------------------------------------------------
     //      Логика переходов конечного автомата записи
     always @(posedge rcv_reset, posedge rcv_clk)
@@ -150,28 +150,28 @@ module pcs_rate_match_fifo
                     wr_state <= wr_st_violation;
                 else
                     wr_state <= wr_st_normal;
-            
+
             wr_st_violation:
                 if (rcv_patdet_reg)
                     wr_state <= wr_st_waiting;
                 else
                     wr_state <= wr_st_violation;
-            
+
             wr_st_waiting:
                 if (wr_wait_cnt == (WTIME - 1))
                     wr_state <= wr_st_normal;
                 else
                     wr_state <= wr_st_waiting;
-            
+
             default:
                 wr_state <= wr_st_normal;
         endcase
-    
+
     //------------------------------------------------------------------------------------
     //      Управляющие сигналы конечного автомата записи
     assign fifo_wrreq   = ~wr_st[0] | ~rcv_patdet_reg;
     assign wr_wait_inc  =  wr_st[1];
-    
+
     //------------------------------------------------------------------------------------
     //      Логика переходов конечного автомата чтения
     always @(posedge ref_reset, posedge ref_clk)
@@ -183,34 +183,34 @@ module pcs_rate_match_fifo
                     rd_state <= rd_st_init;
                 else
                     rd_state <= rd_st_normal;
-            
+
             rd_st_normal:
                 if (fifo_rdcnt < MINUSED)
                     rd_state <= rd_st_violation;
                 else
                     rd_state <= rd_st_normal;
-            
+
             rd_st_violation:
                 if (ref_patdet_reg)
                     rd_state <= rd_st_waiting;
                 else
                     rd_state <= rd_st_violation;
-            
+
             rd_st_waiting:
                 if (rd_wait_cnt == (WTIME - 1))
                     rd_state <= rd_st_normal;
                 else
                     rd_state <= rd_st_waiting;
-            
+
             default:
                 rd_state <= rd_st_init;
         endcase
-    
+
     //------------------------------------------------------------------------------------
     //      Управляющие сигналы конечного автомата чтения
     assign fifo_rdreq   = rd_st[0] | (rd_st[1] & ~ref_patdet_reg);
     assign rd_wait_inc  = rd_st[2];
-    
+
     //------------------------------------------------------------------------------------
     //      Модуль синхронизации сигналов асинхронного сброса (предустановки)
     areset_synchronizer
@@ -222,16 +222,16 @@ module pcs_rate_match_fifo
     (
         // Сигнал тактирования
         .clk            (rcv_clk),  // i
-        
-        // Входной сброс (асинхронный 
+
+        // Входной сброс (асинхронный
         // относительно сигнала тактирования)
         .areset         (reset),    // i
-        
-        // Выходной сброс (синхронный 
+
+        // Выходной сброс (синхронный
         // относительно сигнала тактирования)
         .sreset         (rcv_reset) // o
     ); // rcv_reset_synchronizer
-    
+
     //------------------------------------------------------------------------------------
     //      Модуль синхронизации сигналов асинхронного сброса (предустановки)
     areset_synchronizer
@@ -243,16 +243,16 @@ module pcs_rate_match_fifo
     (
         // Сигнал тактирования
         .clk            (ref_clk),  // i
-        
-        // Входной сброс (асинхронный 
+
+        // Входной сброс (асинхронный
         // относительно сигнала тактирования)
         .areset         (reset),    // i
-        
-        // Выходной сброс (синхронный 
+
+        // Выходной сброс (синхронный
         // относительно сигнала тактирования)
         .sreset         (ref_reset) // o
     ); // ref_reset_synchronizer
-    
+
     //------------------------------------------------------------------------------------
     //      Двухклоковое FIFO на ядре от Altera
     dcfifo
@@ -287,7 +287,7 @@ module pcs_rate_match_fifo
         .wrempty                (fifo_wrempty),
         .wrusedw                (fifo_wrusedw)
     ); // rate_match_dcfifo
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр входных данных
     always @(posedge rcv_reset, posedge rcv_clk)
@@ -295,7 +295,7 @@ module pcs_rate_match_fifo
             rcv_data_reg <= '0;
         else
             rcv_data_reg <= rcv_data;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр признаков контрольных символов во входных данных
     always @(posedge rcv_reset, posedge rcv_clk)
@@ -303,7 +303,7 @@ module pcs_rate_match_fifo
             rcv_datak_reg <= '0;
         else
             rcv_datak_reg <= rcv_datak;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр признака обнаружения искомого шаблона во входных данных
     always @(posedge rcv_reset, posedge rcv_clk)
@@ -311,7 +311,7 @@ module pcs_rate_match_fifo
             rcv_patdet_reg <= 1'b0;
         else
             rcv_patdet_reg <= (rcv_data == DPATTERN) & (rcv_datak == KPATTERN);
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр выходных данных
     always @(posedge ref_reset, posedge ref_clk)
@@ -322,7 +322,7 @@ module pcs_rate_match_fifo
         else
             ref_data_reg <= ref_data_reg;
     assign ref_data = ref_data_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр признаков контрольных символов в выходных данных
     always @(posedge ref_reset, posedge ref_clk)
@@ -333,7 +333,7 @@ module pcs_rate_match_fifo
         else
             ref_datak_reg <= ref_datak_reg;
     assign ref_datak = ref_datak_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр признака обнаружения искомого шаблона в выходных данных
     always @(posedge ref_reset, posedge ref_clk)
@@ -343,7 +343,7 @@ module pcs_rate_match_fifo
             ref_patdet_reg <= (ref_data_int == DPATTERN) & (ref_datak_int == KPATTERN);
         else
             ref_patdet_reg <= ref_patdet_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Формирование дополнительного разряда в количестве используемых
     //      слов FIFO при длине равной степени 2-ки
@@ -359,7 +359,7 @@ module pcs_rate_match_fifo
             assign fifo_rdcnt = fifo_rdusedw;
         end
     endgenerate
-    
+
     //------------------------------------------------------------------------------------
     //      Счетчик ожидания при записи
     always @(posedge rcv_reset, posedge rcv_clk)
@@ -369,7 +369,7 @@ module pcs_rate_match_fifo
             wr_wait_cnt <= wr_wait_cnt + 1'b1;
         else
             wr_wait_cnt <= '0;
-    
+
     //------------------------------------------------------------------------------------
     //      Счетчик ожидания при чтении
     always @(posedge ref_reset, posedge ref_clk)
@@ -379,7 +379,7 @@ module pcs_rate_match_fifo
             rd_wait_cnt <= rd_wait_cnt + 1'b1;
         else
             rd_wait_cnt <= '0;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр признака удаления шаблона
     always @(posedge rcv_reset, posedge rcv_clk)
@@ -388,7 +388,7 @@ module pcs_rate_match_fifo
         else
             rcv_del_reg <= ~fifo_wrreq & rcv_patdet_reg;
     assign stat_rcv_del = rcv_del_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр признака записи в полное FIFO
     always @(posedge rcv_reset, posedge rcv_clk)
@@ -397,7 +397,7 @@ module pcs_rate_match_fifo
         else
             rcv_ovfl_reg <= fifo_wrfull & fifo_wrreq;
     assign stat_rcv_ovfl = rcv_ovfl_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр признака вставки шаблона
     always @(posedge ref_reset, posedge ref_clk)
@@ -406,7 +406,7 @@ module pcs_rate_match_fifo
         else
             ref_ins_reg <= ~fifo_rdreq & ref_patdet_reg;
     assign stat_ref_ins = ref_ins_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр признака чтения из пустого FIFO
     always @(posedge ref_reset, posedge ref_clk)
@@ -415,5 +415,5 @@ module pcs_rate_match_fifo
         else
             ref_unfl_reg <= fifo_rdempty & fifo_rdreq;
     assign stat_ref_unfl = ref_unfl_reg;
-    
+
 endmodule: pcs_rate_match_fifo

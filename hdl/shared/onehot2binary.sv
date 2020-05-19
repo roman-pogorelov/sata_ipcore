@@ -32,5 +32,5 @@ module onehot2binary
             assign binary[i] = |(mask & onehot);
         end
     endgenerate
-    
+
 endmodule // onehot2binary

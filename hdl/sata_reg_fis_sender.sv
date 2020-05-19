@@ -7,7 +7,7 @@
         // Сброс и тактирование
         .reset          (), // i
         .clk            (), // i
-        
+
         // Входной параллельный интерфейс передаваемого фрейма
         .i_dat_type     (), // i  [7 : 0]
         .i_dat_command  (), // i  [7 : 0]
@@ -15,7 +15,7 @@
         .i_dat_scount   (), // i  [15 : 0]
         .i_val          (), // i
         .i_rdy          (), // o
-        
+
         // Выходной последовательный интерфейс передаваемого фрейма
         .o_dat          (), // o  [31 : 0]
         .o_val          (), // o
@@ -29,7 +29,7 @@ module sata_reg_fis_sender
     // Сброс и тактирование
     input  logic            reset,
     input  logic            clk,
-    
+
     // Входной параллельный интерфейс передаваемого фрейма
     input  logic [7 : 0]    i_dat_type,
     input  logic [7 : 0]    i_dat_command,
@@ -37,7 +37,7 @@ module sata_reg_fis_sender
     input  logic [15 : 0]   i_dat_scount,
     input  logic            i_val,
     output logic            i_rdy,
-    
+
     // Выходной последовательный интерфейс передаваемого фрейма
     output logic [31 : 0]   o_dat,
     output logic            o_val,
@@ -47,14 +47,14 @@ module sata_reg_fis_sender
     //------------------------------------------------------------------------------------
     //      Объявление констант
     localparam int unsigned FIS_LEN = 5;
-    
+
     //------------------------------------------------------------------------------------
     //      Объявление сигналов
     logic [FIS_LEN - 1 : 0][31 : 0] fis_reg;
     logic                           rdy_reg;
     logic                           eop_reg;
     logic [$clog2(FIS_LEN) - 1 : 0] len_cnt;
-    
+
     //------------------------------------------------------------------------------------
     //      Сдвиговый регистр для "выталкивания" фрейма
     always @(posedge reset, posedge clk)
@@ -73,7 +73,7 @@ module sata_reg_fis_sender
         else
             fis_reg <= fis_reg;
     assign o_dat = fis_reg[0];
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр готовности
     initial rdy_reg = 1'b1;
@@ -86,7 +86,7 @@ module sata_reg_fis_sender
             rdy_reg <= o_rdy & (len_cnt == (FIS_LEN - 1));
     assign i_rdy =  rdy_reg;
     assign o_val = ~rdy_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр признака последнего слова "выталкиваемого" фрейма
     always @(posedge reset, posedge clk)
@@ -97,7 +97,7 @@ module sata_reg_fis_sender
         else
             eop_reg <= eop_reg;
     assign o_eop = eop_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Счетчик длины "выталкиваемого" фрейма
     always @(posedge reset, posedge clk)
@@ -110,5 +110,5 @@ module sata_reg_fis_sender
                 len_cnt <= len_cnt + 1'b1;
         else
             len_cnt <= len_cnt;
-    
+
 endmodule: sata_reg_fis_sender

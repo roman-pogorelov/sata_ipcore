@@ -8,12 +8,12 @@
         // Сброс и тактирование
         .reset          (), // i
         .clk            (), // i
-        
+
         // Интерфейс команд на ре-конфигурацию
         .cmd_reconfig   (), // i
         .cmd_sata_gen   (), // i  [1 : 0]
         .cmd_ready      (), // o
-        
+
         // Интерфейс доступа к адресному пространству
         // IP-ядра реконфигурации
         .recfg_addr     (), // o  [9 : 0]
@@ -32,12 +32,12 @@ module a10_sata_xcvr_reconf
     // Сброс и тактирование
     input  logic            reset,
     input  logic            clk,
-    
+
     // Интерфейс команд на ре-конфигурацию
     input  logic            cmd_reconfig,
     input  logic [1 : 0]    cmd_sata_gen,
     output logic            cmd_ready,
-    
+
     // Интерфейс доступа к адресному пространству
     // IP-ядра реконфигурации
     output logic [9 : 0]    recfg_addr,
@@ -56,13 +56,13 @@ module a10_sata_xcvr_reconf
     localparam logic [1 : 0]    GEN1_PROFILE = 2'h0;
     localparam logic [1 : 0]    GEN2_PROFILE = 2'h1;
     localparam logic [1 : 0]    GEN3_PROFILE = 2'h2;
-    
+
     //------------------------------------------------------------------------------------
     //      Объявление сигналов
     logic                       ready;
     logic                       ready_reg;
     logic [1 : 0]               cfg_sel_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Кодирование состояний конечного автомата
     (* syn_encoding = "gray" *) enum int unsigned {
@@ -71,7 +71,7 @@ module a10_sata_xcvr_reconf
         st_initiate_reconfiguration,
         st_wait_for_completion
     } cstate, nstate;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр текущего состояния конечного автомата и его регистровые выходы
     initial begin
@@ -87,7 +87,7 @@ module a10_sata_xcvr_reconf
             cstate <= nstate;
             ready_reg <= ready;
         end
-    
+
     //------------------------------------------------------------------------------------
     //      Логика формирования следующего состояния конечного автомата и его выходов
     always_comb begin
@@ -96,7 +96,7 @@ module a10_sata_xcvr_reconf
         recfg_wreq = 1'b0;
         recfg_rreq = 1'b0;
         ready      = 1'b0;
-        
+
         // Выбор в зависимости от текущего состояния
         case (cstate)
             st_idle: begin
@@ -107,29 +107,29 @@ module a10_sata_xcvr_reconf
                     nstate = st_idle;
                 end
             end
-            
+
             st_wait_for_ready: begin
                 recfg_rreq = 1'b1;
-                
+
                 if (recfg_busy | recfg_rdat[BUSY_BIT])
                     nstate = st_wait_for_ready;
                 else
                     nstate = st_initiate_reconfiguration;
             end
-            
+
             st_initiate_reconfiguration: begin
                 recfg_addr = CTRL_ADDRESS;
                 recfg_wreq = 1'b1;
-                
+
                 if (recfg_busy)
                     nstate = st_initiate_reconfiguration;
                 else
                     nstate = st_wait_for_completion;
             end
-            
+
             st_wait_for_completion: begin
                 recfg_rreq = 1'b1;
-                
+
                 if (recfg_busy | recfg_rdat[BUSY_BIT])
                     nstate = st_wait_for_completion;
                 else begin
@@ -137,18 +137,18 @@ module a10_sata_xcvr_reconf
                     nstate = st_idle;
                 end
             end
-            
+
             default: begin
                 ready = 1'b1;
                 nstate = st_idle;
             end
         endcase
     end
-    
+
     //------------------------------------------------------------------------------------
     //      Признак готовности к приему команды на реконфигурацию
     assign cmd_ready = ready_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр выбранного профиля реконфигурации
     always @(posedge reset, posedge clk)
@@ -162,7 +162,7 @@ module a10_sata_xcvr_reconf
             endcase
         else
             cfg_sel_reg <= cfg_sel_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Формирование записываемых данных
     assign recfg_wdat = {
@@ -171,5 +171,5 @@ module a10_sata_xcvr_reconf
         {CFG_LOAD_BIT - $size(cfg_sel_reg){1'b0}},      //
         cfg_sel_reg                                     // Номер профиля реконфигурации
     };
-    
+
 endmodule: a10_sata_xcvr_reconf

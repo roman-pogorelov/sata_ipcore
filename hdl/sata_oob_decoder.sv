@@ -7,14 +7,14 @@
         // Сброс и тактирование
         .reset          (), // i
         .clk            (), // i
-        
+
         // Индикатор активности на линии приема
         .rxsignaldetect (), // i
-        
+
         // Импульсы обнаруженных последовательностей
         .cominit        (), // o
         .comwake        (), // o
-        
+
         // Признак окончания фазы отправки последовательностей
         .oobfinish      ()  // o
     ); // the_sata_oob_decoder
@@ -25,14 +25,14 @@ module sata_oob_decoder
     // Сброс и тактирование
     input  logic                reset,
     input  logic                clk,
-    
+
     // Индикатор активности на линии приема
     input  logic                rxsignaldetect,
-    
+
     // Импульсы обнаруженных последовательностей
     output logic                cominit,
     output logic                comwake,
-    
+
     // Признак окончания фазы отправки последовательностей
     output logic                oobfinish
 );
@@ -46,7 +46,7 @@ module sata_oob_decoder
     localparam int unsigned                 GAPWAKE_MAX = 22;
     localparam int unsigned                 MAXCOUNT    = 80;
     localparam int unsigned                 AMOUNT      = 6;
-    
+
     //------------------------------------------------------------------------------------
     //      Объявление сигналов
     logic                                   sigdet;
@@ -64,7 +64,7 @@ module sata_oob_decoder
     logic [$clog2(AMOUNT) - 1 : 0]          gapwake_cnt;
     logic                                   cominit_reg;
     logic                                   comwake_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Модуль синхронизации сигнала на последовательной триггерной цепочке
     ff_synchronizer
@@ -78,14 +78,14 @@ module sata_oob_decoder
         // Сброс и тактирование
         .reset          (reset),            // i
         .clk            (clk),              // i
-        
+
         // Асинхронный входной сигнал
         .async_data     (rxsignaldetect),   // i  [WIDTH - 1 : 0]
-        
+
         // Синхронный выходной сигнал
         .sync_data      (sigdet)            // o  [WIDTH - 1 : 0]
     ); // sigdet_synchronizer
-    
+
     //------------------------------------------------------------------------------------
     //      Модуль формирования одиночных импульсов индикаторов фронта входного сигнала
     edgedetector
@@ -97,16 +97,16 @@ module sata_oob_decoder
         // Сброс и тактирование
         .reset          (reset),
         .clk            (clk),
-        
+
         // Входной сигнал
         .i_pulse        (sigdet),
-        
+
         // Выходные импульсы индикаторы фронтов
         .o_rise         (sigdet_rise),
         .o_fall         (sigdet_fall),
         .o_either       (sigdet_change)
     ); // sigdet_edgedetector
-    
+
     //------------------------------------------------------------------------------------
     //      Счетчик длительности непрерывного уровня сигнала
     always @(posedge reset, posedge clk)
@@ -118,7 +118,7 @@ module sata_oob_decoder
             cont_cnt <= cont_cnt + 1'b1;
         else
             cont_cnt <= cont_cnt;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр признака обнаружения пачки ALIGN символов
     always @(posedge reset, posedge clk)
@@ -126,7 +126,7 @@ module sata_oob_decoder
             burst_det_reg <= '0;
         else
             burst_det_reg <= sigdet_fall & (cont_cnt >= BURST_MIN) & (cont_cnt <= BURST_MAX);
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр признака обнаружения паузы последовательности COMINIT
     always @(posedge reset, posedge clk)
@@ -134,7 +134,7 @@ module sata_oob_decoder
             gapinit_det_reg <= '0;
         else
             gapinit_det_reg <= sigdet_rise & (cont_cnt >= GAPINIT_MIN) & (cont_cnt <= GAPINIT_MAX);
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр признака обнаружения паузы последовательности COMWAKE
     always @(posedge reset, posedge clk)
@@ -142,7 +142,7 @@ module sata_oob_decoder
             gapwake_det_reg <= '0;
         else
             gapwake_det_reg <= sigdet_rise & (cont_cnt >= GAPWAKE_MIN) & (cont_cnt <= GAPWAKE_MAX);
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр признака продолжительного высокого уровня
     always @(posedge reset, posedge clk)
@@ -150,7 +150,7 @@ module sata_oob_decoder
             high_cont_reg <='0;
         else
             high_cont_reg <= (cont_cnt == MAXCOUNT) & sigdet & ~sigdet_change;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр признака продолжительного низкого уровня
     always @(posedge reset, posedge clk)
@@ -158,7 +158,7 @@ module sata_oob_decoder
             low_cont_reg <='0;
         else
             low_cont_reg <= (cont_cnt == MAXCOUNT) & ~sigdet & ~sigdet_change;
-    
+
     //------------------------------------------------------------------------------------
     //      Счетчик количества пачек ALIGN символов
     always @(posedge reset, posedge clk)
@@ -173,7 +173,7 @@ module sata_oob_decoder
                 burst_cnt <= burst_cnt + 1'b1;
         else
             burst_cnt <= burst_cnt;
-    
+
     //------------------------------------------------------------------------------------
     //      Счетчик количества пауз последовательности COMINIT
     always @(posedge reset, posedge clk)
@@ -188,7 +188,7 @@ module sata_oob_decoder
                 gapinit_cnt <= gapinit_cnt + 1'b1;
         else
             gapinit_cnt <= gapinit_cnt;
-    
+
     //------------------------------------------------------------------------------------
     //      Счетчик количества пауз последовательности COMWAKE
     always @(posedge reset, posedge clk)
@@ -203,7 +203,7 @@ module sata_oob_decoder
                 gapwake_cnt <= gapwake_cnt + 1'b1;
         else
             gapwake_cnt <= gapwake_cnt;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр индикатор декодирования последовательности COMINIT
     always @(posedge reset, posedge clk)
@@ -212,7 +212,7 @@ module sata_oob_decoder
         else
             cominit_reg <= burst_det_reg & (burst_cnt == (AMOUNT - 1)) & (gapinit_cnt == (AMOUNT - 1));
     assign cominit = cominit_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Регистр индикатор декодирования последовательности COMWAKE
     always @(posedge reset, posedge clk)
@@ -221,9 +221,9 @@ module sata_oob_decoder
         else
             comwake_reg <= burst_det_reg & (burst_cnt == (AMOUNT - 1)) & (gapwake_cnt == (AMOUNT - 1));
     assign comwake = comwake_reg;
-    
+
     //------------------------------------------------------------------------------------
     //      Индикатор обнаружения окончания OOB-последовательностей
     assign oobfinish = high_cont_reg;
-    
+
 endmodule: sata_oob_decoder

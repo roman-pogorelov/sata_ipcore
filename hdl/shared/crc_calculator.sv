@@ -11,10 +11,10 @@
     (
         // Входные данные
         .i_dat      (), // i  [DATAWIDTH - 1 : 0]
-        
+
         // Входное (текущее) значение CRC
         .i_crc      (), // i  [CRCWIDTH - 1 : 0]
-        
+
         // Выходное (расчитанное) значение CRC
         .o_crc      ()  // o  [CRCWIDTH - 1 : 0]
     ); // the_crc_calculator
@@ -29,10 +29,10 @@ module crc_calculator
 (
     // Входные данные
     input  logic [DATAWIDTH - 1 : 0]    i_dat,
-    
+
     // Входное (текущее) значение CRC
     input  logic [CRCWIDTH - 1 : 0]     i_crc,
-    
+
     // Выходное (расчитанное) значение CRC
     output logic [CRCWIDTH - 1 : 0]     o_crc
 );
@@ -51,9 +51,9 @@ module crc_calculator
             crc = crc_calc;
         end
     endfunction
-    
+
     //------------------------------------------------------------------------------------
     //      Выходное (расчитанное) значение CRC
     assign o_crc = crc_calc(i_crc, i_dat);
-    
+
 endmodule: crc_calculator
