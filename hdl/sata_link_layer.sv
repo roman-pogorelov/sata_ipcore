@@ -1,47 +1,44 @@
 /*
-    //------------------------------------------------------------------------------------
-    //      Модуль уровня соединения стека SerialATA
+    // SATA link layer block
     sata_link_layer
     #(
-        .FPGAFAMILY         () // Семейство FPGA ("Arria V" | "Arria 10")
+        .FPGAFAMILY         () // FPGA family ("Arria V" | "Arria 10")
     )
     the_sata_link_layer
     (
-        // Сброс и тактирование
+        // Reset and clock
         .reset              (), // i
         .clk                (), // i
 
-        // Входной потоковый интерфейс передаваемых
-        // фреймов от транспортного уровня
+        // Inbound stream from transport layer
         .tx_fis_dat         (), // i  [31 : 0]
         .tx_fis_val         (), // i
         .tx_fis_eop         (), // i
         .tx_fis_rdy         (), // o
 
-        // Выходной потоковый интерфейс принимаемых
-        // фреймов к транспортному уровню
+        // Outbound stream to transport layer
         .rx_fis_dat         (), // o  [31 : 0]
         .rx_fis_val         (), // o
         .rx_fis_eop         (), // o
         .rx_fis_err         (), // o
         .rx_fis_rdy         (), // i
 
-        // Интерфейс запроса статуса ошибки принятого
-        // фрейма от транспортного уровня
+        // Interface to ask the transport layer for
+        // the status of a received frame
         .trans_req          (), // o
         .trans_ack          (), // i
         .trans_err          (), // i
 
-        // Выходной поток к физическому уровню
+        // Outbound stream to PHY layer
         .phy_tx_data        (), // o  [31 : 0]
         .phy_tx_datak       (), // o
         .phy_tx_ready       (), // i
 
-        // Входной поток от физического уровня
+        // Inbound stream from PHY layer
         .phy_rx_data        (), // i  [31 : 0]
         .phy_rx_datak       (), // i
 
-        // Статусные сигналы
+        // Status signals
         .stat_fsm_code      (), // o  [4 : 0]
         .stat_link_busy     (), // o
         .stat_link_result   (), // o  [2 : 0]
@@ -49,48 +46,48 @@
     ); // the_sata_link_layer
 */
 
+
 `include "sata_defs.svh"
+
 
 module sata_link_layer
 #(
-    parameter               FPGAFAMILY  = "Arria V"     // Семейство FPGA ("Arria V" | "Arria 10")
+    parameter               FPGAFAMILY  = "Arria V"     // FPGA family ("Arria V" | "Arria 10")
 )
 (
-    // Сброс и тактирование
+    // Reset and clock
     input  logic            reset,
     input  logic            clk,
 
-    // Входной потоковый интерфейс передаваемых
-    // фреймов от транспортного уровня
+    // Inbound stream from transport layer
     input  logic [31 : 0]   tx_fis_dat,
     input  logic            tx_fis_val,
     input  logic            tx_fis_eop,
     output logic            tx_fis_rdy,
 
-    // Выходной потоковый интерфейс принимаемых
-    // фреймов к транспортному уровню
+    // Outbound stream to transport layer
     output logic [31 : 0]   rx_fis_dat,
     output logic            rx_fis_val,
     output logic            rx_fis_eop,
     output logic            rx_fis_err,
     input  logic            rx_fis_rdy,
 
-    // Интерфейс запроса статуса ошибки принятого
-    // фрейма от транспортного уровня
+    // Interface to ask the transport layer for
+    // the status of a received frame
     output logic            trans_req,
     input  logic            trans_ack,
     input  logic            trans_err,
 
-    // Выходной поток к физическому уровню
+    // Outbound stream to PHY layer
     output logic [31 : 0]   phy_tx_data,
     output logic            phy_tx_datak,
     input  logic            phy_tx_ready,
 
-    // Входной поток от физического уровня
+    // Inbound stream from PHY layer
     input  logic [31 : 0]   phy_rx_data,
     input  logic            phy_rx_datak,
 
-    // Статусные сигналы
+    // Status signals
     output logic [4 : 0]    stat_fsm_code,
     output logic            stat_link_busy,
     output logic [2 : 0]    stat_link_result,

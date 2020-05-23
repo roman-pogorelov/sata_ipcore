@@ -1,9 +1,8 @@
 /*
-    //------------------------------------------------------------------------------------
-    //      Преобразователь позиционного кода в двоичный
+    // One hot to binary converter
     onehot2binary
     #(
-        .WIDTH      ()  // Разрядность входа позиционного кода
+        .WIDTH      ()  // One hot bus width
     )
     the_onehot2binary
     (
@@ -14,14 +13,13 @@
 
 module onehot2binary
 #(
-    parameter int unsigned                  WIDTH = 9   // Разрядность входа позиционного кода
+    parameter int unsigned                  WIDTH = 9   // One hot bus width
 )
 (
     input  logic [WIDTH - 1 : 0]            onehot,
     output logic [$clog2(WIDTH) - 1 : 0]    binary
 );
-    //------------------------------------------------------------------------------------
-    //      Схема кодирования
+    // Encoding
     generate
         genvar i, j;
         for (i = 0; i < $clog2(WIDTH); i++) begin: il
@@ -32,5 +30,6 @@ module onehot2binary
             assign binary[i] = |(mask & onehot);
         end
     endgenerate
+
 
 endmodule // onehot2binary

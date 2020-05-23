@@ -1,80 +1,81 @@
 /*
-    //------------------------------------------------------------------------------------
-    //      Модуль физического уровня стека SerialATA
+    // SATA PHY layer block
     sata_phy_layer
     #(
-        .FPGAFAMILY         ()  // Семейство FPGA ("Arria V" | "Stratix V" | "Arria 10")
+        .FPGAFAMILY         ()  // FPGA generation ("Arria V" | "Stratix V" | "Arria 10")
     )
     the_sata_phy_layer
     (
-        // Общий сброс
+        // General reset
         .reset              (), // i
 
-        // Тактирование интерфейса реконфигурации
+        // Reconfiguration interface clock
         .reconfig_clk       (), // i
 
-        // Тактирование высокоскоростных приемопередатчиков
+        // XCVR reference clock
         .gxb_refclk         (), // i
 
-        // Выходное тактирование интерфейса приемника и передатчика
+        // Output clock of link layer
         .link_clk           (), // o
 
-        // Индикатор установки соединения (домен link_clk)
+        // Linkup status (link_clk clock domain)
         .linkup             (), // o
 
-        // Индикатор поколения SATA (домен link_clk)
+        // SATA generation status (link_clk clock domain)
         .sata_gen           (), // o  [1 : 0]
 
-        // Интерфейс приемника (домен link_clk)
+        // Receiver stream (link_clk clock domain)
         .rx_data            (), // o  [31 : 0]
         .rx_datak           (), // o
 
-        // Интерфейс передатчика (домен link_clk)
+        // Transmitter stream (link_clk clock domain)
         .tx_data            (), // i  [31 : 0]
         .tx_datak           (), // i
         .tx_ready           (), // o
 
-        // Высокоскоростные линии
+        // XCVR lane
         .gxb_rx             (), // i
         .gxb_tx             ()  // o
     ); // the_sata_phy_layer
 */
 
+
 `include "sata_defs.svh"
+
 
 module sata_phy_layer
 #(
-    parameter               FPGAFAMILY  = "Arria V"     // Семейство FPGA ("Arria V" | "Stratix V" | "Arria 10")
+    parameter               FPGAFAMILY  = "Arria V"     // FPGA generation ("Arria V" | "Stratix V" | "Arria 10")
 )
 (
-    // Общий сброс
+    // General reset
     input  logic            reset,
 
-    // Тактирование интерфейса реконфигурации
+    // Reconfiguration interface clock
     input  logic            reconfig_clk,
 
-    // Тактирование высокоскоростных приемопередатчиков
+    // XCVR reference clock
     input  logic            gxb_refclk,
 
-    // Выходное тактирование интерфейса приемника и передатчика
+    // Output clock of link layer
     output logic            link_clk,
 
-    // Индикатор установки соединения (домен link_clk)
+    // Linkup status (link_clk clock domain)
     output logic            linkup,
 
-    // Индикатор поколения SATA (домен link_clk)
+    // SATA generation status (link_clk clock domain)
     output logic [1 : 0]    sata_gen,
 
-    // Интерфейс приемника (домен link_clk)
+    // Receiver stream (link_clk clock domain)
     output logic [31 : 0]   rx_data,
     output logic            rx_datak,
 
-    // Интерфейс передатчика (домен link_clk)
+    // Transmitter stream (link_clk clock domain)
     input  logic [31 : 0]   tx_data,
     input  logic            tx_datak,
     output logic            tx_ready,
 
-    // Высокоскоростные линии
+    // XCVR lane
     input  logic            gxb_rx,
     output logic            gxb_tx
 );

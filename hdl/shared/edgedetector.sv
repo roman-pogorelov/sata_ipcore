@@ -1,46 +1,48 @@
 /*
-    //------------------------------------------------------------------------------------
-    //      Модуль формирования одиночных импульсов индикаторов фронта входного сигнала
+    // Signal edge detector
     edgedetector
     #(
-        .INIT           ()  // Исходное значение регистра ('0 | '1)
+        .INIT           ()  // Initial register state (1'b0 | 1'b1)
     )
     the_edgedetector
     (
-        // Сброс и тактирование
+        // Reset and clock
         .reset          (),
         .clk            (),
 
-        // Входной сигнал
+        // Input signal
         .i_pulse        (),
 
-        // Выходные импульсы индикаторы фронтов
+        // Edge indicators
         .o_rise         (),
         .o_fall         (),
         .o_either       ()
     ); // the_edgedetector
 */
 
+
 module edgedetector
 #(
-    parameter logic         INIT = 1'b1     // Исходное значение регистра ('0 | '1)
+    parameter logic         INIT = 1'b1     // Initial register state (1'b0 | 1'b1)
 )
 (
-    // Сброс и тактирование
+    // Reset and clock
     input  logic            reset,
     input  logic            clk,
 
-    // Входной сигнал
+    // Input signal
     input  logic            i_pulse,
 
-    // Выходные импульсы индикаторы фронтов
+    // Edges indicators
     output logic            o_rise,
     output logic            o_fall,
     output logic            o_either
 );
-    //------------------------------------------------------------------------------------
-    //      Регистр входного сигнала
+    // Signals declaration
     logic pulse_reg;
+
+
+    // Signal delay register
     initial pulse_reg = INIT;
     always @(posedge reset, posedge clk)
         if (reset)
@@ -48,10 +50,11 @@ module edgedetector
         else
             pulse_reg <= i_pulse;
 
-    //------------------------------------------------------------------------------------
-    //      Формирование выходных сигналов индикаторов
-    assign o_rise = i_pulse & ~pulse_reg;
-    assign o_fall = ~i_pulse & pulse_reg;
-    assign o_either = i_pulse ^ pulse_reg;
+
+    // Edges indicators
+    assign o_rise   =  i_pulse & ~pulse_reg;
+    assign o_fall   = ~i_pulse &  pulse_reg;
+    assign o_either =  i_pulse ^  pulse_reg;
+
 
 endmodule // edgedetector

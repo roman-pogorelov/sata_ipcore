@@ -1,54 +1,53 @@
 /*
-    //------------------------------------------------------------------------------------
-    //      Модуль синхронизации сигнала на последовательной триггерной цепочке
+    // FlipFlop synchronizer
     ff_synchronizer
     #(
-        .WIDTH          (), // Разрядность синхронизируемой шины
-        .EXTRA_STAGES   (), // Количество дополнительных ступеней цепи синхронизации
-        .RESET_VALUE    ()  // Значение по умолчанию для ступеней цепи синхронизации
+        .WIDTH          (), // Synchronized bus width
+        .EXTRA_STAGES   (), // The number of extra stages
+        .RESET_VALUE    ()  // The sync stages default value
     )
     the_ff_synchronizer
     (
-        // Сброс и тактирование
+        // Reset and clock
         .reset          (), // i
         .clk            (), // i
 
-        // Асинхронный входной сигнал
+        // Asynchronous input
         .async_data     (), // i  [WIDTH - 1 : 0]
 
-        // Синхронный выходной сигнал
+        // Synchronous output
         .sync_data      ()  // o  [WIDTH - 1 : 0]
     ); // the_ff_synchronizer
 */
 
+
 module ff_synchronizer
 #(
-    parameter int unsigned          WIDTH        = 1,   // Разрядность синхронизируемой шины
-    parameter int unsigned          EXTRA_STAGES = 0,   // Количество дополнительных ступеней цепи синхронизации
-    parameter logic [WIDTH - 1 : 0] RESET_VALUE  = 0    // Значение по умолчанию для ступеней цепи синхронизации
+    parameter int unsigned          WIDTH        = 1,   // Synchronized bus width
+    parameter int unsigned          EXTRA_STAGES = 0,   // The number of extra stages
+    parameter logic [WIDTH - 1 : 0] RESET_VALUE  = 0    // The sync stages default value
 )
 (
-    // Сброс и тактирование
+    // Reset and clock
     input  logic                    reset,
     input  logic                    clk,
 
-    // Асинхронный входной сигнал
+    // Asynchronous input
     input  logic [WIDTH - 1 : 0]    async_data,
 
-    // Синхронный выходной сигнал
+    // Synchronous output
     output logic [WIDTH - 1 : 0]    sync_data
 );
-    //------------------------------------------------------------------------------------
-    //      Описание констант
-    localparam int unsigned STAGES = 1 + EXTRA_STAGES;  // Общее количество ступеней цепи синхронизации
+    // Constants declaration
+    localparam int unsigned STAGES = 1 + EXTRA_STAGES;  // The total number of sync stages
 
-    //------------------------------------------------------------------------------------
-    //      Объявление сигналов с учетом требований синтеза и проверки Altera
+
+    // Signals declaration
     (* altera_attribute = {"-name SYNCHRONIZER_IDENTIFICATION FORCED_IF_ASYNCHRONOUS; -name DONT_MERGE_REGISTER ON; -name PRESERVE_REGISTER ON; -name SDC_STATEMENT \"set_false_path -to [get_keepers {*ff_synchronizer:*|stage0[*]}]\" "} *) reg [WIDTH - 1 : 0] stage0;
     (* altera_attribute = {"-name SYNCHRONIZER_IDENTIFICATION FORCED_IF_ASYNCHRONOUS; -name DONT_MERGE_REGISTER ON; -name PRESERVE_REGISTER ON"} *) reg [STAGES - 1 : 0][WIDTH - 1 : 0] stage_chain;
 
-    //------------------------------------------------------------------------------------
-    //      Первая ступень цепи синхронизации
+
+    // The first sync stage
     initial stage0 = RESET_VALUE;
     always @(posedge reset, posedge clk)
         if (reset)
@@ -56,8 +55,8 @@ module ff_synchronizer
         else
             stage0 <= async_data;
 
-    //------------------------------------------------------------------------------------
-    //      Остальные ступени цепи синхронизации
+
+    // The rest stages
     initial stage_chain = {STAGES{RESET_VALUE}};
     always @(posedge reset, posedge clk)
         if (reset)
@@ -67,5 +66,6 @@ module ff_synchronizer
         else
             stage_chain <= stage0;
     assign sync_data = stage_chain[STAGES - 1];
+
 
 endmodule: ff_synchronizer

@@ -1,19 +1,18 @@
 /*
-    //------------------------------------------------------------------------------------
-    //      DMA-движок доступа к устройствам интерфейса SATA
+    // DMA implementation of the SATA transport layer
     sata_dma_engine
     the_sata_dma_engine
     (
-        // Общий асинхронный сброс
+        // General reset
         .reset                      (), // i
 
-        // Тактирование домена пользователя
+        // User clock
         .usr_clk                    (), // i
 
-        // Тактирование домена Link-уровня SATA
+        // SATA link layer clock
         .sata_clk                   (), // i
 
-        // Интерфейс команд пользователя (домен usr_clk)
+        // User command interface (usr_clk clock domain)
         .usr_cmd_valid              (), // i
         .usr_cmd_type               (), // i
         .usr_cmd_address            (), // i  [47 : 0]
@@ -21,56 +20,58 @@
         .usr_cmd_ready              (), // o
         .usr_cmd_fault              (), // o
 
-        // Интерфейс информационных сигналов пользователя (домен usr_clk)
+        // Device information (usr_clk clock domain)
         .usr_info_valid             (), // o
         .usr_info_max_lba_address   (), // o  [47 : 0]
         .usr_info_sata_supported    (), // o  [2 : 0]
 
-        // Потоковый интерфейс записи (домен usr_clk)
+        // Inbound stream to write (usr_clk clock domain)
         .usr_wr_dat                 (), // i  [31 : 0]
         .usr_wr_val                 (), // i
         .usr_wr_rdy                 (), // o
 
-        // Потоковый интерфейс чтения (домен usr_clk)
+        // Outbound stream to read (usr_clk clock domain)
         .usr_rd_dat                 (), // o  [31 : 0]
         .usr_rd_val                 (), // o
         .usr_rd_eop                 (), // o
         .usr_rd_err                 (), // o
         .usr_rd_rdy                 (), // i
 
-        // Потоковый интерфейс передаваемых фреймов SATA (домен sata_clk)
+        // Outbound stream of SATA FIS (sata_clk clock domain)
         .sata_tx_dat                (), // o  [31 : 0]
         .sata_tx_val                (), // o
         .sata_tx_eop                (), // o
         .sata_tx_rdy                (), // i
 
-        // Потоковый интерфейс принимаемых фреймов SATA (домен sata_clk)
+        // Inbound stream of SATA FIS (sata_clk clock domain)
         .sata_rx_dat                (), // i  [31 : 0]
         .sata_rx_val                (), // i
         .sata_rx_eop                (), // i
         .sata_rx_err                (), // i
         .sata_rx_rdy                (), // o
 
-        // Интерфейс состояния Link-уровня SATA (домен sata_clk)
+        // SATA link status  (sata_clk clock domain)
         .sata_link_busy             (), // i
         .sata_link_result           ()  // i  [2 : 0]
     ); // the_sata_dma_engine
 */
 
+
 `include "sata_defs.svh"
+
 
 module sata_dma_engine
 (
-    // Общий асинхронный сброс
+    // General reset
     input  logic            reset,
 
-    // Тактирование домена пользователя
+    // User clock
     input  logic            usr_clk,
 
-    // Тактирование домена Link-уровня SATA
+    // SATA link layer clock
     input  logic            sata_clk,
 
-    // Интерфейс команд пользователя (домен usr_clk)
+    // User command interface (usr_clk clock domain)
     input  logic            usr_cmd_valid,
     input  logic            usr_cmd_type,
     input  logic [47 : 0]   usr_cmd_address,
@@ -78,37 +79,37 @@ module sata_dma_engine
     output logic            usr_cmd_ready,
     output logic            usr_cmd_fault,
 
-    // Интерфейс информационных сигналов пользователя (домен usr_clk)
+    // Device information (usr_clk clock domain)
     output logic            usr_info_valid,
     output logic [47 : 0]   usr_info_max_lba_address,
     output logic [2 : 0]    usr_info_sata_supported,
 
-    // Потоковый интерфейс записи (домен usr_clk)
+    // Inbound stream to write (usr_clk clock domain)
     input  logic [31 : 0]   usr_wr_dat,
     input  logic            usr_wr_val,
     output logic            usr_wr_rdy,
 
-    // Потоковый интерфейс чтения (домен usr_clk)
+    // Outbound stream to read (usr_clk clock domain)
     output logic [31 : 0]   usr_rd_dat,
     output logic            usr_rd_val,
     output logic            usr_rd_eop,
     output logic            usr_rd_err,
     input  logic            usr_rd_rdy,
 
-    // Потоковый интерфейс передаваемых фреймов SATA (домен sata_clk)
+    // Outbound stream of SATA FIS (sata_clk clock domain)
     output logic [31 : 0]   sata_tx_dat,
     output logic            sata_tx_val,
     output logic            sata_tx_eop,
     input  logic            sata_tx_rdy,
 
-    // Потоковый интерфейс принимаемых фреймов SATA (домен sata_clk)
+    // Inbound stream of SATA FIS (sata_clk clock domain)
     input  logic [31 : 0]   sata_rx_dat,
     input  logic            sata_rx_val,
     input  logic            sata_rx_eop,
     input  logic            sata_rx_err,
     output logic            sata_rx_rdy,
 
-    // Интерфейс состояния Link-уровня SATA (домен sata_clk)
+    // SATA link status  (sata_clk clock domain)
     input  logic            sata_link_busy,
     input  logic [2 : 0]    sata_link_result
 );
